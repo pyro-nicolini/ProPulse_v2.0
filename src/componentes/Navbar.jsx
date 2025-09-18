@@ -1,0 +1,124 @@
+import { Link } from "react-router-dom";
+import { useState } from "react";
+import logo from "../assets/img/logos/logo_color_w.png";
+import ContadorCarrito from "./ContadorCarrito";
+import { useAuth } from "../contexts/AuthContext";
+
+const Navbar = () => {
+  const [open, setOpen] = useState(false);
+  const { user, logout, isAdmin } = useAuth();
+
+  const toggleMenu = () => setOpen((prev) => !prev);
+  const closeMenu = () => setOpen(false);
+
+  return (
+    <nav className="navbar">
+      <div className="navbar container">
+        {/* Logo */}
+        <Link to="/" className="nav-link" onClick={closeMenu}>
+          <img className="navbar-brand" src={logo} alt="ProPulse" />
+        </Link>
+
+        {/* Botón hamburguesa */}
+        <button
+          className="nav-toggle"
+          aria-label="Abrir menú"
+          aria-expanded={open}
+          aria-controls="mobile-menu"
+          onClick={toggleMenu}
+        >
+          &#9776;
+        </button>
+
+        {/* Links principales */}
+        <div className="nav-links flex p-1">
+          {isAdmin && (
+            <Link to="/admin-profile" className="nav-link" onClick={closeMenu}>
+              Admin
+            </Link>
+          )}
+          <Link to="/profile-user" className="nav-link" onClick={closeMenu}>
+            Perfil
+          </Link>
+          <Link to="/productos" className="nav-link" onClick={closeMenu}>
+            Productos
+          </Link>
+          <Link to="/servicios" className="nav-link" onClick={closeMenu}>
+            Servicios
+          </Link>
+          <Link to="/contacto" className="nav-link" onClick={closeMenu}>
+            Contacto
+          </Link>
+        </div>
+
+        {/* Área de usuario / carrito */}
+        <div className="flex p-1 gap-1 items-center justify-center">
+          {user && <ContadorCarrito />}
+
+          {user ? (
+            <div className="flex gap-1 items-center justify-center text-center">
+              <p className="pt-1 text-silver-light mobile-hidden">
+                Hi! {user.name}
+              </p>
+              <button
+                onClick={logout}
+                className="btn btn-secundary mobile-hidden"
+              >
+                Salir
+              </button>
+            </div>
+          ) : (
+            <>
+              <Link to="/login" className="nav-link" onClick={closeMenu}>
+                Login
+              </Link>
+              <Link to="/register" className="nav-link" onClick={closeMenu}>
+                Register
+              </Link>
+            </>
+          )}
+        </div>
+      </div>
+
+      {/* Menú móvil */}
+      {open && (
+        <div id="mobile-menu" className="mobile-menu">
+          {isAdmin && (
+            <Link to="/admin-profile" className="nav-link" onClick={closeMenu}>
+              Admin
+            </Link>
+          )}
+          <Link to="/profile-user" onClick={closeMenu}>
+            Perfil
+          </Link>
+          <Link to="/productos" onClick={closeMenu}>
+            Productos
+          </Link>
+          <Link to="/servicios" onClick={closeMenu}>
+            Servicios
+          </Link>
+          <Link to="/contacto" onClick={closeMenu}>
+            Contacto
+          </Link>
+
+          {user ? (
+            <button onClick={logout} className="btn btn-secundary">
+              Salir
+            </button>
+          ) : (
+            <>
+              <Link to="/login" onClick={closeMenu}>
+                Login
+              </Link>
+              <Link to="/register" onClick={closeMenu}>
+                Register
+              </Link>
+            </>
+          )}
+        </div>
+      )}
+    </nav>
+  );
+};
+
+export default Navbar;
