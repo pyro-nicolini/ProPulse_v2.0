@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { getProducto } from "../../api/proPulseApi";
 import { useFadeUp } from "../../customHooks/useFadeUp";
 import AddToCartButton from "../../componentes/AgregarAlCarrito";
@@ -7,9 +7,8 @@ import Resena from "../../componentes/Resena";
 import { formatoCPL } from "../../utils/helpers";
 
 export default function Servicio() {
-  const { id } = useParams(); // /servicios/:id
+  const { id } = useParams();
   const [servicio, setServicio] = useState(null);
-
   const [error, setError] = useState(null);
   useFadeUp();
   useEffect(() => {

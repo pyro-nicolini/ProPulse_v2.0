@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useAuth } from "../../contexts/AuthContext";
 import { useShop } from "../../contexts/ShopContext";
+import { useFadeUp } from "../../customHooks/useFadeUp";
 
 const init = {
   titulo: "",
@@ -17,6 +18,8 @@ export default function AdminForm() {
   const [f, setF] = useState(init);
   const [busy, setBusy] = useState(false);
   const [msg, setMsg] = useState("");
+
+  useFadeUp();
 
   const onChange = (k, v) => setF((s) => ({ ...s, [k]: v }));
   const reset = () => setF(init);
@@ -45,7 +48,7 @@ export default function AdminForm() {
   if (user?.rol !== "admin") return <p>No autorizado.</p>;
 
   return (
-    <div className="container glass m-1 p-3">
+    <div className="container glass m-1 p-3 fade-up">
       <h2 className="mb-2">Crear producto</h2>
       <form onSubmit={onSubmit} className="flex flex-col gap-2 w-full">
         <label>

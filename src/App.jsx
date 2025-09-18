@@ -11,7 +11,6 @@ import Register from "./vistas/publico/Register";
 import Productos from "./vistas/publico/GaleriaProductos";
 import Servicios from "./vistas/publico/GaleriaServicios";
 import Producto from "./vistas/publico/Producto";
-import Planes from "./vistas/publico/Planes";
 import Servicio from "./vistas/publico/Servicios";
 import Contacto from "./vistas/publico/Contacto";
 import Footer from "./componentes/Footer";
@@ -42,7 +41,6 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/productos" element={<Productos />} />
           <Route path="/productos/:id" element={<Producto />} />
-          <Route path="/planes" element={<Planes />} />
           <Route path="/servicios" element={<Servicios />} />
           <Route path="/servicios/:id" element={<Servicio />} />
           <Route path="/contacto" element={<Contacto />} />

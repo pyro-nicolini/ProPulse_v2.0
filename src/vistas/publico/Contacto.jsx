@@ -1,7 +1,10 @@
 import { useState } from "react";
 import logoColor1 from "../../assets/img/logos/logo_color_bg2.svg";
+import { useFadeUp } from "../../customHooks/useFadeUp";
 
 export default function Contacto() {
+
+  useFadeUp();
   const [form, setForm] = useState({
     nombre: "",
     email: "",
@@ -51,7 +54,7 @@ export default function Contacto() {
   return (
     <>
       <div className="w-full grid p-4 gap-1 grid-cols-2">
-        <div className="flex flex-col gap-4 w-full">
+        <div className="flex flex-col gap-4 w-full fade-up">
           <div className=" p-4 m-1">
 
                 <img src={logoColor1} alt="ProPulse" className="png1" />
@@ -89,7 +92,7 @@ export default function Contacto() {
             </ul>
           </div>
         </div>
-        <div className="card-white p-4 m-1">
+        <div className="card-white p-4 m-1 fade-up">
           <h2 className="card-title text-gradient-primary">Escríbenos</h2>
           {msg ? <p className="subtitle mt-1">{msg}</p> : null}
 
@@ -191,7 +194,7 @@ export default function Contacto() {
         </div>
       </div>
       {/* Mapa */}
-      <div className="w-full aspect-video overflow-hidden rounded h-mid">
+      <div className="w-full aspect-video overflow-hidden rounded h-mid fade-up">
         <iframe
           title="Mapa ProPulse"
           src={mapaSrc}

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { getMisPedidos, getPedido, adminUpdatePedido, getPedidosAdmin } 
   from "../../api/proPulseApi";
 import { useAuth } from "../../contexts/AuthContext";
+import { useFadeUp } from "../../customHooks/useFadeUp";
 
 export default function AdminVentas() {
   const { user } = useAuth();
@@ -9,7 +10,7 @@ export default function AdminVentas() {
   const [abiertos, setAbiertos] = useState({});
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-
+  useFadeUp();
  const cargar = async () => {
   setLoading(true);
   setError("");
@@ -59,7 +60,7 @@ const cambiarEstado = async (id_pedido, nuevoEstado) => {
 
 
   return (
-    <div className="glass mt-1">
+    <div className="glass mt-1 fade-up">
       <h2 className="mb-2">Ventas (historial)</h2>
       {loading && <p>Cargando…</p>}
       {error && <p className="text-red-400">{error}</p>}

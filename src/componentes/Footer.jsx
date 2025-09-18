@@ -1,9 +1,12 @@
 import React from "react";
+import { useFadeUp } from "../customHooks/useFadeUp";
 
 function Footer() {
+
+  useFadeUp();
   return (
     <>
-      <footer className="footer">
+      <footer className="footer fade-up">
         <div className="footer-content">
           <div className="footer-section">
             <h3>ProPulse</h3>

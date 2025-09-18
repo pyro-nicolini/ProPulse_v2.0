@@ -1,7 +1,6 @@
 import Hero from "../../componentes/Hero";
-import Footer from "../../componentes/Footer";
-import  {useFadeUp} from "../../customHooks/useFadeUp";
-
+import { useFadeUp } from "../../customHooks/useFadeUp";
+import logoColor1 from "../../assets/img/logos/logo_color_w.png";
 
 function Home() {
   useFadeUp();
@@ -11,7 +10,8 @@ function Home() {
       <div className="glass w-full">
         <section id="hero" className="hero">
           <div className="hero-content fade-up">
-            <h1>De la nutrición al entrenamiento, todo en un solo impulso</h1>
+              <img src={logoColor1} alt="ProPulse" className="h1-png3 icon-shadow mb-3" />
+            <h1 className="text-shadow">De la nutrición al entrenamiento, todo en un solo impulso</h1>
             <p>
               En ProPulse encuentras suplementos, planes de entrenamiento y
               asesoría profesional en un solo lugar. Combinamos nutrición,
@@ -75,7 +75,7 @@ function Home() {
 
         <Hero />
 
-        <section id="precios" className="pricing">
+        <section id="precios" className="pricing fade-up">
           <div className="section-header">
             <h2 className="section-title">Planes de Membresía</h2>
           </div>

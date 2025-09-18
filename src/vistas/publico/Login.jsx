@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useFadeUp } from "../../customHooks/useFadeUp";
 import { useAuth } from "../../contexts/AuthContext";
 
-import logoColor1 from "../../assets/img/logos/logo_propulse.svg";
+import logoColor1 from "../../assets/img/logos/logo_color_w.png";
 import foto2 from "../../assets/img/ejemplos/nike-running.webp";
 
 const fmtErr = (e) => e?.response?.data?.error || "Credenciales inválidas";
@@ -24,7 +24,7 @@ export default function Login() {
     setLoading(true);
     try {
       await login(form);
-      nav("/"); // redirige donde quieras
+      nav("/");
     } catch (e) {
       setErr(fmtErr(e));
     } finally {
@@ -38,7 +38,7 @@ export default function Login() {
         <div></div>
         <div className="card fade-up">
           <div className="flex flex-col items-center gap-1 mb-2">
-            <img src={logoColor1} alt="ProPulse" className="png1" />
+            <img src={logoColor1} alt="ProPulse" className="png3" />
             <h2 className="text-gradient m-0">Ingresar</h2>
             <p className="subtitle m-0">Bienvenido de vuelta</p>
             <div></div>

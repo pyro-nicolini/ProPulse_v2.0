@@ -35,7 +35,7 @@ export default function Register() {
 
   return (
     <div className="glass p-2 flex-col">
-      <div className="grid grid-cols-4 gap-2">
+      <div className="grid grid-cols-4 gap-2 fade-up">
         <div></div>
         <div
           className="card card-bg-img text-shadow relative overflow-hidden"

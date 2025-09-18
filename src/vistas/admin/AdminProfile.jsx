@@ -4,8 +4,11 @@ import AdminForm from "./AdminForm";
 import AdminShop from "./AdminShop";
 import AdminVentas from "./AdminVentas";
 import AdminPublicaciones from "./AdminPublicaciones";
+import { useFadeUp } from "../../customHooks/useFadeUp";
 
 export default function AdminProfile() {
+
+  useFadeUp();
   const { user } = useAuth();
   const [tab, setTab] = useState("ventas");
 
@@ -14,7 +17,8 @@ export default function AdminProfile() {
     return <p className="m-4">Solo para administradores.</p>;
 
   return (
-    <div className="bg-black">
+    <div className="w-full h-min bg-charcoal">
+    <div className="container-1200 fade-up">
       <h3 className="p-1">Perfil Admin</h3>
       <div className="p-1 glass">
         <div className="w-full">
@@ -26,25 +30,25 @@ export default function AdminProfile() {
             <button
               className={`btn ${tab === "ventas" ? "primary" : ""}`}
               onClick={() => setTab("ventas")}
-            >
+              >
               🛒 Ventas
             </button>
             <button
               className={`btn ${tab === "shop" ? "primary" : ""}`}
               onClick={() => setTab("shop")}
-            >
+              >
               🏬 Shop
             </button>
             <button
               className={`btn ${tab === "crear" ? "primary" : ""}`}
               onClick={() => setTab("crear")}
-            >
+              >
               ✏️ Crear
             </button>
             <button
               className={`btn ${tab === "publicaciones" ? "primary" : ""}`}
               onClick={() => setTab("publicaciones")}
-            >
+              >
               📢 Publicaciones
             </button>
           </div>
@@ -55,5 +59,6 @@ export default function AdminProfile() {
         {tab === "publicaciones" && <AdminPublicaciones />}
       </div>
     </div>
+              </div>
   );
 }

@@ -1,12 +1,13 @@
 import { useMemo, useState } from "react";
 import { useAuth } from "../../contexts/AuthContext";
 import { useShop } from "../../contexts/ShopContext";
+import { useFadeUp } from "../../customHooks/useFadeUp";
 
 export default function AdminPublicaciones() {
   const { user } = useAuth();
   const { productos, fetchProductos, loading } = useShop();
   const [q, setQ] = useState("");
-
+  useFadeUp();
   const cargar = async () => {
     await fetchProductos({ q });
   };
@@ -21,7 +22,7 @@ export default function AdminPublicaciones() {
     return <p className="container m-4">Solo para administradores.</p>;
 
   return (
-    <div className="container glass mt-1">
+    <div className="container glass mt-1 fade-up">
       <div className="ap-toolbar mb-2">
         <h3>Admin Publicaciones</h3>
         <div className="ap-actions">

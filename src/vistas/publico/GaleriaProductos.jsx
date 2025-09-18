@@ -1,4 +1,4 @@
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { getProductos } from "../../api/proPulseApi";
 import { useFadeUp } from "../../customHooks/useFadeUp";
 import Galeria from "../../componentes/Galeria";

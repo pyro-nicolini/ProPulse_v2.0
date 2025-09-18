@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { useAuth } from "../../contexts/AuthContext";
 import { useShop } from "../../contexts/ShopContext";
+import { useFadeUp } from "../../customHooks/useFadeUp";
 
 export default function AdminShop() {
   const { user } = useAuth();
@@ -11,6 +12,7 @@ export default function AdminShop() {
   const [busy, setBusy] = useState(false);
   const [msg, setMsg] = useState("");
 
+  useFadeUp();
   const notify = (t) => {
     setMsg(t);
     setTimeout(() => setMsg(""), 1400);
@@ -57,7 +59,6 @@ export default function AdminShop() {
   };
 
   const onChangeItem = (id, key, val) => {
-    // Se actualiza en memoria (optimista)
     updateProduct(id, { [key]: val });
   };
 
@@ -66,7 +67,7 @@ export default function AdminShop() {
   );
 
   return (
-    <div className="container glass p-1 w-full mt-1">
+    <div className="container glass p-1 w-full mt-1 fade-up">
       <h2 className="mb-2">Admin Shop</h2>
       {user?.rol !== "admin" && <p>No autorizado.</p>}
       {user?.rol === "admin" && (
