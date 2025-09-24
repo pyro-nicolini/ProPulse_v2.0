@@ -1,39 +1,26 @@
-import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getProducto } from "../../api/proPulseApi";
 import { useFadeUp } from "../../customHooks/useFadeUp";
 import AddToCartButton from "../../componentes/AgregarAlCarrito";
 import Resena from "../../componentes/Resena";
 import { formatoCPL } from "../../utils/helpers";
+import { useShop } from "../../contexts/ShopContext";
+import { useState } from "react";
 
 export default function Producto() {
   const { id } = useParams();
-  const [producto, setProducto] = useState(null);
+  const { productos } = useShop();
   const [error, setError] = useState(null);
-
   useFadeUp();
-  useEffect(() => {
-    (async () => {
-      try {
-        setError(null);
-        const res = await getProducto(id);
-        const data = res || res.data;
-        if (!data || Object.keys(data).length === 0) {
-          setError("Producto no encontrado");
-          setProducto(null);
-        } else {
-          setProducto(data);
-        }
-      } catch (err) {
-        setError("Error al cargar producto");
-        setProducto(null);
-      }
-    })();
-  }, [id]);
+
+  const producto = productos.find((s) => {
+    return s.id_producto === Number(id);
+  });
 
   if (error) return <div style={{ color: "red" }}>{error}</div>;
   if (!producto) return <div>Cargando...</div>;
-
+  if (producto.tipo !== "producto") {
+    return <div style={{ color: "red" }}>No es un producto válido</div>;
+  }
   return (
     <>
       <div className="w-full flex-col items-center justify-center bg-charcoal">
@@ -48,6 +35,7 @@ export default function Producto() {
             {formatoCPL.format(producto?.precio)}
           </h4>
           <p>{producto?.descripcion}</p>
+          <p>{producto?.stock}</p>
           <div>
             <AddToCartButton product={producto} />
           </div>

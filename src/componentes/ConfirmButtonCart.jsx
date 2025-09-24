@@ -2,14 +2,14 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../contexts/CartContext";
 
-export default function ConfirmButtonCart() {
-  const { items, totals } = useCart();
+function ConfirmButtonCart() {
+  const { carrito } = useCart();
   const [acepto, setAcepto] = useState(false);
   const navigate = useNavigate();
 
   const onConfirm = () => {
-    if (!acepto || !items.length) return;
-    navigate("/checkout/resumen", { state: { items, totals } });
+    if (!acepto || !carrito?.items_carrito.length) return;
+    navigate("/checkout/resumen", { state: { items: carrito.items_carrito, total: carrito.total.total_carrito } });
   };
 
   return (
@@ -17,25 +17,16 @@ export default function ConfirmButtonCart() {
       <div className="card w-full">
         <div>
           <p>
-            Subtotal:{" "}
-            {totals.subtotal.toLocaleString("es-CL", {
-              style: "currency",
-              currency: "CLP",
-            })}
+            sub_total:{" "}
+            {carrito?.total.sub_total}
           </p>
           <p>
             Impuesto 19%:{" "}
-            {totals.iva.toLocaleString("es-CL", {
-              style: "currency",
-              currency: "CLP",
-            })}
+            {carrito?.total.iva}
           </p>
           <p>
             Total:{" "}
-            {totals.total.toLocaleString("es-CL", {
-              style: "currency",
-              currency: "CLP",
-            })}
+            {carrito?.total.total_carrito}
           </p>
         </div>
 
@@ -51,7 +42,7 @@ export default function ConfirmButtonCart() {
         <button
           className="btn btn-primary w-full"
           onClick={onConfirm}
-          disabled={!acepto || !items.length}
+          disabled={!acepto || !carrito?.items_carrito.length}
         >
           Confirmar y continuar
         </button>
@@ -59,3 +50,4 @@ export default function ConfirmButtonCart() {
     </div>
   );
 }
+export default ConfirmButtonCart;

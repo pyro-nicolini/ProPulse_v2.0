@@ -1,37 +1,54 @@
-import { createContext, useContext, useEffect, useState, useCallback } from "react";
 import {
-  authRegister,
-  authLogin,
-  authMe,
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  useCallback,
+} from "react";
+import {
+  registerUser,
+  crearCarrito,
+  loginUser,
+  getUser,
   authLogout,
   getToken,
 } from "../api/proPulseApi";
+import { useNavigate } from "react-router-dom";
 
 const AuthContext = createContext(null);
 export const useAuth = () => useContext(AuthContext);
 
 export default function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
-  const [isAdmin, setIsAdmin] = useState(false);
   const [ready, setReady] = useState(false);
   const [error, setError] = useState("");
+  const nav = useNavigate();
 
-  useEffect(() => {
-    setIsAdmin(user?.rol === "admin");
-  }, [user?.rol]);
-
+  // --- Rehidratar sesión al montar ---
   const rehidratar = useCallback(async () => {
     try {
-      if (!getToken()) {
+      const token = getToken();
+      if (!token) {
         setReady(true);
         return;
       }
-      const me = await authMe();
-      setUser(me);
-      sessionStorage.setItem("loggedUser", JSON.stringify(me));
-    } catch {
-      authLogout();
-      sessionStorage.removeItem("loggedUser");
+
+      // Fallback inmediato con lo que hay en localStorage
+      const stored = localStorage.getItem("loggedUser");
+      if (stored) {
+        setUser(JSON.parse(stored));
+      }
+
+      // Confirmar con backend
+      const u = await getUser();
+      const { usuario } = u;
+      setUser(usuario);
+      localStorage.setItem("loggedUser", JSON.stringify(usuario));
+    } catch (err) {
+      if (err?.response?.status === 401) {
+        authLogout();
+        localStorage.removeItem("loggedUser");
+      }
     } finally {
       setReady(true);
     }
@@ -41,12 +58,18 @@ export default function AuthProvider({ children }) {
     rehidratar();
   }, [rehidratar]);
 
+  // --- Registro ---
   const register = async ({ nombre, email, password }) => {
     try {
       setError("");
-      const { user: u } = await authRegister({ nombre, email, password });
+      const { user: u, token } = await registerUser({ nombre, email, password });
       setUser(u);
-      sessionStorage.setItem("loggedUser", JSON.stringify(u));
+      localStorage.setItem("loggedUser", JSON.stringify(u));
+      localStorage.setItem("token", token);
+
+      // Crear carrito inicial para el nuevo usuario
+      await crearCarrito(u.id);
+
       return u;
     } catch (err) {
       setError(err?.error || "No se pudo registrar");
@@ -54,12 +77,19 @@ export default function AuthProvider({ children }) {
     }
   };
 
+  // --- Login ---
   const login = async ({ email, password }) => {
     try {
       setError("");
-      const { user: u } = await authLogin({ email, password });
+      const { user: u, token } = await loginUser({ email, password });
       setUser(u);
-      sessionStorage.setItem("loggedUser", JSON.stringify(u));
+      localStorage.setItem("loggedUser", JSON.stringify(u));
+      localStorage.setItem("token", token);
+
+      // Usar u.id (no el estado user, que aún no se actualiza)
+      await crearCarrito(u.id);
+
+      nav("/");
       return u;
     } catch (err) {
       setError(err?.error || "Credenciales inválidas");
@@ -67,22 +97,21 @@ export default function AuthProvider({ children }) {
     }
   };
 
+  // --- Logout ---
   const logout = () => {
     authLogout();
     setUser(null);
-    sessionStorage.removeItem("loggedUser");
+    localStorage.removeItem("loggedUser");
+    localStorage.removeItem("token");
   };
 
   const value = {
     user,
-    isAdmin,
     ready,
     error,
     register,
     login,
     logout,
-    setUser,
-    setError,
     rehidratar,
   };
 

@@ -1,11 +1,13 @@
 import { useLocation, Link } from "react-router-dom";
+import { useFadeUp } from "../../customHooks/useFadeUp";
 
 export default function ConfirmacionOrden({ mensaje }) {
   const location = useLocation();
   const order = location.state?.order;
+  useFadeUp();
 
   return (
-    <div className="container flex flex-col items-center justify-center min-h-[60vh]">
+    <div className="container flex flex-col items-center justify-center h-mid fade-up">
       <div className="card rounded shadow p-8 max-w-lg w-full text-center">
         <h1 className="text-2xl font-bold mb-4 text-green-700">
           ¡Pedido confirmado! 🎉

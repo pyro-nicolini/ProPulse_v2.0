@@ -1,34 +1,20 @@
-import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getProducto } from "../../api/proPulseApi";
 import { useFadeUp } from "../../customHooks/useFadeUp";
 import AddToCartButton from "../../componentes/AgregarAlCarrito";
 import Resena from "../../componentes/Resena";
 import { formatoCPL } from "../../utils/helpers";
+import { useShop } from "../../contexts/ShopContext";
+import { useState } from "react";
 
 export default function Servicio() {
   const { id } = useParams();
-  const [servicio, setServicio] = useState(null);
+  const { servicios } = useShop();
   const [error, setError] = useState(null);
   useFadeUp();
-  useEffect(() => {
-    (async () => {
-      try {
-        setError(null);
-        const res = await getProducto(id);
-        const data = res || res.data;
-        if (!data || Object.keys(data).length === 0) {
-          setError("servicio no encontrado");
-          setServicio(null);
-        } else {
-          setServicio(data);
-        }
-      } catch (err) {
-        setError("Error al cargar servicio");
-        setServicio(null);
-      }
-    })();
-  }, [id]);
+
+  const servicio = servicios.find((s) => {
+    return s.id_producto === Number(id);
+  });
 
   if (error) return <div style={{ color: "red" }}>{error}</div>;
   if (!servicio) return <div>Cargando...</div>;

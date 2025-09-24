@@ -1,27 +1,17 @@
-import { useEffect, useState } from "react";
-import { getProductos } from "../../api/proPulseApi";
 import { useFadeUp } from "../../customHooks/useFadeUp";
 import Galeria from "../../componentes/Galeria";
 import Destacados from "../../componentes/Destacados";
+import { useShop } from "../../contexts/ShopContext";
+
 
 export default function GaleriaProductos() {
-  const [productos, setProductos] = useState([]);
+  const { productos } = useShop();
   useFadeUp();
 
-  useEffect(() => {
-    (async () => {
-      try {
-        const res = await getProductos({ tipo: "producto" });
-        const data = res.data || res;
-        setProductos(data.filter((p) => p.tipo === "producto"));
-      } catch (error) {
-      }
-    })();
-  }, []);
-
+  const productosFiltrados = productos.filter((p)=> p.tipo === "producto")
   const desordenarArray = (array) => [...array].sort(() => Math.random() - 0.5);
+  const productosBarajados = desordenarArray(productosFiltrados).slice(0, 9);
 
-  const productosBarajados = desordenarArray(productos).slice(0, 6);
   return (
     <>
       <div className="w-full">

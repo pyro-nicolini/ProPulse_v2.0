@@ -1,16 +1,19 @@
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import logo from "../assets/img/logos/logo_color_w.png";
 import ContadorCarrito from "./ContadorCarrito";
 import { useAuth } from "../contexts/AuthContext";
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
-  const { user, logout, isAdmin } = useAuth();
+  const { user, logout, rehidratar } = useAuth();
+  const isAdmin = user?.rol === "admin";
 
   const toggleMenu = () => setOpen((prev) => !prev);
   const closeMenu = () => setOpen(false);
 
+
+     
   return (
     <nav className="navbar">
       <div className="navbar container">
@@ -54,15 +57,14 @@ const Navbar = () => {
         {/* Área de usuario / carrito */}
         <div className="flex p-1 gap-1 items-center justify-center">
           {user && <ContadorCarrito />}
-
           {user ? (
             <div className="flex gap-1 items-center justify-center text-center">
               <p className="pt-1 text-silver-light mobile-hidden">
-                Hi! {user.name}
+                Hola {user?.nombre}
               </p>
               <button
                 onClick={logout}
-                className="btn btn-secundary mobile-hidden"
+                className="btn btn-secondary mobile-hidden"
               >
                 Salir
               </button>
@@ -70,10 +72,10 @@ const Navbar = () => {
           ) : (
             <>
               <Link to="/login" className="nav-link" onClick={closeMenu}>
-                Login
+                Ingresar
               </Link>
               <Link to="/register" className="nav-link" onClick={closeMenu}>
-                Register
+                Registrarse
               </Link>
             </>
           )}
@@ -102,16 +104,16 @@ const Navbar = () => {
           </Link>
 
           {user ? (
-            <button onClick={logout} className="btn btn-secundary">
+            <button onClick={logout} className="btn btn-secondary">
               Salir
             </button>
           ) : (
             <>
               <Link to="/login" onClick={closeMenu}>
-                Login
+                Ingresar
               </Link>
               <Link to="/register" onClick={closeMenu}>
-                Register
+                Registrarse
               </Link>
             </>
           )}

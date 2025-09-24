@@ -1,12 +1,14 @@
 import { useCart } from "../../contexts/CartContext";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useFadeUp } from "../../customHooks/useFadeUp";
 
 export default function ResumenOrden() {
   const { items, totals, checkout, loading } = useCart();
   const [busy, setBusy] = useState(false);
   const [msg, setMsg] = useState("");
   const navigate = useNavigate();
+  useFadeUp();
 
   const handleCheckout = async () => {
     setBusy(true);
@@ -25,7 +27,7 @@ export default function ResumenOrden() {
 
   return (
     <div className="container w-full">
-      <div className="card rounded shadow">
+      <div className="card rounded shadow fade-up">
         <h2 className="text-xl font-bold mb-4">Resumen de tu orden</h2>
         <ul className="divide-y">
           {items.map((it) => (
@@ -36,7 +38,7 @@ export default function ResumenOrden() {
               <span>
                 $
                 {Number(
-                  it.subtotal || it.precio_fijo * it.cantidad
+                  it.sub_total || it.precio_fijo * it.cantidad
                 ).toLocaleString("es-CL")}
               </span>
             </li>
@@ -44,8 +46,8 @@ export default function ResumenOrden() {
         </ul>
         <div className="mt-4 border-t pt-4">
           <div className="flex justify-between">
-            <span>Subtotal</span>
-            <span>${totals.subtotal.toLocaleString("es-CL")}</span>
+            <span>sub_total</span>
+            <span>${totals.sub_total.toLocaleString("es-CL")}</span>
           </div>
           <div className="flex justify-between">
             <span>IVA (19%)</span>

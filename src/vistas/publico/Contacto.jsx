@@ -15,7 +15,7 @@ export default function Contacto() {
   const [busy, setBusy] = useState(false);
   const [msg, setMsg] = useState("");
 
-  const onChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
+  const onChange = (e) => setForm({ ...form, [e.target.nombre]: e.target.value });
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -110,7 +110,7 @@ export default function Contacto() {
                   onChange={onChange}
                   placeholder="Tu nombre"
                   disabled={busy}
-                  autoComplete="name"
+                  autoComplete="nombre"
                 />
               </label>
               <label className="flex flex-col">

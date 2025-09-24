@@ -23,7 +23,7 @@ export default function AdminProfile() {
       <div className="p-1 glass">
         <div className="w-full">
             <p className="">
-              ID: {user.id} · {user.email}
+              ID: {user.id} · {user.nombre} ·
             </p>
           </div>
           <div className="flex-col-responsive gap-2">

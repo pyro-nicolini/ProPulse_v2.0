@@ -4,16 +4,21 @@ import { useAuth } from "../contexts/AuthContext";
 import { formatoCPL } from "../utils/helpers";
 
 export default function ContadorCarrito() {
-  const { items, totals } = useCart();
+  const { carrito } = useCart();
   const { user } = useAuth();
-  const count = items.reduce((a, i) => a + (Number(i.cantidad) || 0), 0);
 
   if (!user) return null;
+
+  const items = carrito?.items_carrito || [];
+  if (!items.length) {
+  }
+
+  const total_carrito = carrito?.total?.total_carrito || 0;
 
   return (
     <Link to="/carrito">
       <button className="btn btn-secondary">
-        🛒 {count} — {formatoCPL.format(totals.subtotal || 0)}
+        🛒 {items.length} — {formatoCPL.format(total_carrito)}
       </button>
     </Link>
   );

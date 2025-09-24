@@ -1,21 +1,18 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { useAuth } from "../../contexts/AuthContext";
 import { useShop } from "../../contexts/ShopContext";
 import { useFadeUp } from "../../customHooks/useFadeUp";
 
 export default function AdminPublicaciones() {
   const { user } = useAuth();
-  const { productos, fetchProductos, loading } = useShop();
+  const { productos, fetchProductos, loading, totalLikes } = useShop();
   const [q, setQ] = useState("");
   useFadeUp();
   const cargar = async () => {
     await fetchProductos({ q });
   };
 
-  const totalLikes = useMemo(
-    () => productos.reduce((acc, p) => acc + Number(p.likes_count ?? 0), 0),
-    [productos]
-  );
+
 
   if (!user) return <p className="container m-3">No has iniciado sesión.</p>;
   if (user.rol !== "admin")

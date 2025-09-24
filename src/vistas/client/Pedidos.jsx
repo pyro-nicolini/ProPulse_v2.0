@@ -11,7 +11,7 @@ export default function Pedidos() {
   const handleBuscarPedido = async (id) => {
     setDetalleLoading(true);
     const detalle = await fetchPedido(id);
-    if (detalle && String(detalle.id_usuario) === String(user?.id)) {
+    if (detalle && String(detalle.id) === String(user?.id)) {
       setPedidoDetalle(detalle);
     } else {
       setPedidoDetalle(null);
@@ -39,14 +39,18 @@ export default function Pedidos() {
         <tbody>
           {pedidos.map((pedido) => (
             <tr key={pedido.id_pedido}>
-              <td className="bg-white text-black text-center">{pedido.id_pedido}</td>
+              <td className="bg-white text-black text-center">
+                {pedido.id_pedido}
+              </td>
               <td className="bg-white text-black text-center">
                 {pedido.fecha_pedido?.slice(0, 10)}
               </td>
               <td className="bg-white text-black text-center">
                 ${pedido.total?.toLocaleString("es-CL")}
               </td>
-              <td className="bg-white text-black text-center">{pedido.estado}</td>
+              <td className="bg-white text-black text-center">
+                {pedido.estado}
+              </td>
               <td className="bg-white text-black text-center">
                 <button
                   className="btn btn-primary p-0"
@@ -73,7 +77,7 @@ export default function Pedidos() {
             {pedidoDetalle.items?.map((item, idx) => (
               <li key={idx}>
                 {item.titulo || `Producto #${item.id_producto}`} x
-                {item.cantidad} — ${item.subtotal?.toLocaleString("es-CL")}
+                {item.cantidad} — ${item.sub_total?.toLocaleString("es-CL")}
               </li>
             ))}
           </ul>

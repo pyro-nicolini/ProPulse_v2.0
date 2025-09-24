@@ -1,15 +1,15 @@
 import { Link } from "react-router-dom";
-import ShopProvider, { useShop } from "../contexts/ShopContext";
+import { useShop } from "../contexts/ShopContext";
 import { useEffect } from "react";
 import LikeButton from "./LikeButton";
 import { formatoCPL } from "../utils/helpers";
 
 export default function Galeria({ items = [], title, routeBase, col = 3 }) {
-  const { productos, setProductos } = useShop(ShopProvider);
+  const { refreshProductos } = useShop();
 
   useEffect(() => {
-    setProductos(items);
-  }, [items]);
+      refreshProductos();
+  }, []);
 
   return (
     <div className="p-1 fade-up w-full">
@@ -27,7 +27,7 @@ export default function Galeria({ items = [], title, routeBase, col = 3 }) {
             : ""
         } gap-3`}
       >
-        {productos.map((item) => (
+        {items.map((item) => (
           <div
             key={item.id_producto ?? item.id}
             style={{

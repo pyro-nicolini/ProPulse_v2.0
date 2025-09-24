@@ -1,18 +1,24 @@
 import { Navigate, useLocation } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
+
 export default function PrivateRoute({ roles, children }) {
-  const { user } = useAuth();
+  const { user, ready } = useAuth();
   const location = useLocation();
-  // No logeado → a /login
+
+  if (!ready) {
+    // Esperando rehidratación → spinner, loading, etc.
+    return <div>Cargando...</div>;
+  }
+
   if (!user) {
+    // No logeado → a /login
     return <Navigate to="/login" replace state={{ from: location }} />;
   }
-  //  debe matchear Con roles
-  if (Array.isArray(roles) && roles.length > 0) {
-    if (!roles.includes(user.rol)) {
-      // Logeado pero sin permiso → Home
-      return <Navigate to="/" replace />;
-    }
+
+  if (Array.isArray(roles) && roles.length > 0 && !roles.includes(user.rol)) {
+    // Logeado pero sin permiso → Home
+    return <Navigate to="/" replace />;
   }
+
   return children;
 }

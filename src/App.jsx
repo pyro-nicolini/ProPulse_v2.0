@@ -31,8 +31,8 @@ import ConfirmacionOrden from "./vistas/client/ConfirmacionOrden";
 
 function App() {
   return (
-    <AppProviders>
-      <BrowserRouter>
+    <BrowserRouter>
+      <AppProviders>
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
@@ -92,14 +92,7 @@ function App() {
               </PrivateRoute>
             }
           />
-          <Route
-            path="/carrito"
-            element={
-              <PrivateRoute roles={["admin", "cliente"]}>
-                <CarritoPreOrden />
-              </PrivateRoute>
-            }
-          />
+          <Route path="/carrito" element={<CarritoPreOrden />} />
           <Route
             path="/admin-shop"
             element={
@@ -142,8 +135,8 @@ function App() {
           />
         </Routes>
         <Footer />
-      </BrowserRouter>
-    </AppProviders>
+      </AppProviders>
+    </BrowserRouter>
   );
 }
 

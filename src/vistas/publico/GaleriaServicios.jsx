@@ -1,27 +1,15 @@
-import { useEffect, useState } from "react";
-import { getProductos } from "../../api/proPulseApi";
 import { useFadeUp } from "../../customHooks/useFadeUp";
 import Galeria from "../../componentes/Galeria";
 import Destacados from "../../componentes/Destacados";
+import { useShop } from "../../contexts/ShopContext";
 
 export default function GaleriaServicios() {
-  const [servicios, setServicios] = useState([]);
+  const { servicios } = useShop();
   useFadeUp();
-
-  useEffect(() => {
-    (async () => {
-      try {
-        const res = await getProductos({ tipo: "servicio" });
-        const data = res.data || res;
-        setServicios(data.filter((p) => p.tipo === "servicio"));
-      } catch (error) {
-      }
-    })();
-  }, []);
 
   const desordenarArray = (array) => [...array].sort(() => Math.random() - 0.5);
 
-  const serviciosBarajados = desordenarArray(servicios).slice(0, 6);
+  const serviciosBarajados = desordenarArray(servicios).slice(0, 9);
   return (
     <>
       <div className="w-full">

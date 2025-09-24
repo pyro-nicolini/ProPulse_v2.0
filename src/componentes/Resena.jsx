@@ -9,15 +9,15 @@ function Resena() {
   const { id } = useParams();
   const { user } = useAuth();
   const { resenasProducto, obtenerResenasPorProducto, eliminar } = useResenas();
-  const [ resenasUser, SetResenasUser ] = useState();
+  const [resenasUser, SetResenasUser] = useState();
 
   useEffect(() => {
     obtenerResenasPorProducto(id);
-  }, [resenasProducto, id]);
+  }, [id]);
 
   useEffect(() => {
     if (user && resenasProducto.length > 0) {
-      const userResenas = resenasProducto.filter(r => r.id_usuario === user.id);
+      const userResenas = resenasProducto.filter((r) => r.id === user.id);
       SetResenasUser(userResenas);
     } else {
       SetResenasUser([]);
@@ -29,9 +29,9 @@ function Resena() {
       <h3 className="mt-1">Experiencias ({resenasProducto.length})</h3>
 
       <div className="grid grid-cols-3 gap-1 items-start m-auto p-1">
-        {resenasProducto.map(r => (
+        {resenasProducto.map((r) => (
           <div key={r.id_resena} className="card w-full">
-            {user?.id === r.id_usuario && (
+            {user?.id === r.id && (
               <button
                 className="btn btn-secondary text-white"
                 onClick={() => eliminar(r.id_resena, id)}
@@ -40,7 +40,10 @@ function Resena() {
               </button>
             )}
 
-            <StarRating className="flex justify-start mt-1 mb-1" value={r.calificacion} />
+            <StarRating
+              className="flex justify-start mt-1 mb-1"
+              value={r.calificacion}
+            />
             <h4 className="flex justify-start p-0 m-0">{r.usuario}</h4>
             <p className="text-sm text-gray-500">
               {r.fecha_creacion.slice(0, 19).split("T")[1]} /{" "}

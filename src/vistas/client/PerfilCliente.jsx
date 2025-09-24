@@ -12,7 +12,7 @@ export default function PerfilCliente() {
   return (
     <div className="w-full flex flex-col bg-charcoal p-1">
       <div className="container-1200 card w-full mb-2 fade-up">
-      <h3>{user?.name}</h3>
+      <h3>{user?.nombre}</h3>
       <p>ID: {user?.id}</p>
       <p>Email: {user?.email}</p>
       <p>Rol: {user?.rol}</p>

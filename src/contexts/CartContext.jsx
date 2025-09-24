@@ -1,114 +1,108 @@
-import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import {
-  getMiCarrito,
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  useCallback,
+} from "react";
+import {
+  obtenerCarrito,
+  crearCarrito,
   agregarItemCarrito,
-  updateItemCarrito,
-  borrarItemCarrito,
+  disminuirItemCarrito,
+  eliminarItemDelCarrito,
   crearPedido,
-  calcularTotales,
-  getMisPedidos,
-  getPedido,
 } from "../api/proPulseApi";
 import { useAuth } from "./AuthContext";
 
-const CartCtx = createContext(null);
-export const useCart = () => useContext(CartCtx);
+const CartContext = createContext(null);
+export const useCart = () => useContext(CartContext);
 
 export default function CartProvider({ children }) {
   const { user } = useAuth();
-
-  const [cartId, setCartId] = useState(null);
-  const [items, setItems] = useState([]);
-  const [pedidos, setPedidos] = useState([]);
+  const [carrito, setCarrito] = useState(null);
+  const [pedidos, setPedidos] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const reload = async () => {
+  // Refresca el carrito (cambios en user)
+  const refreshCarrito = useCallback(async () => {
+    if (!user) {
+      setCarrito(null);
+      return null;
+    }
     setLoading(true);
     setError("");
     try {
-      const c = await getMiCarrito();
-      setCartId(c?.id_carrito ?? null);
-      setItems(Array.isArray(c?.items) ? c.items : []);
+      const  data  = await obtenerCarrito(user.id);
+      setCarrito(data);
+      console.log("✅ Carrito refrescado:", data);
+      return data;
     } catch (e) {
       setError(e?.error || "No se pudo cargar el carrito");
+      setCarrito(null);
+      return null;
     } finally {
       setLoading(false);
     }
-  };
+  }, [user]);
 
-  const fetchPedidos = async () => {
-    if (!user) return;
-    try {
-      const data = await getMisPedidos();
-      setPedidos(Array.isArray(data) ? data : []);
-    } catch {
-      setPedidos([]);
-    }
-  };
-
-  const fetchPedido = async (id) => {
-    try {
-      return await getPedido(id);
-    } catch {
-      return null;
-    }
-  };
-
+  // Rehidratar cuando cambia el usuario
   useEffect(() => {
-    if (!user) {
-      setCartId(null);
-      setItems([]);
-      setPedidos([]);
-      return;
-    }
-    reload();
-    fetchPedidos();
-  }, [user?.id]);
+    refreshCarrito();
+  }, [user, refreshCarrito]);
 
-  const addItem = async (id_producto, cantidad = 1) => {
+  // Agregar item
+  const addItem = async (id_carrito, id_producto) => {
     if (!user) throw new Error("Debes iniciar sesión");
     setError("");
     try {
-      await agregarItemCarrito({ id_producto, cantidad });
-      await reload();
+      await agregarItemCarrito(id_carrito, id_producto);
+      console.log("➕ Item agregado:", id_carrito, id_producto);
+      return await refreshCarrito();
     } catch (e) {
       setError(e?.error || "No se pudo agregar el producto");
       throw e;
     }
   };
 
-  const updateItem = async (id_item, { cantidad }) => {
+  // Disminuir item
+  const removeItem = async (id_carrito, id_producto) => {
     if (!user) throw new Error("Debes iniciar sesión");
     setError("");
     try {
-      await updateItemCarrito(id_item, { cantidad });
-      await reload();
+      await disminuirItemCarrito(id_carrito, id_producto);
+      console.log("➖ Item disminuido:", id_carrito, id_producto);
+      return await refreshCarrito();
     } catch (e) {
-      setError(e?.error || "No se pudo actualizar la cantidad");
+      setError(e?.error || "No se pudo disminuir el producto");
       throw e;
     }
   };
 
-  const removeItem = async (id_item) => {
+  // Eliminar item
+  const deleteItem = async (id_carrito, id_producto) => {
     if (!user) throw new Error("Debes iniciar sesión");
     setError("");
     try {
-      await borrarItemCarrito(id_item);
-      setItems((prev) => prev.filter((x) => x.id_item !== id_item));
+      await eliminarItemDelCarrito(id_carrito, id_producto);
+      console.log("❌ Item eliminado:", id_carrito, id_producto);
+      return await refreshCarrito();
     } catch (e) {
-      setError(e?.error || "No se pudo eliminar el ítem");
+      setError(e?.error || "No se pudo eliminar el producto");
       throw e;
     }
   };
 
+  // Checkout (crear pedido)
   const checkout = async () => {
     if (!user) throw new Error("Debes iniciar sesión");
+    if (!carrito) throw new Error("No hay carrito activo");
     setError("");
     try {
-      const pedido = await crearPedido({ id_carrito: cartId });
-      await reload();
-      await fetchPedidos();
+      const pedido = await crearPedido();
+      setPedidos(pedido);
+      await refreshCarrito();
       return pedido;
     } catch (e) {
       setError(e?.error || "No se pudo crear el pedido");
@@ -116,29 +110,20 @@ export default function CartProvider({ children }) {
     }
   };
 
-  const totals = useMemo(() => calcularTotales(items), [items]);
-  const itemsCount = useMemo(
-    () => items.reduce((acc, it) => acc + Number(it.cantidad || 0), 0),
-    [items]
-  );
+  // Items count derivado
+  const itemsCount = carrito?.items_carrito?.length || 0;
 
   const value = {
-    cartId,
-    items,
-    pedidos,
+    carrito,
+    itemsCount,
     loading,
     error,
+    refreshCarrito,
     addItem,
-    updateItem,
     removeItem,
+    deleteItem,
     checkout,
-    reload,
-    totals,
-    itemsCount,
-    setItems,
-    fetchPedidos,
-    fetchPedido,
   };
 
-  return <CartCtx.Provider value={value}>{children}</CartCtx.Provider>;
+  return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
 }

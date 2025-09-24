@@ -1,7 +1,7 @@
 import { useAuth } from "../../contexts/AuthContext";
 import { useFavoritos } from "../../contexts/FavoritosContext";
 
-export default function Favoritos() {
+const Favoritos = () => {
   const { user } = useAuth();
   const { favoritos, eliminarFavorito, busy, msg } = useFavoritos();
 
@@ -38,3 +38,4 @@ export default function Favoritos() {
     </div>
   );
 }
+export default Favoritos;

@@ -1,11 +1,9 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState, useMemo } from "react";
 import {
   getProductos,
-  getProducto,
   crearProducto,
   actualizarProducto,
-  borrarProducto,
-  setProductoDestacado,
+  borrarProducto
 } from "../api/proPulseApi";
 
 const ShopContext = createContext(null);
@@ -14,51 +12,58 @@ export const useShop = () => useContext(ShopContext);
 
 export default function ShopProvider({ children }) {
   const [productos, setProductos] = useState([]);
+  const [servicios, setServicios] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const fetchProductos = async (filters = {}) => {
+  // Refresca lista de productos
+  const refreshProductos = async (filters = {}) => {
     setLoading(true);
     try {
       const res = await getProductos(filters);
-      const data = res || res.data;
+      const data = res?.data ?? res; // admite que API devuelva {data:[]} o []
       if (Array.isArray(data)) {
+        setServicios(data.filter((item) => item.tipo === "servicio"));
         setProductos(data);
       }
-    } catch (error) {
-      setError(error);
-      console.error("Error fetching productos:", error);
+    } catch (err) {
+      setError(err);
+      console.error("Error al refrescar productos:", err);
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchProductos();
+    refreshProductos();
   }, []);
 
   const createProduct = async (producto) => {
     setLoading(true);
     try {
       const nuevoProducto = await crearProducto(producto);
-      setProductos((prevProductos) => [...prevProductos, nuevoProducto]);
-    } catch (error) {
-      setError(error);
-      console.error("Error creating producto:", error);
+      // Opcional: podrías refrescar todo con refreshProductos()
+      setProductos((prev) => [...prev, nuevoProducto]);
+    } catch (err) {
+      setError(err);
+      console.error("Error creando producto:", err);
     } finally {
       setLoading(false);
     }
   };
+
   const updateProduct = async (id, producto) => {
     setLoading(true);
     try {
       const actualizado = await actualizarProducto(id, producto);
-      setProductos((prevProductos) =>
-        prevProductos.map((p) => (p.id_producto === id ? { ...p, ...actualizado } : p))
+      setProductos((prev) =>
+        prev.map((p) =>
+          p.id_producto === id ? { ...p, ...actualizado } : p
+        )
       );
-    } catch (error) {
-      setError(error);
-      console.error("Error updating producto:", error);
+    } catch (err) {
+      setError(err);
+      console.error("Error actualizando producto:", err);
     } finally {
       setLoading(false);
     }
@@ -68,29 +73,10 @@ export default function ShopProvider({ children }) {
     setLoading(true);
     try {
       await borrarProducto(id);
-      setProductos((prevProductos) =>
-        prevProductos.filter((p) => p.id_producto !== id)
-      );
-    } catch (error) {
-      setError(error);
-      console.error("Error deleting producto:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const putDestacado = async (id, destacado = true) => {
-    setLoading(true);
-    try {
-      const updated = await setProductoDestacado(id, destacado);
-      setProductos((prevProductos) =>
-        prevProductos.map((p) =>
-          p.id_producto === id ? { ...p, destacado: updated.destacado } : p
-        )
-      );
-    } catch (error) {
-      setError(error);
-      console.error("Error setting producto destacado:", error);
+      setProductos((prev) => prev.filter((p) => p.id_producto !== id));
+    } catch (err) {
+      setError(err);
+      console.error("Error borrando producto:", err);
     } finally {
       setLoading(false);
     }
@@ -101,13 +87,12 @@ export default function ShopProvider({ children }) {
       value={{
         productos,
         loading,
+        servicios,
         error,
-        setProductos,
+        refreshProductos,   // 👈 expuesto con el nuevo nombre
         createProduct,
         updateProduct,
-        fetchProductos,
         deleteProduct,
-        putDestacado,
       }}
     >
       {children}
