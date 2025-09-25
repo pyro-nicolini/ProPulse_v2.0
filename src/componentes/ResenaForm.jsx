@@ -30,16 +30,13 @@ function ResenaForm({ resenasUser }) {
  
   try {
     if (resenasUser && resenasUser.length > 0) {
-      // Ya existe reseña: actualizamos
       await actualizar(resenasUser[0].id_producto, nuevaResena);
       setMsg("¡Reseña actualizada!");
     } else {
-      // No existe reseña previa: agregamos
       await agregar(id, nuevaResena);
       setMsg("¡Reseña agregada!");
     }
 
-    // Limpiar formulario solo si todo fue bien
     setComentario("");
     setCalificacion(5);
   } catch (err) {
