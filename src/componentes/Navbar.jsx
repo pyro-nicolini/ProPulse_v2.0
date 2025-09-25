@@ -12,8 +12,10 @@ const Navbar = () => {
   const toggleMenu = () => setOpen((prev) => !prev);
   const closeMenu = () => setOpen(false);
 
-
-     
+  useEffect(() => {
+    rehidratar();
+  }, [rehidratar]);
+  
   return (
     <nav className="navbar">
       <div className="navbar container">
@@ -56,7 +58,7 @@ const Navbar = () => {
 
         {/* Área de usuario / carrito */}
         <div className="flex p-1 gap-1 items-center justify-center">
-          {user && <ContadorCarrito />}
+          {user ? <ContadorCarrito /> : null}
           {user ? (
             <div className="flex gap-1 items-center justify-center text-center">
               <p className="pt-1 text-silver-light mobile-hidden">

@@ -31,6 +31,11 @@ API.interceptors.response.use(
     })
 );
 
+
+
+
+
+
 // AUTH
 export async function getUser() {
   const { data } = await API.get("/auth/me");
@@ -54,7 +59,9 @@ export function authLogout() {
   setToken(null);
 }
 
-// GESTIONES DE USUARIOS (ADMIN)
+
+
+// GESTIONES DE USUARIOS (ADMIN) // FOR NEXT RELEASE
 export async function admin_getUsers() {
   const { data } = await API.get(`/usuarios`);
   return data;
@@ -68,9 +75,18 @@ export async function Admin_deleteUser(id) {
   await API.delete(`/usuarios/${id}`);
 }
 
+
+
+
+
+
 // PRODUCTOS
 export async function getProductos(params = {}) {
   const { data } = await API.get("/productos", { params });
+  return data;
+}
+export async function getProducto(id) {
+  const { data } = await API.get(`/productos/${id}`);
   return data;
 }
 
@@ -79,7 +95,6 @@ export async function crearProducto(payload) {
   const { data } = await API.post(`/productos/admin`, payload);
   return data;
 }
-
 export async function actualizarProducto(id, payload) {
   const { data } = await API.put(`/productos/admin/${id}`, payload);
   return data;
@@ -89,75 +104,61 @@ export async function borrarProducto(id) {
   return data;
 }
 
-export async function getProducto(id) {
-  const { data } = await API.get(`/productos/${id}`);
-  return data;
-}
 
-// GET favoritos del usuario logueado
+// FAVORITOS
 export async function getLikesDelUser() {
-  const { data } = await API.get(`/productos/likes`);
+  const { data } = await API.get(`/likes`);
   return data;
 }
-
 // POST like
 export async function addLike(id_producto) {
-  const { data } = await API.post(`/productos/likes/${id_producto}`);
+  const { data } = await API.post(`/likes/${id_producto}`);
+  return data;
+}
+// DELETE like
+export async function removeLike(id_producto) {
+  const { data } = await API.delete(`/likes/${id_producto}`);
   return data;
 }
 
-// DELETE like
-export async function removeLike(id_producto) {
-  const { data } = await API.delete(`/productos/likes/${id_producto}`);
-  return data;
-}
+
 
 // RESEÑAS
 export async function getAllResenas() {
   const {data}  = await API.get(`/resenas`);
   return data;
 }
-
 export async function getResenaProduct(id) {
   const {data} = await API.get(`/resenas/${id}`);
   return data;
 }
-
-export async function addResena(id_producto, { comentario, calificacion }) {
-  const { data } = await API.post(`/resenas`, {
-    id_producto,
+export async function addResena(id, { comentario, calificacion }) {
+  const { data } = await API.post(`/resenas/${id}`, {
     comentario,
     calificacion,
   });
   return data;
 }
-
-export async function updateResena(id_resena, { comentario, calificacion }) {
-  const { data } = await API.put(`/resenas/${id_resena}`, {
+export async function updateResena(id, { comentario, calificacion }) {
+  const { data } = await API.put(`/resenas/${id}`, {
     comentario,
     calificacion,
   });
   return data;
 }
-
-export async function deleteResena(id_resena) {
-  await API.delete(`/resenas/${id_resena}`);
-  return true;
+export async function deleteResena(id) {
+  await API.delete(`/resenas/${id}`);
 }
 
 
 
 
-
-
-
-// CARRITOS
+// CARRITO
 export async function obtenerCarrito(id) {
   const res = await API.get(`/carritos/me`);
   const data = res.data;
   return data;
 }
-
 export async function agregarItemCarrito(id_carrito, id_producto) {
   const { data } = await API.put(`/carritos/detalle`, {
     id_carrito,
@@ -182,10 +183,6 @@ export async function eliminarItemDelCarrito(id_carrito, id_producto) {
   return data;
 }
 
-export async function borrarItemCarrito(id_item) {
-  await API.delete(`/carritos/detalle/${id_item}`);
-  return true;
-}
 
 // PEDIDOS
 export async function pedidosDelUser() {

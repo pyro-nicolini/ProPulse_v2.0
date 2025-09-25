@@ -1,31 +1,23 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import StarRating from "./StarRating";
 import ResenaForm from "./ResenaForm";
 import { useAuth } from "../contexts/AuthContext";
 import { useResenas } from "../contexts/ResenasContext";
-import { getResenaProduct } from "../api/proPulseApi"
 
+// Alternative: compute directly without state
 function Resena() {
   const { id } = useParams();
   const { user } = useAuth();
-  const { resenas, eliminar } = useResenas();
-  const [resenasProducto, setResenasProducto] = useState([]);
+  const { cargarResenasProducto, resenasProducto, eliminar } = useResenas();
 
-  useEffect(()=>{
-    obteniendo();
-  },[resenas])
+  useEffect(() => {
+    if (id) cargarResenasProducto(id);
+  }, [id]);
 
-    const obteniendo = async () => {
-      const res = await getResenaProduct(id);
-      const data = res.data || res;
-      setResenasProducto(data);
-      console.log("desde:", data, id);
-    }
+  // Compute resenasUser directly
+  const resenasUser = resenasProducto.filter((r) => r.id_usuario === user?.id);
 
-
-  const resenasDelUser = resenasProducto.filter((r) => r.id_usuario === user?.id);
-  console.log(user?.id, resenasDelUser);
   return (
     <>
       <h3 className="mt-1">Experiencias ({resenasProducto.length})</h3>
@@ -36,7 +28,7 @@ function Resena() {
             {user?.id === r.id_usuario && (
               <button
                 className="btn btn-secondary text-white"
-                onClick={() => eliminar(r.id_resena)}
+                onClick={() => eliminar(r.id_producto)}
               >
                 Borrar
               </button>
@@ -46,7 +38,7 @@ function Resena() {
               className="flex justify-start mt-1 mb-1"
               value={r.calificacion}
             />
-            <h4 className="flex justify-start p-0 m-0">{r.usuario}</h4>
+            <h4 className="flex justify-start p-0 m-0">{r.id_usuario}</h4>
             <p className="text-sm text-gray-500">
               {r.fecha_creacion.slice(0, 19).split("T")[1]} /{" "}
               {r.fecha_creacion.slice(0, 19).split("T")[0]}
@@ -66,7 +58,7 @@ function Resena() {
       {user && (
         <div className="w-full flex justify-center items-center">
           <div className="w-mid">
-            <ResenaForm resenasUser={resenasDelUser} />
+            <ResenaForm resenasUser={resenasUser} />
           </div>
         </div>
       )}

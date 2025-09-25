@@ -3,13 +3,15 @@ import { useShop } from "../contexts/ShopContext";
 import { useEffect } from "react";
 import LikeButton from "./LikeButton";
 import { formatoCPL } from "../utils/helpers";
+import { useResenas } from "../contexts/ResenasContext";
 
 export default function Galeria({ items = [], title, routeBase, col = 3 }) {
   const { refreshProductos } = useShop();
+  const { Resena } = useResenas();
 
   useEffect(() => {
       refreshProductos();
-  }, []);
+  }, [Resena]);
 
   return (
     <div className="p-1 fade-up w-full">

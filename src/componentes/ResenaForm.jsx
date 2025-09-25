@@ -3,7 +3,7 @@ import { useState, useRef, useEffect } from "react";
 import StarRating from "./StarRating";
 import { useResenas } from "../contexts/ResenasContext";
 
-function ResenaForm({ resenasUser = [] }) {
+function ResenaForm({ resenasUser }) {
   const { id } = useParams();
   const { agregar, actualizar } = useResenas();
 
@@ -16,7 +16,6 @@ function ResenaForm({ resenasUser = [] }) {
   const onSubmit = async (e) => {
     e.preventDefault();
     if (!comentario.trim()) return;
-
     if (bloqueandoAcciones.current) return;
     bloqueandoAcciones.current = true;
 
@@ -27,34 +26,37 @@ function ResenaForm({ resenasUser = [] }) {
       comentario: comentario.trim(),
       calificacion: Math.max(1, Math.min(5, Number(calificacion) || 5)),
     };
-
-    try {
-      const idResena = resenasUser[0]?.id_resena;
-
-      if (idResena) {
-        await actualizar(idResena, id, nuevaResena);
-        setMsg("¡Reseña actualizada!");
-      } else {
-        await agregar(id, nuevaResena);
-        setMsg("¡Gracias por tu reseña!");
-        setComentario("");
-        setCalificacion(5);
-      }
-    } catch (err) {
-      setMsg("");
-    } finally {
-      setBusy(false);
-      bloqueandoAcciones.current = false;
+    console.log(id);
+ 
+  try {
+    if (resenasUser && resenasUser.length > 0) {
+      // Ya existe reseña: actualizamos
+      await actualizar(resenasUser[0].id_producto, nuevaResena);
+      setMsg("¡Reseña actualizada!");
+    } else {
+      // No existe reseña previa: agregamos
+      await agregar(id, nuevaResena);
+      setMsg("¡Reseña agregada!");
     }
-  };
+
+    // Limpiar formulario solo si todo fue bien
+    setComentario("");
+    setCalificacion(5);
+  } catch (err) {
+    console.error("Error al enviar reseña:", err);
+    setMsg("Ocurrió un error al enviar la reseña.");
+  } finally {
+    setBusy(false);
+    bloqueandoAcciones.current = false;
+  }
+};
 
   useEffect(() => {
-  if (msg) {
-    const timer = setTimeout(() => setMsg(""), 3000);
-    return () => clearTimeout(timer);
-  }
-}, [msg]);
-
+    if (msg) {
+      const timer = setTimeout(() => setMsg(""), 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [msg]);
 
   return (
     <form
