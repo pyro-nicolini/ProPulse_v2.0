@@ -4,40 +4,37 @@ import { useFavoritos } from "../contexts/FavoritosContext";
 
 export default function LikeButton({ producto }) {
   const { user } = useAuth();
-  const { agregarFavorito, eliminarFavorito, getUserLikeProducts, busy } =
-    useFavoritos();
+  const { agregarFavorito, eliminarFavorito, favoritos, busy } = useFavoritos();
 
   const [msg, setMsg] = useState("");
   const [esFavorito, setEsFavorito] = useState(false);
   const [likes, setLikes] = useState(producto?.likes_count ?? 0);
 
-  // Verificar si el usuario ya hizo like
-  const usuarioHizoLike = async () => {
-    if (!user || !producto) return;
-    const hizoLike = await getUserLikeProducts(producto.id_producto);
-    setEsFavorito(hizoLike);
-  };
-
   useEffect(() => {
-    usuarioHizoLike();
-  }, [user, producto]);
+    if (user && producto) {
+      const yaExiste = favoritos?.some(
+        (f) => Number(f.id_producto) === Number(producto.id_producto)
+      );
+      setEsFavorito(!!yaExiste);
+    } else {
+      setEsFavorito(false);
+    }
+  }, [user, producto, favoritos]);
 
   const handleLike = async () => {
     if (!user) {
       setMsg("Inicia sesión");
-      setTimeout(() => setMsg(""), 2000);
+      setTimeout(() => setMsg(""), 1000);
       return;
     }
 
     try {
       if (esFavorito) {
-        // Ya era favorito → quitar
         await eliminarFavorito(producto.id_producto);
         setEsFavorito(false);
         setLikes((prev) => Math.max(prev - 1, 0));
         setMsg("Quitado de favoritos");
       } else {
-        // No era favorito → agregar
         await agregarFavorito(producto.id_producto);
         setEsFavorito(true);
         setLikes((prev) => prev + 1);
@@ -46,7 +43,7 @@ export default function LikeButton({ producto }) {
     } catch (err) {
       setMsg("Error al actualizar favorito");
     } finally {
-      setTimeout(() => setMsg(""), 2000);
+      setTimeout(() => setMsg(""), 1200);
     }
   };
 

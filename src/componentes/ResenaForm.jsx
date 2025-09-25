@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import StarRating from "./StarRating";
 import { useResenas } from "../contexts/ResenasContext";
 
@@ -47,6 +47,14 @@ function ResenaForm({ resenasUser = [] }) {
       bloqueandoAcciones.current = false;
     }
   };
+
+  useEffect(() => {
+  if (msg) {
+    const timer = setTimeout(() => setMsg(""), 3000);
+    return () => clearTimeout(timer);
+  }
+}, [msg]);
+
 
   return (
     <form

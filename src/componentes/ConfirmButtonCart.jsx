@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../contexts/CartContext";
+import { formatoCPL } from "../utils/helpers";
 
 function ConfirmButtonCart() {
   const { carrito } = useCart();
@@ -18,15 +19,15 @@ function ConfirmButtonCart() {
         <div>
           <p>
             sub_total:{" "}
-            {carrito?.total.sub_total}
+            {formatoCPL.format(carrito?.total.sub_total)}
           </p>
           <p>
-            Impuesto 19%:{" "}
-            {carrito?.total.iva}
+            I.V.A 19%:{" "}
+            {formatoCPL.format(carrito?.total.impuestos)}
           </p>
           <p>
             Total:{" "}
-            {carrito?.total.total_carrito}
+            {formatoCPL.format(carrito?.total.total_carrito)}
           </p>
         </div>
 

@@ -29,7 +29,6 @@ export default function Contacto() {
 
     setBusy(true);
     try {
-      console.log("Contacto ProPulse:", form);
       setMsg("¡Gracias! Te contactaremos pronto.");
       setForm({ nombre: "", email: "", telefono: "", asunto: "", mensaje: "" });
     } catch {

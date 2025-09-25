@@ -1,9 +1,5 @@
-import { createContext, useContext, useState } from "react";
-import {
-  getUserLikeProducts,
-  addLike,
-  removeLike,
-} from "../api/proPulseApi";
+import { createContext, useContext, useEffect, useState } from "react";
+import { getLikesDelUser, addLike, removeLike } from "../api/proPulseApi";
 import { useAuth } from "./AuthContext";
 import { useShop } from "./ShopContext";
 
@@ -16,16 +12,13 @@ export default function FavoritoProvider({ children }) {
   const [favoritos, setFavoritos] = useState([]);
 
   const { user } = useAuth();
-  const { refreshProductos } = useShop();
 
-  // Cargar todos los favoritos del usuario
-  const cargarFavoritosUser = async (id_producto) => {
+  const cargarFavoritosUser = async () => {
     if (!user) return;
     setBusy(true);
     try {
-      const data = await getUserLikeProducts(id_producto); // <-- endpoint /productos/likes/:id_usuario
-      console.log("Favoritos cargados:", data);
-      setFavoritos(data.data || []);
+      const data = await getLikesDelUser();
+      setFavoritos(data || []);
     } catch (err) {
       console.error("Error cargando favoritos:", err);
       setMsg("Error cargando favoritos");
@@ -34,16 +27,22 @@ export default function FavoritoProvider({ children }) {
     }
   };
 
+  useEffect(() => {
+    if (user?.id) {
+      cargarFavoritosUser();
+    } else {
+      setFavoritos([]);
+    }
+  }, [user]);
+
   const agregarFavorito = async (id_producto) => {
     if (!user) return;
     setBusy(true);
     try {
-      await addLike(id_producto); // POST /productos/like
-      await refreshProductos();   // refresca contador en productos
+      await addLike(id_producto);
       await cargarFavoritosUser();
     } catch (err) {
       console.error("Error agregando favorito:", err);
-      setMsg("Error agregando favorito");
     } finally {
       setBusy(false);
     }
@@ -53,8 +52,7 @@ export default function FavoritoProvider({ children }) {
     if (!user) return;
     setBusy(true);
     try {
-      await removeLike(id_producto); // DELETE /productos/:id_producto/like
-      await refreshProductos();
+      await removeLike(id_producto);
       await cargarFavoritosUser();
     } catch (err) {
       console.error("Error eliminando favorito:", err);
@@ -70,8 +68,6 @@ export default function FavoritoProvider({ children }) {
         favoritos,
         agregarFavorito,
         eliminarFavorito,
-        cargarFavoritosUser,
-        getUserLikeProducts, // 👈 lo expongo por si LikeButton quiere consultar directo
         busy,
         msg,
       }}

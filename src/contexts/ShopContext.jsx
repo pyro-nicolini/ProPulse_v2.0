@@ -21,7 +21,7 @@ export default function ShopProvider({ children }) {
     setLoading(true);
     try {
       const res = await getProductos(filters);
-      const data = res?.data ?? res; // admite que API devuelva {data:[]} o []
+      const data = res?.data ?? res;
       if (Array.isArray(data)) {
         setServicios(data.filter((item) => item.tipo === "servicio"));
         setProductos(data);

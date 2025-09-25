@@ -4,26 +4,28 @@ import StarRating from "./StarRating";
 import ResenaForm from "./ResenaForm";
 import { useAuth } from "../contexts/AuthContext";
 import { useResenas } from "../contexts/ResenasContext";
+import { getResenaProduct } from "../api/proPulseApi"
 
 function Resena() {
   const { id } = useParams();
   const { user } = useAuth();
-  const { resenasProducto, obtenerResenasPorProducto, eliminar } = useResenas();
-  const [resenasUser, SetResenasUser] = useState();
+  const { resenas, eliminar } = useResenas();
+  const [resenasProducto, setResenasProducto] = useState([]);
 
-  useEffect(() => {
-    obtenerResenasPorProducto(id);
-  }, [id]);
+  useEffect(()=>{
+    obteniendo();
+  },[resenas])
 
-  useEffect(() => {
-    if (user && resenasProducto.length > 0) {
-      const userResenas = resenasProducto.filter((r) => r.id === user.id);
-      SetResenasUser(userResenas);
-    } else {
-      SetResenasUser([]);
+    const obteniendo = async () => {
+      const res = await getResenaProduct(id);
+      const data = res.data || res;
+      setResenasProducto(data);
+      console.log("desde:", data, id);
     }
-  }, [user, resenasProducto]);
 
+
+  const resenasDelUser = resenasProducto.filter((r) => r.id_usuario === user?.id);
+  console.log(user?.id, resenasDelUser);
   return (
     <>
       <h3 className="mt-1">Experiencias ({resenasProducto.length})</h3>
@@ -31,10 +33,10 @@ function Resena() {
       <div className="grid grid-cols-3 gap-1 items-start m-auto p-1">
         {resenasProducto.map((r) => (
           <div key={r.id_resena} className="card w-full">
-            {user?.id === r.id && (
+            {user?.id === r.id_usuario && (
               <button
                 className="btn btn-secondary text-white"
-                onClick={() => eliminar(r.id_resena, id)}
+                onClick={() => eliminar(r.id_resena)}
               >
                 Borrar
               </button>
@@ -61,11 +63,13 @@ function Resena() {
         ))}
       </div>
 
-      <div className="w-full flex justify-center items-center">
-        <div className="w-mid">
-          <ResenaForm resenasUser={resenasUser} />
+      {user && (
+        <div className="w-full flex justify-center items-center">
+          <div className="w-mid">
+            <ResenaForm resenasUser={resenasDelUser} />
+          </div>
         </div>
-      </div>
+      )}
     </>
   );
 }

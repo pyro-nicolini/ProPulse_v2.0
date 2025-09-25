@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import { useFavoritos } from "../../contexts/FavoritosContext";
 
@@ -9,6 +10,14 @@ const Favoritos = () => {
   if (busy && !favoritos.length) return <p>Cargando Favoritos...</p>;
   if (!favoritos.length) return <p>No tienes productos Favoritos.</p>;
 
+  const nav = useNavigate();
+
+  const goProduct = (id_producto) => {
+    nav(`/productos/${id_producto}`);
+  };
+
+
+  
   return (
     <div className="w-full">
       <h2 className="text-xl font-bold mb-4">Mis Favoritos</h2>
@@ -17,7 +26,7 @@ const Favoritos = () => {
       <div className="container-card grid grid-cols-3 gap-3">
         {favoritos.map((fav) => (
           <div
-            key={fav.id_favorito}
+            key={fav.id_producto}
             style={{ backgroundImage: `url(${fav?.url_imagen})` }}
             className="card png3 radius text-center flex flex-col p-3"
           >
@@ -27,10 +36,17 @@ const Favoritos = () => {
             <div className="text-gray-300 mb-2">{fav?.descripcion}</div>
             <button
               className="btn btn-danger"
-              onClick={() => eliminarFavorito(fav.id_favorito)}
+              onClick={() => eliminarFavorito(fav.id_producto)}
               disabled={busy}
             >
               💔 Quitar de Favoritos
+            </button>
+            <button
+              className="btn btn-secondary mt-2"
+              onClick={() => goProduct(fav.id_producto)}
+              disabled={busy}
+            >
+              Ir al Producto
             </button>
           </div>
         ))}

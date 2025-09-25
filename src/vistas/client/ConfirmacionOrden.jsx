@@ -41,9 +41,16 @@ export default function ConfirmacionOrden({ mensaje }) {
             <p className="mb-4">Tu pedido ha sido registrado correctamente.</p>
           </>
         )}
-        <Link to="/" className="btn btn-primary mt-6">
-          Volver a la tienda
+        <div className="flex gap-2">
+        <Link to="/profile-user">
+          <button className="btn btn-primary p-1">
+          Ver MIS PEDIDOS
+          </button>
         </Link>
+        <Link to="/" className="btn btn-secondary p-1">
+          Volver al HOME
+        </Link>
+        </div>
       </div>
     </div>
   );

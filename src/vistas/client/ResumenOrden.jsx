@@ -1,10 +1,13 @@
 import { useCart } from "../../contexts/CartContext";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useFadeUp } from "../../customHooks/useFadeUp";
+import { useAuth } from "../../contexts/AuthContext";
+import { formatoCPL } from "../../utils/helpers";
 
 export default function ResumenOrden() {
-  const { items, totals, checkout, loading } = useCart();
+  const { carrito, checkout, loading } = useCart();
+  const { user } = useAuth();
   const [busy, setBusy] = useState(false);
   const [msg, setMsg] = useState("");
   const navigate = useNavigate();
@@ -23,7 +26,17 @@ export default function ResumenOrden() {
     }
   };
 
-  if (!items.length) return <p>Tu carrito está vacío.</p>;
+ if (!user)
+    return (
+  <Link to="/login">
+  <p className="radius text-white bg-gradient-secondary m-1 text-center p-1">
+          Debes iniciar sesión para ver el carrito 🛒💪
+        </p>
+      </Link>
+    );
+  if (!carrito)
+    return <p className="card m-1 text-center p-1">Cargando carrito…</p>;
+  const items = carrito.items_carrito || [];
 
   return (
     <div className="container w-full">
@@ -47,15 +60,15 @@ export default function ResumenOrden() {
         <div className="mt-4 border-t pt-4">
           <div className="flex justify-between">
             <span>sub_total</span>
-            <span>${totals.sub_total.toLocaleString("es-CL")}</span>
+            <span>{formatoCPL.format(carrito?.total.sub_total)}</span>
           </div>
           <div className="flex justify-between">
             <span>IVA (19%)</span>
-            <span>${totals.iva.toLocaleString("es-CL")}</span>
+            <span>{formatoCPL.format(carrito?.total.impuestos)}</span>
           </div>
           <div className="flex justify-between font-bold text-lg">
             <span>Total</span>
-            <span>${totals.total.toLocaleString("es-CL")}</span>
+            <span>{formatoCPL.format(carrito?.total.total_carrito)}</span>
           </div>
         </div>
         <button
