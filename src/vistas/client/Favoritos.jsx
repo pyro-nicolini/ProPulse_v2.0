@@ -16,6 +16,12 @@ const Favoritos = () => {
     nav(`/productos/${id_producto}`);
   };
 
+  const goServicio = (id_servicio) => {
+    nav(`/servicios/${id_servicio}`);
+  };
+
+
+
 
   
   return (
@@ -30,9 +36,9 @@ const Favoritos = () => {
             style={{ backgroundImage: `url(${fav?.url_imagen})` }}
             className="card png3 radius text-center flex flex-col p-3"
           >
-            <h2 className="font-bold text-white subtitle text-gradient-secondary">
+            <h4 className="font-bold text-white subtitle text-gradient-secondary">
               {fav?.titulo}
-            </h2>
+            </h4>
             <div className="text-gray-300 mb-2">{fav?.descripcion}</div>
             <button
               className="btn btn-danger"
@@ -43,14 +49,14 @@ const Favoritos = () => {
             </button>
             <button
               className="btn btn-secondary mt-2"
-              onClick={() => goProduct(fav.id_producto)}
+              onClick={fav.tipo === "producto" ? () => goProduct(fav.id_producto) : () => goServicio(fav.id_producto)}
               disabled={busy}
             >
               Ir al Producto
             </button>
           </div>
         ))}
-      </div>
+      </div>  
     </div>
   );
 }
