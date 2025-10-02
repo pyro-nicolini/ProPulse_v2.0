@@ -1,117 +1,152 @@
 import { Link } from "react-router-dom";
 import { useShop } from "../contexts/ShopContext";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useRef } from "react";
 import LikeButton from "./LikeButton";
 import { formatoCPL } from "../utils/helpers";
 import { useResenas } from "../contexts/ResenasContext";
 
-/* Carga imágenes desde src/assets */
-const IMGS_PRODUCTOS = import.meta.glob("../assets/img/productos/*", {
-  eager: true,
-  as: "url",
-});
-const IMGS_SERVICIOS = import.meta.glob("../assets/img/servicios/*", {
-  eager: true,
-  as: "url",
-});
-
-const resolveImg = (val, tipoInferido) => {
-  if (val && /^https?:\/\//i.test(val)) return val; // URL absoluta
-  const tipo = (tipoInferido || "").toLowerCase() === "servicio" ? "servicio" : "producto";
-  const MAP = tipo === "servicio" ? IMGS_SERVICIOS : IMGS_PRODUCTOS;
-
-  if (val) {
-    const name = val.split("/").pop();
-    const key =
-      tipo === "servicio"
-        ? `../assets/img/servicios/${name}`
-        : `../assets/img/productos/${name}`;
-    if (MAP[key]) return MAP[key];
-  }
-
-  const fallbackKey =
-    tipo === "servicio"
-      ? "../assets/img/servicios/servicio1_1.webp"
-      : "../assets/img/productos/producto1_1.webp";
-  return MAP[fallbackKey] || "";
+/* Carga imágenes */
+const IMGS = {
+  producto: import.meta.glob("../assets/img/productos/*", { eager: true, import: "default", query: "?url" }),
+  servicio: import.meta.glob("../assets/img/servicios/*", { eager: true, import: "default", query: "?url" }),
 };
 
-/* ---- Tarjeta con 2 puntitos hovereables (sin autoplay) ---- */
-function GaleriaCard({ item, routeBase }) {
-  const tipoInferido =
-    item.tipo ||
-    (String(routeBase || "").toLowerCase().includes("servicio") ? "servicio" : "producto");
+const resolveImg = (val, tipo) => {
+  if (!val) return null;
+  if (/^https?:\/\//i.test(val)) return val; // URL externa
+  const map = IMGS[tipo] || IMGS.producto;
+  const name = val?.split("/").pop();
+  return map[`../assets/img/${tipo}s/${name}`] || null;
+};
 
-  // Solo 2 imágenes: principal y secundaria (si no hay 2ª, repetimos la 1ª)
+function GaleriaCard({ item, routeBase }) {
+  const tipo = (item.tipo || (routeBase?.includes("servicio") && "servicio")) || "producto";
+  const cardRef = useRef(null);
+  const animFrame = useRef(null);
+
   const urls = useMemo(() => {
-    const cands = [item.url_imagen, item.url_imagen2].filter(Boolean);
-    if (cands.length === 0) {
-      cands.push(tipoInferido === "servicio" ? "servicio1_1.webp" : "producto1_1.webp");
-    }
-    const resolved = cands.map((c) => resolveImg(c, tipoInferido)).filter(Boolean);
-    if (resolved.length === 1) resolved.push(resolved[0]);
-    return resolved.slice(0, 2);
-  }, [item.url_imagen, item.url_imagen2, tipoInferido]);
+    const imgs = [item.url_imagen, item.url_imagen2, item.url_imagen3, item.url_imagen4].filter(Boolean);
+    // Solo resolvemos imágenes válidas
+    return [...new Set(imgs.map((c) => resolveImg(c, tipo)).filter(Boolean))];
+  }, [item, tipo]);
 
   const [idx, setIdx] = useState(0);
-  const bgUrl = urls[idx] || "";
 
-  // Estilos inline para asegurar visibilidad sin Tailwind
-  const dotsWrapStyle = {
-    position: "absolute",
-    bottom: 8,
-    left: 0,
-    right: 0,
-    display: "flex",
-    justifyContent: "center",
-    gap: 8,
-    zIndex: 50,              // sobre el Link
-    pointerEvents: "auto",
+  // Variables de inercia
+  let targetX = 50;
+  let targetY = 50;
+  let currentX = 50;
+  let currentY = 50;
+
+  const animate = () => {
+    const card = cardRef.current;
+    if (!card) return;
+
+    currentX += (targetX - currentX) * .5;
+    currentY += (targetY - currentY) * .5;
+
+    // Parallax + zoom híbrido
+    card.style.backgroundPosition = `${currentX}% ${currentY}%`;
+    card.style.backgroundSize = "300%";   // base zoom
+    card.style.transition = "transform 0.1s ease-in-out";
+
+    animFrame.current = requestAnimationFrame(animate);
   };
-  const dotStyle = (active) => ({
-    width: 10,
-    height: 10,
-    borderRadius: 9999,
-    background: active ? "rgba(255,255,255,0.95)" : "rgba(255,255,255,0.4)",
-    border: "1px solid rgba(255,255,255,0.7)",
-    boxShadow: active ? "0 0 6px rgba(255,255,255,0.9)" : "none",
-    cursor: "pointer",
-  });
+
+  const handleMouseMove = (e) => {
+    const card = cardRef.current;
+    if (!card) return;
+    const { left, top, width, height } = card.getBoundingClientRect();
+
+    targetX = ((e.clientX - left) / width) * 100;
+    targetY = ((e.clientY - top) / height) * 100;
+
+    if (!animFrame.current) {
+      animFrame.current = requestAnimationFrame(animate);
+    }
+  };
+
+  const handleTouchMove = (e) => {
+    const card = cardRef.current;
+    if (!card) return;
+    const touch = e.touches[0];
+    const { left, top, width, height } = card.getBoundingClientRect();
+
+    targetX = ((touch.clientX - left) / width) * 300;
+    targetY = ((touch.clientY - top) / height) * 300;
+
+    if (!animFrame.current) {
+      animFrame.current = requestAnimationFrame(animate);
+    }
+  };
+
+  const resetParallax = () => {
+    const card = cardRef.current;
+    if (!card) return;
+
+    cancelAnimationFrame(animFrame.current);
+    animFrame.current = null;
+
+    card.style.backgroundPosition = "center";
+    card.style.backgroundSize = "cover";
+  };
 
   return (
-    <div
-      key={item.id_producto ?? item.id}
-      style={{ backgroundImage: `url("${bgUrl}")` }}
-      className="card-bg-img parallax relative"   // importante: relative para posicionar dots
-    >
-      <Link to={`${routeBase}/${item.id_producto ?? item.id}`}>
-        <h4>{item.titulo}</h4>
-        <span className="flex text-center">{item.descripcion}</span>
-        <div className="container z-10 flex-col justify-end"></div>
-        <h3 className="radius">{formatoCPL.format(item.precio)}</h3>
-        <div className="flex flex-col">
-          <button className="btn btn-secondary text-white p-1 rounded">
-            Ver Más
-          </button>
-        </div>
-      </Link>
-
-      {/* 2 puntos hovereables / clickeables */}
-      <div style={dotsWrapStyle}>
-        {[0, 1].map((i) => (
-          <span
-            key={i}
-            style={dotStyle(idx === i)}
-            onMouseEnter={() => setIdx(i)}
-            onClick={() => setIdx(i)}     // por si navegan desde móvil o sin hover
-            onFocus={() => setIdx(i)}
-            tabIndex={0}
-            aria-label={`Ver imagen ${i + 1}`}
-          />
-        ))}
+    <div className="p-1 glass parallax relative flex flex-col items-center">
+      <h5 className="mb-1">{item.titulo}</h5>
+      <div className="flex gap-1 items-start w-full h-min mb-1">
+        {/* Imagen principal con efecto (solo si hay imágenes) */}
+        {urls.length > 0 ? (
+          <div
+            ref={cardRef}
+            className="h-min w-full card-bg-img radius object-cover mb-1 parallax"
+            style={{
+              backgroundImage: `url(${urls[idx]})`,
+              backgroundPosition: "center",
+              backgroundSize: "cover",
+              backgroundRepeat: "no-repeat",
+            }}
+            onMouseMove={handleMouseMove}
+            onMouseLeave={resetParallax}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={resetParallax}
+            alt={item.titulo}
+            ></div>
+          ) : (
+            <div className="w-full bg-gray-800 flex items-center justify-center radius mb-1">
+            <span className="text-gray-400 text-sm">Sin imagen</span>
+          </div>
+        )}
+        {/* Miniaturas */}
+        {urls.length > 1 && (
+          <div className="flex-col gap-1 mb-1">
+            {urls.map((u, i) => (
+              <img
+              key={i}
+              src={u}
+              onClick={() => setIdx(i)}
+              className={`w-sm h-sm rounded cursor-pointer transition ${
+                idx === i ? "border-red-500 ring-2 ring-red-400" : "border-gray-300"
+              }`}
+              alt={`miniatura-${i}`}
+              />
+            ))}
+          </div>
+        )}
+      </div>
+      <div className="w-full flex justify-start" style={{ paddingLeft: "2rem" }}>
+        <LikeButton producto={item} />
       </div>
 
-      <LikeButton producto={item} />
+      <span className="flex text-center text-white m-1">
+        {(item.descripcion || "").split(" ").slice(0, 10).join(" ") + "..."}
+      </span>
+        <div className="flex gap-1">
+      <h4 className="radius mb-2">{formatoCPL.format(item.precio)}</h4>
+      <Link to={`${routeBase}/${item.id_producto ?? item.id}`}>
+        <button className="btn btn-primary text-white p-1 rounded mb-2">Ver Más</button>
+      </Link>
+        </div>
     </div>
   );
 }
@@ -125,21 +160,9 @@ export default function Galeria({ items = [], title, routeBase, col = 3 }) {
   }, [Resena]);
 
   return (
-    <div className="p-1 fade-up w-full">
+    <div className="p-1 fade-up visible w-full">
       <h3 className="mb-6">{title}</h3>
-      <div
-        className={`grid ${
-          col === 1
-            ? "grid-cols-1"
-            : col === 2
-            ? "grid-cols-2"
-            : col === 3
-            ? "grid-cols-3"
-            : col === 4
-            ? "grid-cols-4"
-            : ""
-        } gap-3`}
-      >
+      <div className={`grid grid-cols-${col} gap-3`}>
         {items.map((item) => (
           <GaleriaCard key={item.id_producto ?? item.id} item={item} routeBase={routeBase} />
         ))}

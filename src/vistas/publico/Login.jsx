@@ -4,7 +4,6 @@ import { useFadeUp } from "../../customHooks/useFadeUp";
 import { useAuth } from "../../contexts/AuthContext";
 
 import logoColor1 from "../../assets/img/logos/logo_color_w.png";
-import foto2 from "../../assets/img/ejemplos/nike-running.webp";
 
 const fmtErr = (e) => e?.response?.data?.error || "Credenciales inválidas";
 
@@ -101,7 +100,7 @@ export default function Login() {
         {/* Columna derecha: imagen/branding */}
         <div
           className="card card-bg-img fade-up text-shadow relative overflow-hidden"
-          style={{ backgroundImage: `url(${foto2})` }}
+          // style={{ backgroundImage: `url(${foto2})` }}
         >
           <div className="relative z-20 flex-col justify-end h-full">
             <h3 className="m-0">Tu progreso, en movimiento</h3>

@@ -9,12 +9,11 @@ export default function GaleriaServicios() {
 
   const desordenarArray = (array) => [...array].sort(() => Math.random() - 0.5);
 
-  const serviciosBarajados = desordenarArray(servicios).slice(0, 9);
+  const serviciosBarajados = desordenarArray(servicios);
   return (
     <>
       <div className="w-full">
         <div className="w-full container-1200 min-h-screen min-h-screen">
-
         <Galeria
           items={serviciosBarajados}
           title="Servicios"

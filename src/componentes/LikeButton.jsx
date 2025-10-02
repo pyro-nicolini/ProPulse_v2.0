@@ -54,11 +54,11 @@ export default function LikeButton({ producto }) {
       disabled={busy}
       title={esFavorito ? "Quitar de favoritos" : "Agregar a favoritos"}
       aria-pressed={esFavorito}
-      style={{ fontSize: 22, lineHeight: 1 }}
+      style={{ fontSize: 15, lineHeight: 1 }}
     >
       {esFavorito ? "❤️" : "🤍"}
       <span className="ml-1 text-sm text-gray-600">{likes}</span>
-      {msg && <span className="text-primary ml-1">{msg}</span>}
+      {msg && <strong className="text-primary ml-1">{msg}</strong>}
     </button>
   );
 }

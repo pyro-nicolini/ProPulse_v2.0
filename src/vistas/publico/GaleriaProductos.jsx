@@ -10,12 +10,12 @@ export default function GaleriaProductos() {
 
   const productosFiltrados = productos.filter((p)=> p.tipo === "producto")
   const desordenarArray = (array) => [...array].sort(() => Math.random() - 0.5);
-  const productosBarajados = desordenarArray(productosFiltrados).slice(0, 9);
+  const productosBarajados = desordenarArray(productosFiltrados);
 
   return (
     <>
-      <div className="w-full">
-        <div className="w-full container-1200 min-h-screen min-h-screen">
+      <div className="w-full bg-products">
+        <div className="w-full container-1200 min-h-screen min-h-screen ">
 
         <Galeria
           items={productosBarajados}

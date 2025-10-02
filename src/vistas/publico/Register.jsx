@@ -4,7 +4,6 @@ import { useFadeUp } from "../../customHooks/useFadeUp";
 import { useAuth } from "../../contexts/AuthContext";
 
 import logoColor3 from "../../assets/img/logos/logo_propulse_white.png";
-import foto4 from "../../assets/img/ejemplos/run.jpeg";
 import Resena from "../../componentes/Resena";
 
 const fmtErr = (e) => e?.response?.data?.error || "Error al registrarse";
