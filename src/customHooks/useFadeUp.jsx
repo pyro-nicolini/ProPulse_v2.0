@@ -17,6 +17,3 @@ export const useFadeUp = () => {
     return () => observer.disconnect();
   }, []);
 };
-
-
-useFadeUp;

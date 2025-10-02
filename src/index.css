@@ -567,7 +567,7 @@ button {
   border: 5px solid rgba(255, 166, 0, 0.2);
   border-radius: 15px;
   padding: 2rem;
-  background-size: 100%;
+  background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   cursor: pointer;
@@ -577,19 +577,16 @@ button {
 /* Parallax Animation */
 @keyframes parallax-move {
   0% {
-    background-size: 100%;
+    background-size: 130%;
   }
   100% {
-    background-size: 110%;
+    background-size: 160%;
   }
 }
 
-.card-bg-img.parallax {
-  animation: parallax-move 1s linear infinite alternate;
-}
 
 .card-bg-img.parallax:hover {
-  animation-play-state: paused;
+  animation: parallax-move 3s linear forwards;
 }
 
 .card-bg-img::after {

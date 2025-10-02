@@ -20,10 +20,6 @@ const Favoritos = () => {
     nav(`/servicios/${id_servicio}`);
   };
 
-
-
-
-  
   return (
     <div className="w-full">
       <h2 className="text-xl font-bold mb-4">Mis Favoritos</h2>
