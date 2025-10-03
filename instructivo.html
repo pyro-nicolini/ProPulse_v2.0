@@ -2,7 +2,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>MVP API – Marketplace (Docs Rápidas)</title>
+    <title>ProPulse API – Docs</title>
     <style>
       :root {
         --bg: #0f172a;
@@ -16,196 +16,61 @@
         --info: #60a5fa;
         --b: #1f2937;
       }
-      * {
-        box-sizing: border-box;
-      }
+      * { box-sizing: border-box; }
       body {
         margin: 0;
         background: linear-gradient(180deg, #0b1220, #0b1220 40%, #0d1426);
         color: var(--ink);
         font: 15px/1.5 ui-sans-serif, system-ui, Segoe UI, Roboto, Ubuntu;
       }
-      header {
-        padding: 32px 20px;
-        text-align: center;
-        border-bottom: 1px solid #1e293b;
-      }
-      h1 {
-        margin: 0;
-        font-size: 28px;
-        letter-spacing: 0.2px;
-      }
-      p.lead {
-        margin: 0.5rem auto 0;
-        max-width: 900px;
-        color: var(--muted);
-      }
-      main {
-        max-width: 1100px;
-        margin: 24px auto;
-        padding: 0 16px 64px;
-      }
-      .card {
-        background: rgba(17, 24, 39, 0.7);
-        border: 1px solid #1f2937;
-        border-radius: 16px;
-        padding: 18px;
-        box-shadow: 0 6px 24px rgba(0, 0, 0, 0.35);
-        margin: 14px 0;
-      }
-      .grid {
-        display: grid;
-        gap: 14px;
-      }
-      .grid.cols-2 {
-        grid-template-columns: 1fr 1fr;
-      }
-      @media (max-width: 960px) {
-        .grid.cols-2 {
-          grid-template-columns: 1fr;
-        }
-      }
-      h2 {
-        margin: 6px 0 12px;
-        font-size: 20px;
-      }
-      table {
-        width: 100%;
-        border-collapse: separate;
-        border-spacing: 0;
-        overflow: hidden;
-        border-radius: 12px;
-        border: 1px solid #263244;
-      }
-      thead th {
-        background: #0f1a2b;
-        color: #c7d2fe;
-        font-weight: 600;
-        text-align: left;
-        padding: 10px;
-        border-bottom: 1px solid #263244;
-      }
-      tbody td {
-        padding: 10px;
-        border-bottom: 1px solid #223047;
-        color: #dbeafe;
-        vertical-align: top;
-      }
-      tbody tr:nth-child(even) td {
-        background: #0c1626;
-      }
-      code,
-      kbd,
-      pre {
-        font-family: ui-monospace, Consolas, Monaco, monospace;
-      }
-      .pill {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        padding: 2px 8px;
-        border-radius: 999px;
-        font-size: 12px;
-        font-weight: 600;
-        letter-spacing: 0.3px;
-      }
-      .GET {
-        background: #0b2536;
-        color: #7dd3fc;
-        border: 1px solid #1e3a5f;
-      }
-      .POST {
-        background: #07261d;
-        color: #6ee7b7;
-        border: 1px solid #0f3b2d;
-      }
-      .PUT {
-        background: #2a2210;
-        color: #fcd34d;
-        border: 1px solid #3a2f12;
-      }
-      .DELETE {
-        background: #2a1212;
-        color: #fca5a5;
-        border: 1px solid #4c1d1d;
-      }
-      .AUTH {
-        background: #1d2540;
-        color: #a5b4fc;
-        border: 1px solid #27326b;
-      }
-      .path {
-        font-weight: 600;
-        color: #bae6fd;
-      }
-      .tag {
-        font-size: 12px;
-        color: #a5b4fc;
-        background: #1e293b;
-        border: 1px solid #334155;
-        border-radius: 6px;
-        padding: 2px 6px;
-      }
-      .note {
-        color: #9ca3af;
-      }
-      .hl {
-        color: #22d3ee;
-      }
-      .kbd {
-        background: #0b1220;
-        border: 1px solid #2a3448;
-        border-bottom-width: 2px;
-        padding: 2px 6px;
-        border-radius: 6px;
-      }
-      .block {
-        display: block;
-        margin-top: 8px;
-      }
-      .req,
-      .res {
-        background: #0b1220;
-        border: 1px solid #273447;
-        border-radius: 12px;
-        padding: 12px;
-        overflow: auto;
-      }
-      .req::before {
-        content: "Request";
-        display: inline-block;
-        margin-bottom: 6px;
-        color: #7dd3fc;
-      }
-      .res::before {
-        content: "Response";
-        display: inline-block;
-        margin-bottom: 6px;
-        color: #34d399;
-      }
-      .small {
-        font-size: 13px;
-      }
-      footer {
-        opacity: 0.8;
-        text-align: center;
-        margin-top: 28px;
-        color: #8da2c5;
-      }
+      header { padding: 32px 20px; text-align: center; border-bottom: 1px solid #1e293b; }
+      h1 { margin: 0; font-size: 28px; letter-spacing: 0.2px; }
+      p.lead { margin: 0.5rem auto 0; max-width: 900px; color: var(--muted); }
+      main { max-width: 1100px; margin: 24px auto; padding: 0 16px 64px; }
+      .card { background: rgba(17, 24, 39, 0.7); border: 1px solid #1f2937;
+        border-radius: 16px; padding: 18px; box-shadow: 0 6px 24px rgba(0,0,0,0.35); margin: 14px 0; }
+      .grid { display: grid; gap: 14px; }
+      .grid.cols-2 { grid-template-columns: 1fr 1fr; }
+      @media (max-width: 960px) { .grid.cols-2 { grid-template-columns: 1fr; } }
+      h2 { margin: 6px 0 12px; font-size: 20px; }
+      table { width: 100%; border-collapse: separate; border-spacing: 0; overflow: hidden;
+        border-radius: 12px; border: 1px solid #263244; }
+      thead th { background: #0f1a2b; color: #c7d2fe; font-weight: 600; text-align: left;
+        padding: 10px; border-bottom: 1px solid #263244; }
+      tbody td { padding: 10px; border-bottom: 1px solid #223047; color: #dbeafe; vertical-align: top; }
+      tbody tr:nth-child(even) td { background: #0c1626; }
+      code, pre { font-family: ui-monospace, Consolas, Monaco, monospace; }
+      .pill { display: inline-flex; align-items: center; gap: 6px; padding: 2px 8px; border-radius: 999px;
+        font-size: 12px; font-weight: 600; letter-spacing: 0.3px; }
+      .GET { background: #0b2536; color: #7dd3fc; border: 1px solid #1e3a5f; }
+      .POST { background: #07261d; color: #6ee7b7; border: 1px solid #0f3b2d; }
+      .PUT { background: #2a2210; color: #fcd34d; border: 1px solid #3a2f12; }
+      .DELETE { background: #2a1212; color: #fca5a5; border: 1px solid #4c1d1d; }
+      .AUTH { background: #1d2540; color: #a5b4fc; border: 1px solid #27326b; }
+      .path { font-weight: 600; color: #bae6fd; }
+      .tag { font-size: 12px; color: #a5b4fc; background: #1e293b; border: 1px solid #334155;
+        border-radius: 6px; padding: 2px 6px; }
+      .note { color: #9ca3af; }
+      .hl { color: #22d3ee; }
+      .req, .res { background: #0b1220; border: 1px solid #273447; border-radius: 12px; padding: 12px; overflow: auto; }
+      .req::before { content: "Request"; display: inline-block; margin-bottom: 6px; color: #7dd3fc; }
+      .res::before { content: "Response"; display: inline-block; margin-bottom: 6px; color: #34d399; }
+      .small { font-size: 13px; }
+      footer { opacity: 0.8; text-align: center; margin-top: 28px; color: #8da2c5; }
     </style>
   </head>
   <body>
     <header>
-      <h1>MVP API – Marketplace</h1>
+      <h1>ProPulse API – Marketplace</h1>
       <p class="lead">
-        Documentación rápida, legible y alineada al flujo que definimos. Incluye
-        paths, métodos, reglas y ejemplos de request/response. Autenticación vía
+        Documentación rápida, legible y alineada al flujo definido. Autenticación vía
         <span class="tag">Bearer JWT</span>.
       </p>
     </header>
 
     <main>
-      <!-- COMMON -->
+
+            <!-- COMMON -->
 
       <div class="card">
         <h2>Encabezados comunes</h2>
@@ -233,395 +98,106 @@
       </div>
 
       <!-- AUTH -->
-
       <div class="card">
         <h2>1) Autenticación <span class="pill AUTH">AUTH</span></h2>
         <table>
-          <thead>
-            <tr>
-              <th>Método</th>
-              <th>Endpoint</th>
-              <th>Hace</th>
-            </tr>
-          </thead>
+          <thead><tr><th>Método</th><th>Endpoint</th><th>Hace</th></tr></thead>
           <tbody>
-            <tr>
-              <td><span class="pill POST">POST</span></td>
-              <td class="path">/auth/register</td>
-              <td>Crea usuario (rol <code>cliente</code>) y devuelve token</td>
-            </tr>
-            <tr>
-              <td><span class="pill POST">POST</span></td>
-              <td class="path">/auth/login</td>
-              <td>Login y obtiene token</td>
-            </tr>
-            <tr>
-              <td><span class="pill GET">GET</span></td>
-              <td class="path">/auth/me</td>
-              <td>Devuelve el usuario autenticado</td>
-            </tr>
+            <tr><td><span class="pill POST">POST</span></td><td class="path">/auth/register</td><td>Crea usuario (cliente) y devuelve token</td></tr>
+            <tr><td><span class="pill POST">POST</span></td><td class="path">/auth/login</td><td>Login y obtiene token (auto crea carrito abierto)</td></tr>
+            <tr><td><span class="pill GET">GET</span></td><td class="path">/auth/me</td><td>Devuelve usuario autenticado</td></tr>
           </tbody>
         </table>
-        <div class="grid cols-2">
-          <div class="req">
-            <pre>
-{
-  "nombre": "Cliente1",
-  "email": "cliente1@demo.cl",
-  "password": "123456"
-}</pre
-            >
-          </div>
-          <div class="res">
-            <pre>
-{
-  "token": "eyJhbGciOi...",
-  "user": { "id": 7, "name": "Cliente1", "email": "cliente1@demo.cl", "rol": "cliente" }
-}</pre
-            >
-          </div>
-        </div>
       </div>
 
       <!-- USUARIOS -->
-
       <div class="card">
         <h2>2) Usuarios</h2>
         <table>
-          <thead>
-            <tr>
-              <th>Método</th>
-              <th>Endpoint</th>
-              <th>Hace</th>
-            </tr>
-          </thead>
+          <thead><tr><th>Método</th><th>Endpoint</th><th>Hace</th></tr></thead>
           <tbody>
-            <tr>
-              <td><span class="pill PUT">PUT</span></td>
-              <td class="path">/usuarios/{id}</td>
-              <td>Actualizar (self o admin)</td>
-            </tr>
-            <tr>
-              <td><span class="pill DELETE">DELETE</span></td>
-              <td class="path">/usuarios/{id}</td>
-              <td>Eliminar (solo admin)</td>
-            </tr>
+            <tr><td><span class="pill GET">GET</span></td><td class="path">/usuarios/me</td><td>Listar todos usuarios (admin)</td></tr>
+            <tr><td><span class="pill PUT">PUT</span></td><td class="path">/usuarios/{id}</td><td>Actualizar usuario (self o admin)</td></tr>
+            <tr><td><span class="pill DELETE">DELETE</span></td><td class="path">/usuarios/{id}</td><td>Eliminar usuario (admin)</td></tr>
           </tbody>
         </table>
       </div>
 
       <!-- PRODUCTOS -->
-
       <div class="card">
         <h2>3) Productos</h2>
         <table>
-          <thead>
-            <tr>
-              <th>Método</th>
-              <th>Endpoint</th>
-              <th>Hace</th>
-            </tr>
-          </thead>
+          <thead><tr><th>Método</th><th>Endpoint</th><th>Hace</th></tr></thead>
           <tbody>
-            <tr>
-              <td><span class="pill GET">GET</span></td>
-              <td class="path">
-                /productos?q=texto&tipo=producto|servicio&destacado=true&stock=gt0
-              </td>
-              <td>Lista con filtros</td>
-            </tr>
-            <tr>
-              <td><span class="pill GET">GET</span></td>
-              <td class="path">/productos/{id}</td>
-              <td>Detalle de producto</td>
-            </tr>
-            <tr>
-              <td><span class="pill POST">POST</span></td>
-              <td class="path">/productos/admin</td>
-              <td>Crear (admin)</td>
-            </tr>
-            <tr>
-              <td><span class="pill PUT">PUT</span></td>
-              <td class="path">/productos/admin/{id}</td>
-              <td>Actualizar (admin)</td>
-            </tr>
-            <tr>
-              <td><span class="pill DELETE">DELETE</span></td>
-              <td class="path">/productos/admin/{id}</td>
-              <td>Eliminar o <code>activo=false</code> (admin)</td>
-            </tr>
-            <tr>
-              <td><span class="pill PUT">PUT</span></td>
-              <td class="path">/productos/admin/{id}/destacado</td>
-              <td>Marcar/editar destacado (admin)</td>
-            </tr>
+            <tr><td><span class="pill GET">GET</span></td><td class="path">/productos</td><td>Lista productos/servicios</td></tr>
+            <tr><td><span class="pill GET">GET</span></td><td class="path">/productos/{id}</td><td>Detalle de producto</td></tr>
+            <tr><td><span class="pill POST">POST</span></td><td class="path">/productos/admin</td><td>Crear producto (admin)</td></tr>
+            <tr><td><span class="pill PUT">PUT</span></td><td class="path">/productos/admin/{id}</td><td>Actualizar producto (admin)</td></tr>
+            <tr><td><span class="pill DELETE">DELETE</span></td><td class="path">/productos/admin/{id}</td><td>Eliminar producto (admin)</td></tr>
           </tbody>
         </table>
-        <div class="grid cols-2">
-          <div class="req">
-            <pre>
-{
-  "titulo": "Mancuernas 40kg",
-  "descripcion": "Par ajustable",
-  "stock": 10,
-  "tipo": "producto",
-  "url_imagen": "https://...",
-  "precio": 120000
-}</pre
-            >
-          </div>
-          <div class="res">
-            <pre>
-{
-  "id_producto": 21,
-  "activo": true,
-  "destacado": false,
-  "fecha_creacion": "2025-09-13T18:30:00Z",
-  "...": "otros campos"
-}</pre
-            >
-          </div>
-        </div>
       </div>
 
       <!-- CARRITOS -->
-
       <div class="card">
         <h2>4) Carritos</h2>
         <table>
-          <thead>
-            <tr>
-              <th>Método</th>
-              <th>Endpoint</th>
-              <th>Hace</th>
-            </tr>
-          </thead>
+          <thead><tr><th>Método</th><th>Endpoint</th><th>Hace</th></tr></thead>
           <tbody>
-            <tr>
-              <td><span class="pill GET">GET</span></td>
-              <td class="path">/carritos/me</td>
-              <td>Obtiene/crea carrito abierto y reconcilia stock</td>
-            </tr>
-            <tr>
-              <td><span class="pill POST">POST</span></td>
-              <td class="path">/carritos/detalle</td>
-              <td>Agrega producto al carrito (snapshot de precio)</td>
-            </tr>
-            <tr>
-              <td><span class="pill PUT">PUT</span></td>
-              <td class="path">/carritos/detalle/{id_item}</td>
-              <td>Actualiza cantidad (clamp por stock/servicio)</td>
-            </tr>
-            <tr>
-              <td><span class="pill DELETE">DELETE</span></td>
-              <td class="path">/carritos/detalle/{id_item}</td>
-              <td>Elimina línea (204 idempotente)</td>
-            </tr>
+            <tr><td><span class="pill GET">GET</span></td><td class="path">/carritos/me</td><td>Obtiene carrito abierto del usuario</td></tr>
+            <tr><td><span class="pill PUT">PUT</span></td><td class="path">/carritos/detalle</td><td>Agregar ítem</td></tr>
+            <tr><td><span class="pill PATCH">PATCH</span></td><td class="path">/carritos/detalle</td><td>Disminuir cantidad de ítem</td></tr>
+            <tr><td><span class="pill DELETE">DELETE</span></td><td class="path">/carritos/detalle</td><td>Eliminar ítem</td></tr>
+            <tr><td><span class="pill GET">GET</span></td><td class="path">/carritos/me/total</td><td>Calcular total dinámico</td></tr>
+            <tr><td><span class="pill DELETE">DELETE</span></td><td class="path">/carritos/admin</td><td>Eliminar carrito de usuario (admin)</td></tr>
           </tbody>
         </table>
-        <div class="grid cols-2">
-          <div class="req">
-            <pre>
-{
-  "id_producto": 3,
-  "cantidad": 2
-}</pre
-            >
-          </div>
-          <div class="res">
-            <pre>
-{
-  "id_item": 55,
-  "id_carrito": 9,
-  "id_producto": 3,
-  "precio_fijo": 120000,
-  "cantidad": 2,
-  "sub_total": 240000
-}</pre
-            >
-          </div>
-        </div>
-        <p class="small note">
-          Reglas: un solo carrito abierto por usuario,
-          <span class="hl">servicio → cantidad = 1</span>, si stock &lt;
-          cantidad → <span class="hl">clamp</span> o
-          <span class="tag">409</span> según operación.
-        </p>
       </div>
 
       <!-- PEDIDOS -->
-
       <div class="card">
         <h2>5) Pedidos</h2>
         <table>
-          <thead>
-            <tr>
-              <th>Método</th>
-              <th>Endpoint</th>
-              <th>Hace</th>
-            </tr>
-          </thead>
+          <thead><tr><th>Método</th><th>Endpoint</th><th>Hace</th></tr></thead>
           <tbody>
-            <tr>
-              <td><span class="pill POST">POST</span></td>
-              <td class="path">/pedidos</td>
-              <td>
-                Confirma carrito → crea pedido, descuenta stock y cierra carrito
-              </td>
-            </tr>
-            <tr>
-              <td><span class="pill GET">GET</span></td>
-              <td class="path">/pedidos</td>
-              <td>Lista mis pedidos</td>
-            </tr>
-            <tr>
-              <td><span class="pill GET">GET</span></td>
-              <td class="path">/pedidos/{id}</td>
-              <td>Detalle (dueño o admin)</td>
-            </tr>
-            <tr>
-              <td><span class="pill PUT">PUT</span></td>
-              <td class="path">/pedidos/admin/{id}</td>
-              <td>Actualizar estado (admin)</td>
-            </tr>
+            <tr><td><span class="pill POST">POST</span></td><td class="path">/pedidos/checkout</td><td>Confirmar carrito → pedido</td></tr>
+            <tr><td><span class="pill GET">GET</span></td><td class="path">/pedidos/me</td><td>Listar pedidos del usuario</td></tr>
+            <tr><td><span class="pill GET">GET</span></td><td class="path">/pedidos/admin</td><td>Listar todos los pedidos (admin)</td></tr>
+            <tr><td><span class="pill PUT">PUT</span></td><td class="path">/pedidos/admin</td><td>Actualizar estados (admin)</td></tr>
           </tbody>
         </table>
-        <div class="grid cols-2">
-          <div class="req"><pre>{}</pre></div>
-          <div class="res">
-            <pre>
-{
-  "id_pedido": 31,
-  "id": 7,
-  "total": 285000,
-  "estado": "pendiente",
-  "fecha_pedido": "2025-09-13T18:40:00Z"
-}</pre
-            >
-          </div>
-        </div>
       </div>
 
       <!-- FAVORITOS -->
-
       <div class="card">
         <h2>6) Favoritos</h2>
         <table>
-          <thead>
-            <tr>
-              <th>Método</th>
-              <th>Endpoint</th>
-              <th>Hace</th>
-            </tr>
-          </thead>
+          <thead><tr><th>Método</th><th>Endpoint</th><th>Hace</th></tr></thead>
           <tbody>
-            <tr>
-              <td><span class="pill GET">GET</span></td>
-              <td class="path">/favoritos</td>
-              <td>Listar mis favoritos (con datos de producto)</td>
-            </tr>
-            <tr>
-              <td><span class="pill POST">POST</span></td>
-              <td class="path">/favoritos</td>
-              <td>Agregar favorito (<code>409</code> si ya existe)</td>
-            </tr>
-            <tr>
-              <td><span class="pill DELETE">DELETE</span></td>
-              <td class="path">/favoritos/{id_favorito}</td>
-              <td>Eliminar favorito</td>
-            </tr>
+            <tr><td><span class="pill GET">GET</span></td><td class="path">/likes</td><td>Obtener likes de productos</td></tr>
+            <tr><td><span class="pill POST">POST</span></td><td class="path">/likes/{id}</td><td>Dar like</td></tr>
+            <tr><td><span class="pill DELETE">DELETE</span></td><td class="path">/likes/{id}</td><td>Quitar like</td></tr>
           </tbody>
         </table>
-        <div class="grid cols-2">
-          <div class="req"><pre>{ "id_producto": 10 }</pre></div>
-          <div class="res">
-            <pre>
-{
-  "id_favorito": 77,
-  "id": 7,
-  "id_producto": 10,
-  "fecha_creacion": "2025-09-13T18:45:00Z"
-}</pre
-            >
-          </div>
-        </div>
       </div>
 
       <!-- RESENAS -->
-
       <div class="card">
         <h2>7) Reseñas</h2>
         <table>
-          <thead>
-            <tr>
-              <th>Método</th>
-              <th>Endpoint</th>
-              <th>Hace</th>
-            </tr>
-          </thead>
+          <thead><tr><th>Método</th><th>Endpoint</th><th>Hace</th></tr></thead>
           <tbody>
-            <tr>
-              <td><span class="pill GET">GET</span></td>
-              <td class="path">/resenas/producto/{id_producto}</td>
-              <td>Lista reseñas (join usuario y producto)</td>
-            </tr>
-            <tr>
-              <td><span class="pill POST">POST</span></td>
-              <td class="path">/resenas/producto/{id_producto}</td>
-              <td>Crea reseña (1..5)</td>
-            </tr>
-            <tr>
-              <td><span class="pill PUT">PUT</span></td>
-              <td class="path">/resenas/{id_resena}</td>
-              <td>Edita reseña (dueño o admin)</td>
-            </tr>
-            <tr>
-              <td><span class="pill DELETE">DELETE</span></td>
-              <td class="path">/resenas/{id_resena}</td>
-              <td>Borra reseña (dueño o admin)</td>
-            </tr>
+            <tr><td><span class="pill GET">GET</span></td><td class="path">/resenas</td><td>Listar reseñas</td></tr>
+            <tr><td><span class="pill GET">GET</span></td><td class="path">/resenas/{id}</td><td>Detalle reseña</td></tr>
+            <tr><td><span class="pill POST">POST</span></td><td class="path">/resenas/{id}</td><td>Crear reseña</td></tr>
+            <tr><td><span class="pill PUT">PUT</span></td><td class="path">/resenas/{id}</td><td>Editar reseña</td></tr>
+            <tr><td><span class="pill DELETE">DELETE</span></td><td class="path">/resenas/{id}</td><td>Eliminar reseña</td></tr>
           </tbody>
         </table>
-        <div class="grid cols-2">
-          <div class="req">
-            <pre>
-{
-  "comentario": "Excelente servicio",
-  "calificacion": 5
-}</pre
-            >
-          </div>
-          <div class="res">
-            <pre>
-{
-  "id_resena": 12,
-  "id": 7,
-  "id_producto": 3,
-  "comentario": "Excelente servicio",
-  "calificacion": 5,
-  "fecha_creacion": "2025-09-13T18:50:00Z"
-}</pre
-            >
-          </div>
-        </div>
-      </div>
-
-      <!-- TOTALES -->
-
-      <div class="card">
-        <h2>Reglas de totales (MVP)</h2>
-        <ul class="small">
-          <li><code>sub_total_item = precio_fijo * cantidad</code></li>
-          <li><code>sub_total = SUM(sub_total_item)</code></li>
-          <li><code>iva = round(sub_total * 0.19)</code></li>
-          <li><code>envio = 0</code> (MVP)</li>
-          <li><code>total = sub_total + iva + envio</code></li>
-        </ul>
       </div>
 
       <footer>
-        Hecho con cariño para tu MVP — endpoints claros, reglas visibles y
-        ejemplos listos para probar.
+        ProPulse API v1.2 — Endpoints claros, reglas visibles y ejemplos listos para probar.
       </footer>
     </main>
   </body>
