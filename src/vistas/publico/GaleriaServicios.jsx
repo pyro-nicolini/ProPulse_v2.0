@@ -16,7 +16,7 @@ export default function GaleriaServicios() {
     <>
       <div className="w-full bg-products">
         <div style={{overflowY: "scroll", maxHeight: "80vh" }}>
-        <div className="w-full p-6 container-1600">
+        <div className="w-full p-6 container-1200">
 
         <Galeria
           items={serviciosBarajados}
