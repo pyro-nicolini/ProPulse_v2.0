@@ -23,7 +23,7 @@ export default function LikeButton({ producto }) {
 
   const handleLike = async () => {
     if (!user) {
-      setMsg("Inicia sesión");
+      setMsg("❤️🔒");
       setTimeout(() => setMsg(""), 1000);
       return;
     }
@@ -33,32 +33,34 @@ export default function LikeButton({ producto }) {
         await eliminarFavorito(producto.id_producto);
         setEsFavorito(false);
         setLikes((prev) => Math.max(prev - 1, 0));
-        setMsg("Quitado de favoritos");
+        setMsg("💔");
       } else {
         await agregarFavorito(producto.id_producto);
         setEsFavorito(true);
         setLikes((prev) => prev + 1);
-        setMsg("Agregado a favoritos");
+        setMsg("+❤️");
       }
     } catch (err) {
       setMsg("Error al actualizar favorito");
     } finally {
-      setTimeout(() => setMsg(""), 1200);
+      setTimeout(() => setMsg(""), 1500);
     }
   };
 
   return (
+    <>
     <button
-      className="like p-0 glass"
+      className="like p-0 glass "
       onClick={handleLike}
       disabled={busy}
       title={esFavorito ? "Quitar de favoritos" : "Agregar a favoritos"}
       aria-pressed={esFavorito}
-      style={{ fontSize: 15, lineHeight: 1 }}
-    >
+      style={{ fontSize: 15, display: 'flex', alignItems: 'center', width: '60px' }}
+      >
       {esFavorito ? "❤️" : "🤍"}
-      <span className="ml-1 text-sm text-gray-600">{likes}</span>
-      {msg && <strong className="text-primary ml-1">{msg}</strong>}
+      <span className="text-sm text-gray-600">{likes}</span>
     </button>
+      {msg && <strong style={{ fontSize: 15 }} className="text-primary">{msg}</strong>}
+      </>
   );
 }

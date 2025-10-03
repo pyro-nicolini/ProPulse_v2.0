@@ -15,23 +15,26 @@ export default function GaleriaProductos() {
   return (
     <>
       <div className="w-full bg-products">
-        <div className="w-full container-1200 min-h-screen min-h-screen ">
+        <div style={{overflowY: "scroll", maxHeight: "80vh" }}>
+        <div className="w-full p-6 container-1600">
 
         <Galeria
           items={productosBarajados}
-          title="Productos"
+          title="PRODUCTOS"
           routeBase="/productos"
-          col={3}
+          col={5}
           />
           </div>
-        <div className="bg-charcoal w-full">
+          </div>
+        <div className="bg-charcoal w-full border-gold">
           <div className="w-full container-1200">
         <Destacados
           title="Destacados"
           col={3}
           routeBase="/productos"
           cant={3}
-          tipoProducto="producto"
+          tipoProducto="producto" 
+          
           />
           </div>
           </div>

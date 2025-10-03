@@ -92,14 +92,14 @@ function GaleriaCard({ item, routeBase }) {
   };
 
   return (
-    <div className="p-1 glass parallax relative flex flex-col items-center">
-      <h5 className="mb-1">{item.titulo}</h5>
-      <div className="flex gap-1 items-start w-full h-min mb-1">
-        {/* Imagen principal con efecto (solo si hay imágenes) */}
+    <div className="p-1 card-glass parallax relative flex flex-col items-center">
+      <h5 className="mb-1 text-black">{item.titulo.split(" ").slice(0, 3).join(" ").toUpperCase()}</h5>
+      <div className="flex gap-05 items-start w-full h-min mb-1">
+
         {urls.length > 0 ? (
           <div
             ref={cardRef}
-            className="h-min w-full card-bg-img radius object-cover mb-1 parallax"
+            className="h-min w-full card-bg-img radius object-cover mb-1 parallax shadow"
             style={{
               backgroundImage: `url(${urls[idx]})`,
               backgroundPosition: "center",
@@ -119,14 +119,14 @@ function GaleriaCard({ item, routeBase }) {
         )}
         {/* Miniaturas */}
         {urls.length > 1 && (
-          <div className="flex-col gap-1 mb-1">
+          <div className="flex-col gap-1 mb-1 ">
             {urls.map((u, i) => (
               <img
               key={i}
               src={u}
               onClick={() => setIdx(i)}
               className={`w-sm h-sm rounded cursor-pointer transition ${
-                idx === i ? "border-red-500 ring-2 ring-red-400" : "border-gray-300"
+                idx === i ? "border-red-500 ring-2 ring-red-400  shadow" : "border-gray-300  shadow"
               }`}
               alt={`miniatura-${i}`}
               />
@@ -134,17 +134,17 @@ function GaleriaCard({ item, routeBase }) {
           </div>
         )}
       </div>
-      <div className="w-full flex justify-start" style={{ paddingLeft: "2rem" }}>
+      <div className="w-full flex justify-start">
         <LikeButton producto={item} />
       </div>
 
-      <span className="flex text-center text-white m-1">
+      <span className="flex text-center text-white">
         {(item.descripcion || "").split(" ").slice(0, 10).join(" ") + "..."}
       </span>
         <div className="flex gap-1">
-      <h4 className="radius mb-2">{formatoCPL.format(item.precio)}</h4>
+      <h4 className="radius mb-2 text-shadow">{formatoCPL.format(item.precio)}</h4>
       <Link to={`${routeBase}/${item.id_producto ?? item.id}`}>
-        <button className="btn btn-primary text-white p-1 rounded mb-2">Ver Más</button>
+        <button className="btn text-white p-1 rounded mb-2">Ver Más</button>
       </Link>
         </div>
     </div>
@@ -161,8 +161,7 @@ export default function Galeria({ items = [], title, routeBase, col = 3 }) {
 
   return (
     <div className="p-1 fade-up visible w-full">
-      <h3 className="mb-6">{title}</h3>
-      <div className={`grid grid-cols-${col} gap-3`}>
+      <div className={`grid grid-cols-${col} gap-05`}>
         {items.map((item) => (
           <GaleriaCard key={item.id_producto ?? item.id} item={item} routeBase={routeBase} />
         ))}

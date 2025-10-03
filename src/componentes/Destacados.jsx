@@ -3,6 +3,24 @@ import { Link } from "react-router-dom";
 import { useFadeUp } from "../customHooks/useFadeUp";
 import { useShop } from "../contexts/ShopContext";
 
+// Importar imágenes (para Vite)
+const importImages = () => {
+  const images = {};
+  const modules = import.meta.glob(
+    "../assets/img/productos/*.{png,jpg,jpeg,svg,webp}",
+    { eager: true }
+  );
+
+  for (const path in modules) {
+    const imageName = path.split("/").pop();
+    images[imageName] = modules[path].default;
+  }
+
+  return images;
+};
+
+const images = importImages();
+
 const colsMap = {
   1: "grid-cols-1",
   2: "grid-cols-2",
@@ -34,11 +52,14 @@ export default function Destacados({
       <div className={`grid ${colsMap[col] || colsMap[3]} gap-3`}>
         {destacados.map((item) => {
           const id = item.id_producto ?? item.id;
+          const imageName = item?.url_imagen || "producto1_1.webp";
+          const imageUrl = images[imageName] || images["producto1_1.webp"];
+
           return (
             <div
               key={id}
               style={{
-                backgroundImage: `url(${item.url_imagen || "/placeholder.png"})`,
+                backgroundImage: `url(${imageUrl})`,
               }}
               className="card-bg-img parallax"
             >

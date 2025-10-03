@@ -3,25 +3,30 @@ import Galeria from "../../componentes/Galeria";
 import Destacados from "../../componentes/Destacados";
 import { useShop } from "../../contexts/ShopContext";
 
+
 export default function GaleriaServicios() {
   const { servicios } = useShop();
   useFadeUp();
 
+  const serviciosFiltrados = servicios.filter((p)=> p.tipo === "servicio")
   const desordenarArray = (array) => [...array].sort(() => Math.random() - 0.5);
+  const serviciosBarajados = desordenarArray(serviciosFiltrados);
 
-  const serviciosBarajados = desordenarArray(servicios);
   return (
     <>
-      <div className="w-full">
-        <div className="w-full container-1200 min-h-screen min-h-screen">
+      <div className="w-full bg-products">
+        <div style={{overflowY: "scroll", maxHeight: "80vh" }}>
+        <div className="w-full p-6 container-1600">
+
         <Galeria
           items={serviciosBarajados}
-          title="Servicios"
+          title="SERVICIOS"
           routeBase="/servicios"
-          col={3}
+          col={4}
           />
           </div>
-        <div className="bg-charcoal w-full">
+          </div>
+        <div className="bg-charcoal w-full border-gold">
           <div className="w-full container-1200">
         <Destacados
           title="Destacados"
@@ -29,6 +34,7 @@ export default function GaleriaServicios() {
           routeBase="/servicios"
           cant={3}
           tipoProducto="servicio"
+
           />
           </div>
           </div>

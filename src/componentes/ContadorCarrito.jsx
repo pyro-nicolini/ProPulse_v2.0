@@ -17,7 +17,7 @@ export default function ContadorCarrito() {
 
   return (
     <Link to="/carrito">
-      <button className="btn btn-secondary">
+      <button style={{ fontSize: '1rem' }} className="btn text-white p-1 rounded">
         🛒 {items.length} — {formatoCPL.format(total_carrito)}
       </button>
     </Link>

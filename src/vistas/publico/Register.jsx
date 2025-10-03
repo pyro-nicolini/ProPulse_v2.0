@@ -38,7 +38,7 @@ export default function Register() {
         <div></div>
         <div
           className="card card-bg-img text-shadow relative overflow-hidden"
-          style={{ backgroundImage: `url(${foto4})` }}
+          // style={{ backgroundImage: `url(${foto4})` }}
         >
           <div className="relative z-20 flex-col justify-end">
             <img
