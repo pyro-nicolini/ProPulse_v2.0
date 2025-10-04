@@ -581,7 +581,7 @@ button {
 
 /* glass Effect */
 .card-glass {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.453),rgba(255, 255, 255, 0.284));
+  background: radial-gradient(rgb(252, 43, 43),rgb(0, 0, 0));
   border-radius: 15px;
   border: 2px solid rgba(0, 0, 0, 0.3);
   backdrop-filter: blur(20px);

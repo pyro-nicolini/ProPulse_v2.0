@@ -1,19 +1,26 @@
-// src/componentes/Destacados.jsx
 import { Link } from "react-router-dom";
 import { useFadeUp } from "../customHooks/useFadeUp";
 import { useShop } from "../contexts/ShopContext";
 
-// Importar imágenes (para Vite)
+// Importar imágenes de productos y servicios
 const importImages = () => {
   const images = {};
-  const modules = import.meta.glob(
+  const modulesProductos = import.meta.glob(
     "../assets/img/productos/*.{png,jpg,jpeg,svg,webp}",
-    { eager: true }
+    { eager: true, import: "default" }
+  );
+  const modulesServicios = import.meta.glob(
+    "../assets/img/servicios/*.{png,jpg,jpeg,svg,webp}",
+    { eager: true, import: "default" }
   );
 
-  for (const path in modules) {
+  for (const path in modulesProductos) {
     const imageName = path.split("/").pop();
-    images[imageName] = modules[path].default;
+    images[imageName] = modulesProductos[path];
+  }
+  for (const path in modulesServicios) {
+    const imageName = path.split("/").pop();
+    images[imageName] = modulesServicios[path];
   }
 
   return images;
@@ -35,7 +42,7 @@ export default function Destacados({
   col = 3,
   routeBase = "/producto",
   cant = 6,
-  tipoProducto = "producto",
+  tipoProducto = "producto", // "producto" | "servicio"
 }) {
   const { productos } = useShop();
   useFadeUp();
@@ -52,22 +59,21 @@ export default function Destacados({
       <div className={`grid ${colsMap[col] || colsMap[3]} gap-3`}>
         {destacados.map((item) => {
           const id = item.id_producto ?? item.id;
-          const imageName = item?.url_imagen || "producto1_1.webp";
-          const imageUrl = images[imageName] || images["producto1_1.webp"];
+          const fallback = tipoProducto === "servicio" ? "servicio1_1.webp" : "producto1_1.webp";
+          const imageName = item?.url_imagen || fallback;
+          const imageUrl = images[imageName] || images[fallback];
 
           return (
             <div
               key={id}
-              style={{
-                backgroundImage: `url(${imageUrl})`,
-              }}
+              style={{ backgroundImage: `url(${imageUrl})` }}
               className="card-bg-img parallax"
             >
               <Link to={`${routeBase}/${id}`}>
-                <h3>{item.titulo}</h3>
+                <h4 className=" text-center text-shadow">{item.titulo.split(" ").slice(0, 5).join(" ")}</h4>
                 <div className="container z-10 flex-col justify-end">
-                  <p className="subtitle">Destacado de la semana</p>
                   <p>⭐⭐⭐⭐⭐</p>
+                  <p className="subtitle text-center text-shadow">{item.descripcion}</p>
                   <button className="btn btn-primary">Ver más</button>
                 </div>
               </Link>

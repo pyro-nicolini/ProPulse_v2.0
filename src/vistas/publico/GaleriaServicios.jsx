@@ -29,10 +29,10 @@ export default function GaleriaServicios() {
         <div className="bg-charcoal w-full border-gold">
           <div className="w-full container-1200">
         <Destacados
-          title="Destacados"
+          title="Destacados de la semana"
           col={3}
           routeBase="/servicios"
-          cant={3}
+          cant={6}
           tipoProducto="servicio"
 
           />

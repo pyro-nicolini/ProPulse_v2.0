@@ -92,8 +92,8 @@ function GaleriaCard({ item, routeBase }) {
   };
 
   return (
-    <div className="p-1 card-glass parallax relative flex flex-col items-center">
-      <h5 className="mb-1 text-black">{item.titulo.split(" ").slice(0, 3).join(" ").toUpperCase()}</h5>
+    <div className="p-1 card-glass parallax relative flex flex-col items-center text-shadow">
+      <h5 className="mb-1">{item.titulo.split(" ").slice(0, 3).join(" ").toUpperCase()}</h5>
       <div className="flex gap-05 items-start w-full h-min mb-1">
 
         {urls.length > 0 ? (
