@@ -92,7 +92,7 @@ function GaleriaCard({ item, routeBase }) {
   };
 
   return (
-    <div className="p-1 card-glass parallax relative flex flex-col items-center text-shadow">
+    <div className="p-1 card-glass parallax relative flex flex-col items-center text-shadow ">
       <h5 className="mb-1">{item.titulo.split(" ").slice(0, 3).join(" ").toUpperCase()}</h5>
       <div className="flex gap-05 items-start w-full h-min mb-1">
 
@@ -137,9 +137,20 @@ function GaleriaCard({ item, routeBase }) {
       <div className="w-full flex justify-start">
         <LikeButton producto={item} />
       </div>
-
+        <div>
+          {item.stock !== undefined && (
+            <span className="text-sm text-gray-400">
+              {item?.tipo === "producto" ? 
+              (item.stock > 0 ? `Quedan: ${item.stock}` : "Sin stock") :
+              null}
+            </span>
+            
+          )}
+          
+        </div>
       <span className="flex text-center text-white">
         {(item.descripcion || "").split(" ").slice(0, 10).join(" ") + "..."}
+        
       </span>
         <div className="flex gap-1">
       <h4 className="radius mb-2 text-shadow">{formatoCPL.format(item.precio)}</h4>

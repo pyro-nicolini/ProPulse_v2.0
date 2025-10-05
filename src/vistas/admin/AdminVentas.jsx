@@ -60,7 +60,7 @@ const cambiarEstado = async (id_pedido, nuevoEstado) => {
 
 
   return (
-    <div className="glass mt-1 fade-up">
+    <div className="glass mt-1  fade-up visible">
       <h2 className="mb-2">Ventas (historial)</h2>
       {loading && <p>Cargando…</p>}
       {error && <p className="text-red-400">{error}</p>}

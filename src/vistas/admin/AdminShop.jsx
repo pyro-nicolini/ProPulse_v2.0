@@ -67,7 +67,7 @@ export default function AdminShop() {
   );
 
   return (
-    <div className="container glass p-1 w-full mt-1 fade-up">
+    <div className="container glass p-1 w-full mt-1 fade-up visible">
       <h2 className="mb-2">Admin Shop</h2>
       {user?.rol !== "admin" && <p>No autorizado.</p>}
       {user?.rol === "admin" && (

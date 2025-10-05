@@ -33,7 +33,7 @@ export default function Register() {
   };
 
   return (
-    <div className="glass p-2 flex-col">
+    <div className="glass p-2 flex-col fondo1">
       <div className="grid grid-cols-4 gap-2 fade-up">
         <div></div>
         <div

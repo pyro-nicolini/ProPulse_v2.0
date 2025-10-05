@@ -59,6 +59,13 @@
 }
 
 
+.fondo1{
+  background-image: url("./assets/img/fondos/square.jpg");
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
 .bg-products{
   background-image: url("./assets/img/fondos/fondo-muscle.webp");
   background-attachment: fixed;
@@ -309,10 +316,19 @@ p {
   margin-bottom: 1rem;
 }
 
+.text-small {
+  font-size: clamp(0.65rem, .6vw, 0.8rem) !important;
+  line-height: 1.4;
+}
+.text-small2 {
+  font-size: clamp(0.8rem, .7vw, 0.9rem) !important;
+  line-height: 1.4;
+}
+
 /* links */
 a {
   color: var(--primary-gold);
-  font-size: clamp(0.9rem, 1.5vw, 1.2rem) !important;
+  font-size: clamp(0.8rem, 1vw, .8rem) !important;
   text-decoration: none;
 }
 a:hover {
@@ -414,7 +430,7 @@ a:hover {
 .nav-toggle {
   background: none;
   border: none;
-  font-size: 28px;
+  font-size: 20px;
   cursor: pointer;
   display: none;
   color: var(--primary-red);
@@ -431,7 +447,6 @@ nav > i {
   padding: 1rem;
   background: var(--black);
   opacity: 0;
-  transform: translateY(-20px);
   pointer-events: none;
   transition: opacity 0.3s ease, transform 0.3s ease;
 }
@@ -476,7 +491,7 @@ nav > i {
   transition: transform 0.3s ease, background 1s ease, box-shadow 0.3s ease;
 }
 
-strong {
+.strong-hover {
   display: inline-block;
   animation: translateIn 1.5s ease forwards;
 }
@@ -508,7 +523,7 @@ button {
   cursor: pointer;
   text-decoration: none;
   text-wrap: nowrap;
-  background-color: #bc0000;
+  background-color: #f36f23;
   color: whitesmoke;
   transition: transform 0.3s ease, background 1s ease, box-shadow 0.3s ease;
 }
@@ -615,6 +630,17 @@ button {
   color: #000000;
 }
 
+.card-bg-img2 {
+  position: relative;
+  border: 2px solid rgb(255, 145, 0);
+  border-radius: 15px;
+  padding: 1rem;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
 .card-bg-img {
   position: relative;
   overflow: hidden;
@@ -1111,7 +1137,7 @@ button {
   .mobile-menu {
     display: flex;
     position: absolute;
-    top: 6rem;
+    top: 5rem;
     width: 100%;
     opacity: 1;
     transform: translateY(0);
@@ -1129,7 +1155,19 @@ button {
 }
 .fade-up.visible {
   opacity: 1;
-  transform: translateY(0);
+  animation: visible 0.8s ease forwards;
+}
+
+@keyframes visible {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
 }
 
 /*imagenes*/

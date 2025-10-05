@@ -17,10 +17,10 @@ export default function AdminProfile() {
     return <p className="m-4">Solo para administradores.</p>;
 
   return (
-    <div className="w-full h-min bg-charcoal">
+    <div className="w-full min-h-screen bg-charcoal">
     <div className="container-1200 fade-up">
       <h3 className="p-1">Perfil Admin</h3>
-      <div className="p-1 glass">
+      <div className="p-1">
         <div className="w-full">
             <p className="">
               ID: {user.id} · {user.nombre} ·

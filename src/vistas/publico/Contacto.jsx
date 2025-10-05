@@ -52,11 +52,11 @@ export default function Contacto() {
 
   return (
     <>
-      <div className="w-full grid p-4 gap-1 grid-cols-2">
+      <div className="w-full grid p-4 gap-1 grid-cols-2 fondo1">
         <div className="flex flex-col gap-4 w-full fade-up">
           <div className=" p-4 m-1">
 
-                <img src={logoColor1} alt="ProPulse" className="png1" />
+                <img src={logoColor1} alt="ProPulse" className="img3" />
             <h2 className="card-title text-gradient-primary">Contacto</h2>
             <p className="subtitle">
               ¿Tienes dudas o necesitas ayuda? Escríbenos.

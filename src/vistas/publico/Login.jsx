@@ -4,6 +4,7 @@ import { useFadeUp } from "../../customHooks/useFadeUp";
 import { useAuth } from "../../contexts/AuthContext";
 
 import logoColor1 from "../../assets/img/logos/logo_color_w.png";
+import fondo3 from "../../assets/img/fondos/bg-spart1.webp";
 
 const fmtErr = (e) => e?.response?.data?.error || "Credenciales inválidas";
 
@@ -32,13 +33,12 @@ export default function Login() {
   };
 
   return (
-    <div className="glass p-2 fade-up flex-col">
+    <div className="glass p-2 fade-up flex-col fondo1">
       <div className="grid grid-cols-4 gap-2">
         <div></div>
-        <div className="card fade-up">
+        <div className="visible fade-up">
           <div className="flex flex-col items-center gap-1 mb-2">
-            <img src={logoColor1} alt="ProPulse" className="png3" />
-            <h2 className="text-gradient m-0">Ingresar</h2>
+            <h1 className="text-gradient m-0">Ingresar</h1>
             <p className="subtitle m-0">Bienvenido de vuelta</p>
             <div></div>
           </div>
@@ -99,9 +99,10 @@ export default function Login() {
 
         {/* Columna derecha: imagen/branding */}
         <div
-          className="card card-bg-img fade-up text-shadow relative overflow-hidden"
-          // style={{ backgroundImage: `url(${foto2})` }}
+          className="card card-bg-img2 fade-up text-shadow overflow-hidden"
+          style={{ backgroundImage: `url(${fondo3})` }}
         >
+          <img src={logoColor1} alt="ProPulse" className="png3" />
           <div className="relative z-20 flex-col justify-end h-full">
             <h3 className="m-0">Tu progreso, en movimiento</h3>
             <p className="m-0">

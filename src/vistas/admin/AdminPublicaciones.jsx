@@ -19,7 +19,7 @@ export default function AdminPublicaciones() {
     return <p className="container m-4">Solo para administradores.</p>;
 
   return (
-    <div className="container glass mt-1 fade-up">
+    <div className="container glass mt-1 fade-up visible">
       <div className="ap-toolbar mb-2">
         <h3>Admin Publicaciones</h3>
         <div className="ap-actions">

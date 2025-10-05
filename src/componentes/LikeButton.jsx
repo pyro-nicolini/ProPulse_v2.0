@@ -60,7 +60,7 @@ export default function LikeButton({ producto }) {
       {esFavorito ? "❤️" : "🤍"}
       <span className="text-sm text-gray-600">{likes}</span>
     </button>
-      {msg && <strong style={{ fontSize: 15 }} className="text-primary">{msg}</strong>}
+      {msg && <strong style={{ fontSize: 15 }} className="text-primary strong-hover">{msg}</strong>}
       </>
   );
 }

@@ -77,66 +77,59 @@ export default function Producto() {
 
   return (
     <>
-      <div className="w-full flex-col items-center justify-center bg-charcoal">
+      <div className="w-full flex-col items-center justify-center bg-charcoal fondo1">
         <div style={{ maxWidth: "30rem" }} className="card fade-up visible m-1">
-          <h4 className="mb-3">{producto?.titulo}</h4>
-
-          {mainImg && (
-            <img
-              className="img2 w-full rounded-lg border border-gray-700"
-              src={mainImg}
-              alt={producto?.titulo}
-            />
-          )}
-
-          {imagenes.length > 1 && (
-            <div className="flex gap-2 mt-3 justify-center">
-              {imagenes.map((img, i) => (
-                <img
-                  key={i}
-                  src={img}
-                  alt={`Vista ${i + 1}`}
-                  onClick={() => setActiveImg(img)}
-                  className={`w-sm h-sm object-cover cursor-pointer rounded-md border ${
-                    img === mainImg
-                      ? "border-blue-500 ring-2 ring-blue-400"
-                      : "border-gray-500"
-                  }`}
-                />
-              ))}
-            </div>
-          )}
-
-          {producto?.precio && (
-            <h4 className="flex justify-end mt-4 text-xl font-bold">
-              {formatoCPL.format(producto?.precio)}
+          <h4 className="mb-1">{producto?.titulo}</h4>
+          <div className="mb-1">
+            {mainImg && (
+              <img
+                className="img2 w-full rounded-lg border border-gray-700"
+                src={mainImg}
+                alt={producto?.titulo}
+              />
+            )}
+            {imagenes.length > 1 && (
+              <div className="flex gap-2 mt-1 justify-center">
+                {imagenes.map((img, i) => (
+                  <img
+                    key={i}
+                    src={img}
+                    alt={`Vista ${i + 1}`}
+                    onClick={() => setActiveImg(img)}
+                    className={`w-sm h-sm rounded cursor-pointer transition ${
+                      activeImg === img
+                        ? "border-red-500 ring-2 ring-red-400  shadow"
+                        : "border-gray-300  shadow"
+                    }`}
+                  />
+                ))}
+              </div>
+            )}
+          </div>
+          <div className="mb-1 flex justify-between items-center">
+            <p className="text-small">Código: SKU00{producto?.id_producto}</p>
+            <h4 className="font-bold">
+              {formatoCPL.format(producto?.precio) + " CPL"}
             </h4>
-          )}
-
-          <p className="mt-2">{producto?.descripcion}</p>
-
+          </div>
+            <p>Stock: {stockRestante}</p>
           <div className="mt-1 text-sm text-gray-400">
-            <p>Stock total: {producto?.stock}</p>
-            {cantidadEnCarrito > 0 && <p>En tu carrito: {cantidadEnCarrito}</p>}
-            <p
-              className={stockRestante <= 0 ? "text-red-400 font-semibold" : ""}
-            >
-              Disponible: {stockRestante}
-            </p>
+          <p className="mt-1 text-small2">{producto?.descripcion}</p>
           </div>
 
-          <div className="mt-4">
+          <div className="">
             <AddToCartButton product={producto} disabled={stockRestante <= 0} />
             {stockRestante <= 0 && (
-              <p className="text-red-400 text-sm mt-2">
+              <p className="text-center text-sm mt-2">
                 ⚠️ Sin stock disponible
               </p>
             )}
           </div>
         </div>
       </div>
-
+          <div className="border-gold">
       <Resena />
+          </div>
     </>
   );
 }

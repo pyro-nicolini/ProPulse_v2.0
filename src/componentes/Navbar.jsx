@@ -36,7 +36,7 @@ const Navbar = () => {
         </button>
 
         {/* Links principales */}
-        <div className="nav-links flex p-1">
+        <div className="nav-links flex">
           {isAdmin && (
             <Link to="/admin-profile" className="nav-link" onClick={closeMenu}>
               Admin
@@ -57,7 +57,7 @@ const Navbar = () => {
         </div>
 
         {/* Área de usuario / carrito */}
-        <div className="flex p-1 gap-1 items-center justify-center">
+        <div className="flex gap-1 items-center justify-center">
           {user ? <ContadorCarrito /> : null}
           {user ? (
             <div className="flex gap-1 items-center justify-center text-center">
