@@ -9,7 +9,7 @@ const TOKEN_KEY = "token";
 
 export function setToken(t) {
   t
-    ? localStorage.setItem(TOKEN_KEY, t) // 👈 en vez de sessionStorage
+    ? localStorage.setItem(TOKEN_KEY, t)
     : localStorage.removeItem(TOKEN_KEY);
 }
 
