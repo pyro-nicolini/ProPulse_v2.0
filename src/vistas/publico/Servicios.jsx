@@ -85,7 +85,7 @@ export default function Servicio() {
   return (
     <>
       <div className="w-full flex-col items-center justify-center bg-charcoal fondo1">
-        <div style={{ maxWidth: "30rem" }} className="card fade-up visible m-1">
+        <div style={{ maxWidth: "30rem" }} className="card-metal  fade-up visible m-1">
           <h4 className="mb-1">{servicio?.titulo}</h4>
           
           <div className="mb-1">
@@ -130,11 +130,6 @@ export default function Servicio() {
               {formatoCPL.format(servicio?.precio) + " CPL"}
             </h4>
           </div>
-          
-          {servicio.stock && (
-            <p>Disponibilidad: {stockRestante > 0 ? 'Disponible' : 'No disponible'}</p>
-          )}
-          
           <div className="mt-1 text-sm text-gray-400">
             <p className="mt-1 text-small2">{servicio?.descripcion}</p>
             {cantidadEnCarrito > 0 && (
@@ -147,11 +142,6 @@ export default function Servicio() {
               product={servicio} 
               disabled={servicio.stock && stockRestante <= 0} 
             />
-            {servicio.stock && stockRestante <= 0 && (
-              <p className="text-center text-sm mt-2">
-                ⚠️ Servicio no disponible
-              </p>
-            )}
           </div>
         </div>
       </div>

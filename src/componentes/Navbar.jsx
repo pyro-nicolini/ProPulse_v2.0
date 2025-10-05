@@ -18,7 +18,7 @@ const Navbar = () => {
   
   return (
     <nav className="navbar">
-      <div className="navbar container">
+      <div className="navbar card-metal">
         {/* Logo */}
         <Link to="/" className="nav-link" onClick={closeMenu}>
           <img className="navbar-brand" src={logo} alt="ProPulse" />
@@ -66,7 +66,7 @@ const Navbar = () => {
               </p>
               <button
                 onClick={logout}
-                className="btn btn-secondary mobile-hidden"
+                className="btn btn-secondary2 mobile-hidden"
               >
                 Salir
               </button>
@@ -106,7 +106,7 @@ const Navbar = () => {
           </Link>
 
           {user ? (
-            <button onClick={logout} className="btn btn-secondary">
+            <button onClick={logout} className="btn btn-secondary2">
               Salir
             </button>
           ) : (

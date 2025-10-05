@@ -15,7 +15,7 @@ function ConfirmButtonCart() {
 
   return (
     <div className="container w-full">
-      <div className="card w-full">
+      <div className="card-metal  w-full">
         <div>
           <p>
             sub_total:{" "}

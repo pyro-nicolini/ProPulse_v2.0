@@ -29,11 +29,11 @@ export default function Pedidos() {
   if (!pedidos || pedidos.length === 0) return <div>No tienes pedidos.</div>;
 
   return (
-    <div className="w-full">
+    <div className="w-full visible">
       <h2>Mis Pedidos</h2>
       <table className="w-full container bg-gradient-secondary radius">
         <thead className="card w-full radius">
-          <tr className="text-center">
+          <tr className="text-center text-small3">
             <th>ID Pedido</th>
             <th>Fecha</th>
             <th>Hora</th>
@@ -62,7 +62,7 @@ export default function Pedidos() {
               </td>
               <td className="bg-white text-black text-center">
                 <button
-                  className="btn btn-primary p-0"
+                  className="btn-primary p-0 test-small3"
                   onClick={() => handleBuscarPedido(pedido.id_pedido)}
                 >
                   Ver

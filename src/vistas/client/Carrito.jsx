@@ -30,18 +30,19 @@ export default function Carrito() {
   const itemsOrdenadosPorId = [...items].sort((a, b) => a.id_item - b.id_item);
 
   return (
-    <div className="w-full flex justify-center items-center bg-charcoal">
-      <div className="grid grid-cols-1">
+    <div className="w-full flex justify-center items-center bg-products">
+      <div className="">
         {itemsOrdenadosPorId.map((it) => {
           return (
             <div key={it.id_item} className="container w-full fade-up visible">
               <div
-                className="card grid grid-cols-3 items-center gap-2"
+                className="card-metal  grid grid-cols-3 items-center gap-2"
                 style={{ maxWidth: "600px" }}
               >
                 <div>
-                  <h4 className="font-bold">{it?.titulo}</h4>
-                  <p>ID: {it?.id_producto}</p>
+                  <h4 className="font-bold">{it?.titulo.split(" ").slice(0, 3).join(" ")}</h4>
+                  <p>ID: SKU000{it?.id_producto}</p>
+                  <p><Link to={{ pathname: it.tipo === "producto" ? `/productos/${it.id_producto}` : `/servicios/${it.id_producto}` }}>Ver producto</Link></p>
                   {it?.tipo === "servicio" && (
                     <p>(Servicio: solo 1 por carrito)</p>
                   )}
@@ -54,7 +55,7 @@ export default function Carrito() {
                   <p>Cantidad: 1</p>
                 ) : (
                   <div className="flex items-center space-x-2">
-                    <button
+                    <button className="m-1 btn-secondary2"
                       onClick={() =>
                         it?.cantidad > 1
                           ? removeItem(carrito?.id_carrito, it.id_producto)
@@ -64,7 +65,7 @@ export default function Carrito() {
                       -
                     </button>
                     <span>{it?.cantidad}</span>
-                    <button
+                    <button className="m-1 btn-secondary2"
                       onClick={() =>
                         it?.cantidad < it?.stock
                           ? addItem(carrito?.id_carrito, it.id_producto)

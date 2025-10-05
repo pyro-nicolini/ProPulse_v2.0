@@ -2,22 +2,27 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import { useFavoritos } from "../../contexts/FavoritosContext";
 
-// Importar imágenes (para Vite)
+// Importar imágenes de productos y servicios (para Vite)
 const importImages = () => {
   const images = {};
-  const modules = import.meta.glob(
+  const modulesProductos = import.meta.glob(
     "../../assets/img/productos/*.{png,jpg,jpeg,svg,webp}",
-    { eager: true }
+    { eager: true, import: "default" }
   );
-
-  for (const path in modules) {
+  const modulesServicios = import.meta.glob(
+    "../../assets/img/servicios/*.{png,jpg,jpeg,svg,webp}",
+    { eager: true, import: "default" }
+  );
+  for (const path in modulesProductos) {
     const imageName = path.split("/").pop();
-    images[imageName] = modules[path].default;
+    images[imageName] = modulesProductos[path];
   }
-
+  for (const path in modulesServicios) {
+    const imageName = path.split("/").pop();
+    images[imageName] = modulesServicios[path];
+  }
   return images;
 };
-
 const images = importImages();
 
 const Favoritos = () => {
@@ -45,37 +50,44 @@ const Favoritos = () => {
       {msg && <div className="text-red-600 mb-2">{msg}</div>}
       <div className="container-card grid grid-cols-3 gap-3">
         {favoritos.map((fav) => {
-          const imageName = fav?.url_imagen || "producto1_1.webp";
-          const imageUrl = images[imageName] || images["producto1_1.webp"];
+          const imageName = fav?.url_imagen;
+          const imageUrl = imageName ? images[imageName] : null;
 
           return (
             <div
               key={fav.id_producto}
-              style={{ backgroundImage: `url(${imageUrl})` }}
-              className="card img2 radius text-center flex flex-col p-3"
+              className="card-metal radius text-center flex flex-col p-3"
             >
+              {console.log("fav:",fav)}
               <h4 className="font-bold text-white subtitle text-gradient-secondary">
-                {fav?.titulo}
+                ❤️ {fav?.titulo}
               </h4>
+              {imageUrl && (
+                <div
+                  className="fav-img w-full h-full"
+                  style={{ backgroundImage: `url(${imageUrl})` }}
+                >
               <div className="text-gray-300 mb-2">{fav?.descripcion}</div>
               <button
-                className="btn btn-danger"
+                className="btn-danger text-shadow text-small2"
                 onClick={() => eliminarFavorito(fav.id_producto)}
                 disabled={busy}
-              >
+                >
                 💔 Quitar de Favoritos
               </button>
               <button
-                className="btn btn-secondary mt-2"
+                className="btn-primary text-black mt-2 text-shadow"
                 onClick={
                   fav.tipo === "producto"
-                    ? () => goProduct(fav.id_producto)
-                    : () => goServicio(fav.id_producto)
+                  ? () => goProduct(fav.id_producto)
+                  : () => goServicio(fav.id_producto)
                 }
                 disabled={busy}
-              >
+                >
                 Ir al Producto
               </button>
+              </div>
+              )}
             </div>
           );
         })}

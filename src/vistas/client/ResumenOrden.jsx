@@ -35,12 +35,12 @@ export default function ResumenOrden() {
       </Link>
     );
   if (!carrito)
-    return <p className="card m-1 text-center p-1">Cargando carrito…</p>;
+    return <p className="card-metal m-1 text-center p-1">Cargando carrito…</p>;
   const items = carrito.items_carrito || [];
 
   return (
     <div className="container w-full">
-      <div className="card rounded shadow fade-up">
+      <div className="card-metal rounded shadow fade-up">
         <h2 className="text-xl font-bold mb-4">Resumen de tu orden</h2>
         <ul className="divide-y">
           {items.map((it) => (

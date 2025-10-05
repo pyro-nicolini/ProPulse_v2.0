@@ -22,8 +22,9 @@
   );
   --gradient-dark: linear-gradient(
     90deg, 
-  #9b9b9b,
-  #b40000
+  #3a3939,
+  #2c2c2c,
+  #222222
   );
 }
 
@@ -37,11 +38,15 @@
   font-weight: bold;
 }
 
+.h-card {
+  height: 14rem;
+}
+
 .h-mid {
   height: 30rem;
 }
 .h-min {
-  height: 14rem;
+  height: fit-content;
 }
 .min-h-screen {
   min-height: 100vh;
@@ -324,6 +329,14 @@ p {
   font-size: clamp(0.8rem, .7vw, 0.9rem) !important;
   line-height: 1.4;
 }
+.text-small2 {
+  font-size: clamp(0.8rem, .7vw, 0.9rem) !important;
+  line-height: 1.4;
+}
+.text-small3, tr, th, td {
+  font-size: clamp(0.6rem, .8vw, 0.9rem) !important;
+  line-height: 1.4;
+}
 
 /* links */
 a {
@@ -488,7 +501,7 @@ nav > i {
   cursor: pointer;
   text-transform: uppercase;
   text-wrap: nowrap;
-  transition: transform 0.3s ease, background 1s ease, box-shadow 0.3s ease;
+  transition: transform 0.1s ease, background .4s ease, box-shadow 0.1s ease;
 }
 
 .strong-hover {
@@ -546,9 +559,26 @@ button {
 /* === SECONDARY === */
 .btn-secondary {
   background: transparent;
+  border: 2px solid var(--primary-red);
+  transition: background 0.3s ease, color 0.3s ease;
+  color: var(--white);
+}
+
+.btn-danger {
+  background: var(--primary-gold);
+  transition: background 0.3s ease, color 0.3s ease;
+  color: var(--white);
+  padding: 0.5rem 1rem;
+  font-size: medium;
+}
+
+.btn-secondary2 {
+  background: transparent;
   border: 2px solid var(--primary-gold);
   transition: background 0.3s ease, color 0.3s ease;
   color: var(--white);
+  padding: 0.5rem 1rem;
+  font-size: medium;
 }
 
 .btn-secondary:hover {
@@ -556,6 +586,12 @@ button {
   border-color: var(--primary-red);
   color: var(--white) !important;
   background: var(--primary-red);
+}
+.btn-secondary2:hover {
+  box-shadow: 0 8px 17px rgba(27, 27, 27, 0.5);
+  border-color: var(--primary-gold) !important;
+  color: var(--white) !important;
+  background: var(--primary-gold) !important;
 }
 .btn:hover {
   box-shadow: 3px 4px 7px rgba(27, 27, 27, 0.6);
@@ -594,9 +630,10 @@ button {
 
 
 
+
 /* glass Effect */
 .card-glass {
-  background: radial-gradient(rgb(252, 43, 43),rgb(0, 0, 0));
+  background: radial-gradient(rgb(245, 212, 121),rgb(233, 171, 0),rgb(201, 115, 2));
   border-radius: 15px;
   border: 2px solid rgba(0, 0, 0, 0.3);
   backdrop-filter: blur(20px);
@@ -618,6 +655,16 @@ button {
   position: relative;
   overflow: hidden;
 }
+.card-metal {
+  background: url("assets/img/fondos/metal.jpg")!important;
+  border: 1px solid rgba(255, 255, 255, 0.267);
+  padding: 2rem !important;
+  border-radius: 15px;
+  padding: 1rem;
+  transition: all 0.3s ease;
+}
+
+
 
 .card-white {
   background: var(--white);
@@ -628,6 +675,18 @@ button {
   position: relative;
   overflow: hidden;
   color: #000000;
+}
+
+.fav-img {
+  position: relative;
+  border: 2px solid rgb(255, 145, 0);
+  border-radius: 15px;
+  padding: 1rem;
+  background-size: 100% 100%;
+  background-position: left center;
+  background-repeat: no-repeat;
+  transition: all 0.3s ease-in-out;
+  transform: rotate(-3deg);
 }
 
 .card-bg-img2 {
@@ -1218,12 +1277,13 @@ button {
 }
 
 .img {
-  max-width: 100%;
+  max-width: 14rem;
   height: auto;
   border-radius: 12px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
+
 .img2 {
   max-width: 100%;
   aspect-ratio: 1 / 1;
@@ -1234,7 +1294,6 @@ button {
   object-fit: cover;
   border: #ff9900 3px solid;
 }
-
 
 
 .img3 {

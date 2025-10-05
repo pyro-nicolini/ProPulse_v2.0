@@ -78,7 +78,7 @@ export default function Producto() {
   return (
     <>
       <div className="w-full flex-col items-center justify-center bg-charcoal fondo1">
-        <div style={{ maxWidth: "30rem" }} className="card fade-up visible m-1">
+        <div style={{ maxWidth: "30rem" }} className="card-metal fade-up visible m-1">
           <h4 className="mb-1">{producto?.titulo}</h4>
           <div className="mb-1">
             {mainImg && (

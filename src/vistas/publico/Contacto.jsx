@@ -52,12 +52,11 @@ export default function Contacto() {
 
   return (
     <>
-      <div className="w-full grid p-4 gap-1 grid-cols-2 fondo1">
+      <div className="w-full grid p-2 gap-1 grid-cols-2 fondo1">
         <div className="flex flex-col gap-4 w-full fade-up">
-          <div className=" p-4 m-1">
-
-                <img src={logoColor1} alt="ProPulse" className="img3" />
-            <h2 className="card-title text-gradient-primary">Contacto</h2>
+          <div className="w-full p-4 m-1 flex flex-col">
+            <h2 className="card-title text-gradient-primary"><strong>Contacto</strong></h2>
+                <img src={logoColor1} alt="ProPulse" className="img" />
             <p className="subtitle">
               ¿Tienes dudas o necesitas ayuda? Escríbenos.
             </p>
@@ -92,12 +91,18 @@ export default function Contacto() {
           </div>
         </div>
         <div className="card-white p-4 m-1 fade-up">
-          <h2 className="card-title text-gradient-primary">Escríbenos</h2>
+          <h2 className="card-title"> Escríbenos y
+            <br />
+            <strong className="text-gradient-primary">
+              SUBE DE NIVEL +1 
+              </strong>
+              💪
+            </h2>
           {msg ? <p className="subtitle mt-1">{msg}</p> : null}
 
           <form
             onSubmit={onSubmit}
-            className="mt-3 flex flex-col gap-3 w-full h-mid"
+            className="mt-3 flex flex-col gap-3 w-full h-min"
           >
             <div className="grid gap-3 grid-cols-1 w-full">
               <label className="flex flex-col">
@@ -181,7 +186,7 @@ export default function Contacto() {
                 {busy ? "Enviando…" : "Enviar"}
               </button>
               <a
-                className="btn btn-secondary"
+                className="btn btn-secondary p-05"
                 href={`mailto:${"contacto@propulse.cl"}?subject=${encodeURIComponent(
                   form.asunto || "Consulta ProPulse"
                 )}`}

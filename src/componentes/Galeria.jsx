@@ -92,14 +92,14 @@ function GaleriaCard({ item, routeBase }) {
   };
 
   return (
-    <div className="p-1 card-glass parallax relative flex flex-col items-center text-shadow ">
+    <div className="p-1 card-metal parallax relative flex flex-col items-center text-shadow ">
       <h5 className="mb-1">{item.titulo.split(" ").slice(0, 3).join(" ").toUpperCase()}</h5>
       <div className="flex gap-05 items-start w-full h-min mb-1">
 
         {urls.length > 0 ? (
           <div
             ref={cardRef}
-            className="h-min w-full card-bg-img radius object-cover mb-1 parallax shadow"
+            className="h-card w-full card-bg-img radius object-cover mb-1 parallax shadow"
             style={{
               backgroundImage: `url(${urls[idx]})`,
               backgroundPosition: "center",
