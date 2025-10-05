@@ -33,9 +33,6 @@ API.interceptors.response.use(
 
 
 
-
-
-
 // AUTH
 export async function getUser() {
   const { data } = await API.get("/auth/me");

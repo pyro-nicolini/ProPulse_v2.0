@@ -7,7 +7,6 @@ import { useShop } from "../../contexts/ShopContext";
 import { useCart } from "../../contexts/CartContext";
 import { useState, useEffect } from "react";
 
-// Importar imágenes
 const importImages = () => {
   const images = {};
   const modulesProductos = import.meta.glob(
@@ -43,44 +42,32 @@ export default function Servicio() {
 
   const servicio = servicios.find((s) => s.id_producto === Number(id));
 
-  // Efecto para debug y seguimiento de cambios en el carrito
-  useEffect(() => {
-    if (carrito?.items_carrito) {
-      console.log("Carrito actualizado:", carrito.items_carrito);
-    }
-  }, [carrito]);
-
   if (!servicio) return <div>Cargando...</div>;
   if (servicio.tipo !== "servicio") {
     return <div style={{ color: "red" }}>No es un servicio válido</div>;
   }
 
-  // Imágenes
   const fallback = "servicio1_1.webp";
   const imageNames = [
     servicio?.url_imagen
   ].filter(Boolean);
 
-  // Convertir nombres de imágenes a URLs usando el sistema de importación
   const imagenes = imageNames.map(imageName => {
     return images[imageName] || images[fallback];
   }).filter(Boolean);
 
-  // Si no hay imágenes válidas, usar la imagen por defecto
   if (imagenes.length === 0) {
     imagenes.push(images[fallback]);
   }
 
   const mainImg = activeImg || imagenes[0] || null;
 
-  // Contador dinámico basado en carrito real
   const items = carrito?.items_carrito || [];
   const itemEnCarrito = items.find(
     (item) => item.id_producto === servicio.id_producto
   );
   const cantidadEnCarrito = Number(itemEnCarrito?.cantidad || 0);
 
-  // Para servicios, normalmente no hay stock limitado, pero mantenemos la lógica
   const stockRestante = servicio.stock ? servicio.stock - cantidadEnCarrito : 999;
   return (
     <>

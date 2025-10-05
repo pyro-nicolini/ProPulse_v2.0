@@ -46,7 +46,6 @@ export default function CartProvider({ children }) {
     }}, [user]);
 
 
-  // Refresca el carrito (cambios en user)
   const refreshCarrito = useCallback(async () => {
     if (!user) {
       setCarrito(null);

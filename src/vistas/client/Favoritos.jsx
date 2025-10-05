@@ -45,9 +45,8 @@ const Favoritos = () => {
 
   return (
     <div className="w-full">
-      <h2 className="text-xl font-bold mb-4">Mis Favoritos</h2>
-      <p className="subtitle text-center">Cosas que me gustan</p>
-      {msg && <div className="text-red-600 mb-2">{msg}</div>}
+      <h2 className="text-xl font-bold mt-3">Mis Favoritos</h2>
+      {msg && <div className="text-red-600 mb-1">{msg}</div>}
       <div className="container-card grid grid-cols-3 gap-3">
         {favoritos.map((fav) => {
           const imageName = fav?.url_imagen;
@@ -58,16 +57,14 @@ const Favoritos = () => {
               key={fav.id_producto}
               className="card-metal radius text-center flex flex-col p-3"
             >
-              {console.log("fav:",fav)}
               <h4 className="font-bold text-white subtitle text-gradient-secondary">
                 ❤️ {fav?.titulo}
               </h4>
               {imageUrl && (
                 <div
-                  className="fav-img w-full h-full"
+                  className="fav-img h-full"
                   style={{ backgroundImage: `url(${imageUrl})` }}
                 >
-              <div className="text-gray-300 mb-2">{fav?.descripcion}</div>
               <button
                 className="btn-danger text-shadow text-small2"
                 onClick={() => eliminarFavorito(fav.id_producto)}

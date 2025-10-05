@@ -17,9 +17,9 @@ export default function AdminProfile() {
     return <p className="m-4">Solo para administradores.</p>;
 
   return (
-    <div className="w-full min-h-screen bg-charcoal">
+    <div className="w-full min-h-screen bg-charcoal border-gold">
     <div className="container-1200 fade-up">
-      <h3 className="p-1">Perfil Admin</h3>
+      <h3 className="p-1 text-gradient-primary">Admin Dashboard</h3>
       <div className="p-1">
         <div className="w-full">
             <p className="">
@@ -28,25 +28,25 @@ export default function AdminProfile() {
           </div>
           <div className="flex-col-responsive gap-2">
             <button
-              className={`btn ${tab === "ventas" ? "primary" : ""}`}
+              className={`btn ${tab === "ventas" ? "btn-primary" : "btn-secondary2"}`}
               onClick={() => setTab("ventas")}
               >
               🛒 Ventas
             </button>
             <button
-              className={`btn ${tab === "shop" ? "primary" : ""}`}
+              className={`btn ${tab === "shop" ? "btn-primary" : "btn-secondary2"}`}
               onClick={() => setTab("shop")}
               >
               🏬 Shop
             </button>
             <button
-              className={`btn ${tab === "crear" ? "primary" : ""}`}
+              className={`btn ${tab === "crear" ? "btn-primary" : "btn-secondary2"}`}
               onClick={() => setTab("crear")}
               >
               ✏️ Crear
             </button>
             <button
-              className={`btn ${tab === "publicaciones" ? "primary" : ""}`}
+              className={`btn ${tab === "publicaciones" ? "btn-primary" : "btn-secondary2"}`}
               onClick={() => setTab("publicaciones")}
               >
               📢 Publicaciones

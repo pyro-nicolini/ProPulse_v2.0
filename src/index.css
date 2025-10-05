@@ -545,9 +545,10 @@ button {
 .btn-primary {
   background: var(--gradient-primary);
   color: var(--white);
-  border: .1px rgba(255, 255, 255, 0.5) solid;
   position: relative;
   z-index: 1;
+    border: 2px solid var(--primary-gold);
+
 }
 
 .btn-primary:hover {
@@ -560,7 +561,7 @@ button {
 .btn-secondary {
   background: transparent;
   border: 2px solid var(--primary-red);
-  transition: background 0.3s ease, color 0.3s ease;
+  transition: background 0.2s ease, color 0.2s ease;
   color: var(--white);
 }
 
@@ -577,8 +578,6 @@ button {
   border: 2px solid var(--primary-gold);
   transition: background 0.3s ease, color 0.3s ease;
   color: var(--white);
-  padding: 0.5rem 1rem;
-  font-size: medium;
 }
 
 .btn-secondary:hover {
@@ -682,7 +681,7 @@ button {
   border: 2px solid rgb(255, 145, 0);
   border-radius: 15px;
   padding: 1rem;
-  background-size: 100% 100%;
+  background-size: cover;
   background-position: left center;
   background-repeat: no-repeat;
   transition: all 0.3s ease-in-out;

@@ -1,7 +1,31 @@
 import { useState } from "react";
+
+// Importar imágenes de productos y servicios (para Vite)
+const importImages = () => {
+  const images = {};
+  const modulesProductos = import.meta.glob(
+    "../../assets/img/productos/*.{png,jpg,jpeg,svg,webp}",
+    { eager: true, import: "default" }
+  );
+  const modulesServicios = import.meta.glob(
+    "../../assets/img/servicios/*.{png,jpg,jpeg,svg,webp}",
+    { eager: true, import: "default" }
+  );
+  for (const path in modulesProductos) {
+    const imageName = path.split("/").pop();
+    images[imageName] = modulesProductos[path];
+  }
+  for (const path in modulesServicios) {
+    const imageName = path.split("/").pop();
+    images[imageName] = modulesServicios[path];
+  }
+  return images;
+};
+const images = importImages();
 import { useAuth } from "../../contexts/AuthContext";
 import { useCart } from "../../contexts/CartContext";
 import { formatoCPL } from "../../utils/helpers";
+import { Link } from "react-router-dom";
 
 export default function Pedidos() {
   const { user } = useAuth();
@@ -76,20 +100,38 @@ export default function Pedidos() {
       {detalleLoading && <div className="mt-4">Cargando detalle...</div>}
       {pedidoDetalle && (
         <div className="mt-6 p-4 border rounded bg-gray-50">
-          <h3 className="font-bold mb-2">
-            Detalle del Pedido #{pedidoDetalle.id_pedido}
-          </h3>
+          <h4 className="font-bold mb-2">
+            Detalle del Pedido - 0000{pedidoDetalle.id_pedido}
+          </h4>
           <div>Estado: {pedidoDetalle.estado}</div>
           <div>Fecha: {pedidoDetalle.fecha_creacion?.slice(0, 10)}</div>
-          <div>
-            Total: ${pedidoDetalle.total_pedido?.toLocaleString("es-CL")}
-          </div>
+          <div>Total: {formatoCPL.format(pedidoDetalle.total_pedido)}</div>
           <ul className="mt-2">
-            {pedidoDetalle.items?.map((item, idx) => (
-              <li key={idx}>
-                {item.titulo || `Producto #${item.id_producto}`} ×{" "}
-                {item.cantidad} — $
-                {item.sub_total?.toLocaleString("es-CL")}
+            {pedidoDetalle.items_pedido?.map((item, idx) => (
+              <li className="card flex gap-1 justify-between" key={idx}>
+                {item.url_imagen && images[item.url_imagen] && (
+                  <img
+                  src={images[item.url_imagen]}
+                  alt=""
+                  className="w-sm h-sm"
+                  />
+                )}
+                {item.titulo || `Producto #${item.id_producto}`}
+                <br />
+                Precio: {formatoCPL.format(item.precio_fijo)} × {item.cantidad}{" "}
+                Un. = Total:{" "}
+                {formatoCPL.format(item.cantidad * item.precio_fijo)}
+                  <p>
+                    <Link
+                      to={
+                        item.tipo === "producto"
+                          ? `/productos/${item.id_producto}`
+                          : `/servicios/${item.id_servicio || item.id_producto}`
+                      }
+                    >
+                      Ver {item.tipo === "producto" ? "producto" : "servicio"}
+                    </Link>
+                  </p>
               </li>
             ))}
           </ul>
