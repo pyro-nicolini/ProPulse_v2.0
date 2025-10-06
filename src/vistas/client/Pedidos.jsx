@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAuth } from "../../contexts/AuthContext";
 import { useCart } from "../../contexts/CartContext";
 import { formatoCPL, resolveImg } from "../../utils/helpers";
@@ -6,9 +6,15 @@ import { Link } from "react-router-dom";
 
 export default function Pedidos() {
   const { user } = useAuth();
-  const { pedidos, loading } = useCart();
+  const { pedidos, loading, refreshPedidos } = useCart(); // ✅ usamos refreshPedidos
   const [pedidoDetalle, setPedidoDetalle] = useState(null);
   const [detalleLoading, setDetalleLoading] = useState(false);
+  const [updating, setUpdating] = useState(false);
+
+  // ✅ Carga pedidos automáticamente al entrar o cambiar de usuario
+  useEffect(() => {
+    if (user) refreshPedidos();
+  }, [user]);
 
   const handleBuscarPedido = async (id_pedido) => {
     setDetalleLoading(true);
@@ -23,13 +29,43 @@ export default function Pedidos() {
     }
   };
 
+  const handleActualizarPedidos = async () => {
+    setUpdating(true);
+    try {
+      await refreshPedidos();
+    } catch (err) {
+      console.error("Error actualizando pedidos:", err);
+    } finally {
+      setUpdating(false);
+    }
+  };
+
   if (!user) return <div>Debes iniciar sesión para ver tus pedidos.</div>;
   if (loading) return <div>Cargando pedidos...</div>;
-  if (!pedidos || pedidos.length === 0) return <div>No tienes pedidos.</div>;
+  if (!pedidos || pedidos.length === 0)
+    return (
+      <div className="text-center">
+        No tienes pedidos aún.
+        <div className="mt-2">
+          <button className="btn-primary" onClick={handleActualizarPedidos}>
+            🔄 Actualizar pedidos
+          </button>
+        </div>
+      </div>
+    );
 
   return (
     <div className="w-full visible">
       <h2>Mis Pedidos</h2>
+      <div className="flex justify-end mb-2">
+        <button
+          className="btn-primary p-05"
+          onClick={handleActualizarPedidos}
+          disabled={updating}
+        >
+          {updating ? "Actualizando..." : "🔄 Actualizar pedidos"}
+        </button>
+      </div>
 
       <table className="w-full container bg-gradient-secondary radius">
         <thead className="card w-full radius">
@@ -62,7 +98,7 @@ export default function Pedidos() {
               </td>
               <td className="bg-white text-black text-center">
                 <button
-                  className="btn-primary p-0 test-small3"
+                  className="btn-primary p-0 text-small3"
                   onClick={() => handleBuscarPedido(pedido.id_pedido)}
                 >
                   Ver

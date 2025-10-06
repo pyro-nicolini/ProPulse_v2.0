@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import { useFavoritos } from "../../contexts/FavoritosContext";
-import { resolveImg } from "../../utils/helpers"; // 👈 nuevo import
+import { resolveImg } from "../../utils/helpers";
 
 const Favoritos = () => {
   const { user } = useAuth();
@@ -10,7 +10,7 @@ const Favoritos = () => {
 
   if (!user) return <p>Inicia sesión para ver tus Favoritos.</p>;
   if (busy && !favoritos.length) return <p>Cargando Favoritos...</p>;
-  if (!favoritos.length) return <p>No tienes productos Favoritos.</p>;
+  if (!favoritos.length) return <p>No tienes productos ni servicios favoritos.</p>;
 
   return (
     <div className="w-full">
@@ -19,16 +19,20 @@ const Favoritos = () => {
 
       <div className="container-card grid grid-cols-3 gap-3">
         {favoritos.map((fav) => {
-          const imageUrl = resolveImg(fav?.url_imagen); // 👈 usa helper
+          // ✅ Usa el tipo correcto (producto o servicio)
+          const imageUrl = resolveImg(fav?.url_imagen, fav?.tipo);
 
+          // ✅ Navegación dinámica según tipo
           const goToItem = () => {
-            if (fav.tipo === "producto") nav(`/productos/${fav.id_producto}`);
-            else nav(`/servicios/${fav.id_producto}`);
+            if (fav.tipo === "producto")
+              nav(`/productos/${fav.id_producto ?? fav.id}`);
+            else
+              nav(`/servicios/${fav.id_producto ?? fav.id}`);
           };
 
           return (
             <div
-              key={fav.id_producto}
+              key={fav.id_producto ?? fav.id}
               className="metal radius text-center flex flex-col p-3"
             >
               <h4 className="font-bold text-white subtitle text-gradient-secondary">
@@ -38,21 +42,26 @@ const Favoritos = () => {
               {imageUrl ? (
                 <div
                   className="fav-img h-full"
-                  style={{ backgroundImage: `url(${imageUrl})` }}
+                  style={{
+                    backgroundImage: `url(${imageUrl})`,
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                  }}
                 >
                   <button
                     className="btn-danger text-shadow text-small2"
-                    onClick={() => eliminarFavorito(fav.id_producto)}
+                    onClick={() => eliminarFavorito(fav.id_producto ?? fav.id)}
                     disabled={busy}
                   >
                     💔 Quitar de Favoritos
                   </button>
+
                   <button
                     className="btn-primary text-black mt-2 text-shadow"
                     onClick={goToItem}
                     disabled={busy}
                   >
-                    Ir al Producto
+                    Ir al {fav.tipo === "servicio" ? "Servicio" : "Producto"}
                   </button>
                 </div>
               ) : (
