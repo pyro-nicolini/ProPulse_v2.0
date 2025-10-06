@@ -1,40 +1,42 @@
-import { useLocation, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useFadeUp } from "../../customHooks/useFadeUp";
+import { useAuth } from "../../contexts/AuthContext";
+import { useCart } from "../../contexts/CartContext";
 
-export default function ConfirmacionOrden({ mensaje }) {
-  const location = useLocation();
-  const order = location.state?.order;
+export default function ConfirmacionOrden() {
+  const { pedidos } = useCart();
+  const { user } = useAuth();
   useFadeUp();
+
+  // Tomar el último pedido (más reciente)
+  const pedido =
+    Array.isArray(pedidos) && pedidos.length > 0
+      ? pedidos[pedidos.length - 1]
+      : pedidos && typeof pedidos === "object"
+      ? pedidos
+      : null;
 
   return (
     <div className="container flex flex-col items-center justify-center h-mid fade-up">
       <div className="card rounded shadow p-8 max-w-lg w-full text-center">
-        <h1 className="text-2xl font-bold mb-4 text-green-700">
-          ¡Pedido confirmado! 🎉
-        </h1>
-        {order ? (
+        <h3 className="text-2xl font-bold mb-4 text-green-700">
+          Felicidades {user?.nombre || ""},<br />
+          {pedido
+            ? `Tu Pedido n°${
+                pedido.id_pedido || pedido.id
+              } ha sido confirmado! 🎉`
+            : "tu pedido ha sido confirmado! 🎉"}
+        </h3>
+        {pedido ? (
           <>
             <p className="mb-2">
-              Gracias por tu compra. Tu número de pedido es:
+              Gracias por tu compra. Serás notificado a <br />
+              <h4 className="text-gradient-primary">
+                <strong>
+                  {user.email}
+                </strong>
+              </h4>
             </p>
-            <div className="text-lg font-mono mb-4">
-              #{order.id_pedido || order.id}
-            </div>
-            <div className="mb-4">
-              <span className="font-semibold">Total pagado: </span>
-              <span>${order.total?.toLocaleString("es-CL")}</span>
-            </div>
-            <ul className="mb-4 divide-y">
-              {order.items?.map((it) => (
-                <li
-                  key={it.id_item || it.id_producto}
-                  className="py-1 flex justify-between"
-                >
-                  <span>{it.titulo || `Producto #${it.id_producto}`}</span>
-                  <span>x{it.cantidad}</span>
-                </li>
-              ))}
-            </ul>
           </>
         ) : (
           <>
@@ -42,14 +44,12 @@ export default function ConfirmacionOrden({ mensaje }) {
           </>
         )}
         <div className="flex gap-2">
-        <Link to="/profile-user">
-          <button className="btn btn-primary p-1">
-          Ver MIS PEDIDOS
-          </button>
-        </Link>
-        <Link to="/" className="btn btn-secondary p-1">
-          Volver al HOME
-        </Link>
+          <Link to="/profile-user">
+            <button className="btn btn-primary p-1">Ver MIS PEDIDOS</button>
+          </Link>
+          <Link to="/" className="btn btn-secondary p-1">
+            Volver al HOME
+          </Link>
         </div>
       </div>
     </div>

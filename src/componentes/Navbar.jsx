@@ -15,10 +15,10 @@ const Navbar = () => {
   useEffect(() => {
     rehidratar();
   }, [rehidratar]);
-  
+
   return (
     <nav className="navbar">
-      <div className="navbar card-metal">
+      <div className="navbar metal p-1">
         {/* Logo */}
         <Link to="/" className="nav-link" onClick={closeMenu}>
           <img className="navbar-brand" src={logo} alt="ProPulse" />

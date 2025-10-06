@@ -15,7 +15,7 @@ export default function Contacto() {
   const [busy, setBusy] = useState(false);
   const [msg, setMsg] = useState("");
 
-  const onChange = (e) => setForm({ ...form, [e.target.nombre]: e.target.value });
+const onChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -52,15 +52,15 @@ export default function Contacto() {
 
   return (
     <>
-      <div className="w-full grid p-2 gap-1 grid-cols-2 fondo1">
-        <div className="flex flex-col gap-4 w-full fade-up">
-          <div className="w-full p-4 m-1 flex flex-col">
-            <h2 className="card-title text-gradient-primary"><strong>Contacto</strong></h2>
+      <div className="w-full grid pl-4 gap-1 grid-cols-2 fondo1">
+        <div className="w-full flex flex-col gap-4 w-full fade-up justify-start p-4 visible">
+          <div className="w-full flex flex-col">
+            <h3 className="card-title  text-gradient-primary"><strong>Contacto</strong></h3>
                 <img src={logoColor1} alt="ProPulse" className="img" />
-            <p className="subtitle">
+            <p className="subtitle p-1">
               ¿Tienes dudas o necesitas ayuda? Escríbenos.
             </p>
-            <ul className="mt-2 leading-relaxed w-full">
+            <ul className="mt-2">
               <li>
                 <strong>Empresa:</strong> {datos.nombre}
               </li>
@@ -90,23 +90,22 @@ export default function Contacto() {
             </ul>
           </div>
         </div>
-        <div className="card-white p-4 m-1 fade-up">
-          <h2 className="card-title"> Escríbenos y
+        <div className="card-white p-4 m-1 fade-up visible bg-black">
+          <h3 className="card-title"> Escríbenos y
             <br />
             <strong className="text-gradient-primary">
               SUBE DE NIVEL +1 
               </strong>
               💪
-            </h2>
-          {msg ? <p className="subtitle mt-1">{msg}</p> : null}
-
+            </h3>
+          {msg ? <p className="subtitle mt-1 text-center">{msg}</p> : null}
           <form
             onSubmit={onSubmit}
             className="mt-3 flex flex-col gap-3 w-full h-min"
           >
             <div className="grid gap-3 grid-cols-1 w-full">
-              <label className="flex flex-col">
-                <span className="text-sm">Nombre</span>
+              <label className="flex-col items-start">
+                <strong className="text-gradient-primary">Nombre</strong>
                 <input
                   className="input"
                   name="nombre"
@@ -117,8 +116,8 @@ export default function Contacto() {
                   autoComplete="nombre"
                 />
               </label>
-              <label className="flex flex-col">
-                <span className="text-sm">Email</span>
+              <label className="flex-col items-start">
+                <strong className="text-gradient-primary">Email</strong>
                 <input
                   className="input"
                   type="email"
@@ -130,11 +129,8 @@ export default function Contacto() {
                   autoComplete="email"
                 />
               </label>
-            </div>
-
-            <div className="grid gap-3 grid-cols-1 w-full">
-              <label className="flex flex-col">
-                <span className="text-sm">Teléfono (opcional)</span>
+              <label className="flex-col items-start">
+                <strong className="text-gradient-primary">Teléfono (opcional)</strong>
                 <input
                   className="input"
                   name="telefono"
@@ -145,9 +141,8 @@ export default function Contacto() {
                   autoComplete="tel"
                 />
               </label>
-
-              <label className="flex flex-col">
-                <span className="text-sm">Asunto</span>
+              <label className="flex-col items-start">
+                <strong className="text-gradient-primary">Asunto</strong>
                 <input
                   className="input"
                   name="asunto"
@@ -157,10 +152,8 @@ export default function Contacto() {
                   disabled={busy}
                 />
               </label>
-            </div>
-            <div className="grid gap-3 grid-cols-1 w-full">
-              <label className="flex flex-col">
-                <span className="text-sm">Mensaje</span>
+              <label className="flex-col items-start">
+                <strong className="text-gradient-primary">Mensaje</strong>
                 <textarea
                   className="input"
                   name="mensaje"

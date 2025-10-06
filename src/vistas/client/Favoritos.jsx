@@ -1,28 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import { useFavoritos } from "../../contexts/FavoritosContext";
+import { importImages } from "../../utils/helpers";
 
-// Importar imágenes de productos y servicios (para Vite)
-const importImages = () => {
-  const images = {};
-  const modulesProductos = import.meta.glob(
-    "../../assets/img/productos/*.{png,jpg,jpeg,svg,webp}",
-    { eager: true, import: "default" }
-  );
-  const modulesServicios = import.meta.glob(
-    "../../assets/img/servicios/*.{png,jpg,jpeg,svg,webp}",
-    { eager: true, import: "default" }
-  );
-  for (const path in modulesProductos) {
-    const imageName = path.split("/").pop();
-    images[imageName] = modulesProductos[path];
-  }
-  for (const path in modulesServicios) {
-    const imageName = path.split("/").pop();
-    images[imageName] = modulesServicios[path];
-  }
-  return images;
-};
 const images = importImages();
 
 const Favoritos = () => {
@@ -55,7 +35,7 @@ const Favoritos = () => {
           return (
             <div
               key={fav.id_producto}
-              className="card-metal radius text-center flex flex-col p-3"
+              className="metal radius text-center flex flex-col p-3"
             >
               <h4 className="font-bold text-white subtitle text-gradient-secondary">
                 ❤️ {fav?.titulo}
@@ -65,25 +45,25 @@ const Favoritos = () => {
                   className="fav-img h-full"
                   style={{ backgroundImage: `url(${imageUrl})` }}
                 >
-              <button
-                className="btn-danger text-shadow text-small2"
-                onClick={() => eliminarFavorito(fav.id_producto)}
-                disabled={busy}
-                >
-                💔 Quitar de Favoritos
-              </button>
-              <button
-                className="btn-primary text-black mt-2 text-shadow"
-                onClick={
-                  fav.tipo === "producto"
-                  ? () => goProduct(fav.id_producto)
-                  : () => goServicio(fav.id_producto)
-                }
-                disabled={busy}
-                >
-                Ir al Producto
-              </button>
-              </div>
+                  <button
+                    className="btn-danger text-shadow text-small2"
+                    onClick={() => eliminarFavorito(fav.id_producto)}
+                    disabled={busy}
+                  >
+                    💔 Quitar de Favoritos
+                  </button>
+                  <button
+                    className="btn-primary text-black mt-2 text-shadow"
+                    onClick={
+                      fav.tipo === "producto"
+                        ? () => goProduct(fav.id_producto)
+                        : () => goServicio(fav.id_producto)
+                    }
+                    disabled={busy}
+                  >
+                    Ir al Producto
+                  </button>
+                </div>
               )}
             </div>
           );

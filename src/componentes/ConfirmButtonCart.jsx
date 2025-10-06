@@ -10,25 +10,21 @@ function ConfirmButtonCart() {
 
   const onConfirm = () => {
     if (!acepto || !carrito?.items_carrito.length) return;
-    navigate("/checkout/resumen", { state: { items: carrito.items_carrito, total: carrito.total.total_carrito } });
+    navigate("/checkout/resumen", {
+      state: {
+        items: carrito.items_carrito,
+        total: carrito.total.total_carrito,
+      },
+    });
   };
 
   return (
-    <div className="container w-full">
-      <div className="card-metal  w-full">
+    <div className="p-1 radius w-full flex-col ">
+      <div className="metal card-metal w-full" style={{minWidth: "360px", maxWidth: "800px", width: "100%"}}>
         <div>
-          <p>
-            sub_total:{" "}
-            {formatoCPL.format(carrito?.total.sub_total)}
-          </p>
-          <p>
-            I.V.A 19%:{" "}
-            {formatoCPL.format(carrito?.total.impuestos)}
-          </p>
-          <p>
-            Total:{" "}
-            {formatoCPL.format(carrito?.total.total_carrito)}
-          </p>
+          <p>neto: {formatoCPL.format(carrito?.total.sub_total)}</p>
+          <p>I.V.A 19%: {formatoCPL.format(carrito?.total.impuestos)}</p>
+          <p>Total: {formatoCPL.format(carrito?.total.total_carrito)}</p>
         </div>
 
         <label>

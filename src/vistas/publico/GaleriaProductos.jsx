@@ -16,13 +16,13 @@ export default function GaleriaProductos() {
     <>
       <div className="w-full bg-products">
         <div className=" visible fade-up" style={{overflowY: "scroll", maxHeight: "80vh" }}>
-        <div className="w-full p-6 container-1200">
+        <div className="w-full p-6 container-1600">
 
         <Galeria
           items={productosBarajados}
           title="PRODUCTOS"
           routeBase="/productos"
-          col={4}
+          col={5}
           />
           </div>
           </div>

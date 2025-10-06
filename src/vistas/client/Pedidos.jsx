@@ -1,26 +1,6 @@
 import { useState } from "react";
+import { importImages } from "../../utils/helpers";
 
-// Importar imágenes de productos y servicios (para Vite)
-const importImages = () => {
-  const images = {};
-  const modulesProductos = import.meta.glob(
-    "../../assets/img/productos/*.{png,jpg,jpeg,svg,webp}",
-    { eager: true, import: "default" }
-  );
-  const modulesServicios = import.meta.glob(
-    "../../assets/img/servicios/*.{png,jpg,jpeg,svg,webp}",
-    { eager: true, import: "default" }
-  );
-  for (const path in modulesProductos) {
-    const imageName = path.split("/").pop();
-    images[imageName] = modulesProductos[path];
-  }
-  for (const path in modulesServicios) {
-    const imageName = path.split("/").pop();
-    images[imageName] = modulesServicios[path];
-  }
-  return images;
-};
 const images = importImages();
 import { useAuth } from "../../contexts/AuthContext";
 import { useCart } from "../../contexts/CartContext";

@@ -6,30 +6,7 @@ import { formatoCPL } from "../../utils/helpers";
 import { useShop } from "../../contexts/ShopContext";
 import { useCart } from "../../contexts/CartContext"; // 👈 importa tu contexto de carrito
 import { useState, useEffect } from "react";
-
-// Importar imágenes
-const importImages = () => {
-  const images = {};
-  const modulesProductos = import.meta.glob(
-    "../../assets/img/productos/*.{png,jpg,jpeg,svg,webp}",
-    { eager: true, import: "default" }
-  );
-  const modulesServicios = import.meta.glob(
-    "../../assets/img/servicios/*.{png,jpg,jpeg,svg,webp}",
-    { eager: true, import: "default" }
-  );
-
-  for (const path in modulesProductos) {
-    const imageName = path.split("/").pop();
-    images[imageName] = modulesProductos[path];
-  }
-  for (const path in modulesServicios) {
-    const imageName = path.split("/").pop();
-    images[imageName] = modulesServicios[path];
-  }
-
-  return images;
-};
+import { importImages } from "../../utils/helpers";
 
 const images = importImages();
 
@@ -43,16 +20,8 @@ export default function Producto() {
 
   const producto = productos.find((s) => s.id_producto === Number(id));
 
-  // Efecto para debug y seguimiento de cambios en el carrito
-  useEffect(() => {
-    if (carrito?.items_carrito) {
-      console.log("Carrito actualizado:", carrito.items_carrito);
-    }
-  }, [carrito]);
-
   if (!producto) return <div>Cargando...</div>;
 
-  // Imágenes
   const imageNames = [
     producto?.url_imagen,
     producto?.url_imagen2,
@@ -77,8 +46,11 @@ export default function Producto() {
 
   return (
     <>
-      <div className="w-full flex-col items-center justify-center bg-charcoal fondo1">
-        <div style={{ maxWidth: "30rem" }} className="card-metal fade-up visible m-1">
+      <div className="w-full flex-col items-center justify-start bg-charcoal fondo1">
+        <div
+          style={{ maxWidth: "25rem" }}
+          className="metal card-metal fade-up visible m-1"
+        >
           <h4 className="mb-1">{producto?.titulo}</h4>
           <div className="mb-1">
             {mainImg && (
@@ -112,9 +84,9 @@ export default function Producto() {
               {formatoCPL.format(producto?.precio) + " CPL"}
             </h4>
           </div>
-            <p>Stock: {stockRestante}</p>
+          <p>Stock: {stockRestante}</p>
           <div className="mt-1 text-sm text-gray-400">
-          <p className="mt-1 text-small2">{producto?.descripcion}</p>
+            <p className="mt-1 text-small2">{producto?.descripcion}</p>
           </div>
 
           <div className="">
@@ -127,9 +99,9 @@ export default function Producto() {
           </div>
         </div>
       </div>
-          <div className="border-gold">
-      <Resena />
-          </div>
+      <div className="border-gold">
+        <Resena />
+      </div>
     </>
   );
 }

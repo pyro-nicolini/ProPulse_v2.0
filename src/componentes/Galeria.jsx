@@ -7,8 +7,16 @@ import { useResenas } from "../contexts/ResenasContext";
 
 /* Carga imágenes */
 const IMGS = {
-  producto: import.meta.glob("../assets/img/productos/*", { eager: true, import: "default", query: "?url" }),
-  servicio: import.meta.glob("../assets/img/servicios/*", { eager: true, import: "default", query: "?url" }),
+  producto: import.meta.glob("../assets/img/productos/*", {
+    eager: true,
+    import: "default",
+    query: "?url",
+  }),
+  servicio: import.meta.glob("../assets/img/servicios/*", {
+    eager: true,
+    import: "default",
+    query: "?url",
+  }),
 };
 
 const resolveImg = (val, tipo) => {
@@ -20,12 +28,18 @@ const resolveImg = (val, tipo) => {
 };
 
 function GaleriaCard({ item, routeBase }) {
-  const tipo = (item.tipo || (routeBase?.includes("servicio") && "servicio")) || "producto";
+  const tipo =
+    item.tipo || (routeBase?.includes("servicio") && "servicio") || "producto";
   const cardRef = useRef(null);
   const animFrame = useRef(null);
 
   const urls = useMemo(() => {
-    const imgs = [item.url_imagen, item.url_imagen2, item.url_imagen3, item.url_imagen4].filter(Boolean);
+    const imgs = [
+      item.url_imagen,
+      item.url_imagen2,
+      item.url_imagen3,
+      item.url_imagen4,
+    ].filter(Boolean);
     // Solo resolvemos imágenes válidas
     return [...new Set(imgs.map((c) => resolveImg(c, tipo)).filter(Boolean))];
   }, [item, tipo]);
@@ -42,12 +56,12 @@ function GaleriaCard({ item, routeBase }) {
     const card = cardRef.current;
     if (!card) return;
 
-    currentX += (targetX - currentX) * .5;
-    currentY += (targetY - currentY) * .5;
+    currentX += (targetX - currentX) * 0.5;
+    currentY += (targetY - currentY) * 0.5;
 
     // Parallax + zoom híbrido
     card.style.backgroundPosition = `${currentX}% ${currentY}%`;
-    card.style.backgroundSize = "300%";   // base zoom
+    card.style.backgroundSize = "300%"; // base zoom
     card.style.transition = "transform 0.1s ease-in-out";
 
     animFrame.current = requestAnimationFrame(animate);
@@ -92,10 +106,11 @@ function GaleriaCard({ item, routeBase }) {
   };
 
   return (
-    <div className="p-1 card-metal parallax relative flex flex-col items-center text-shadow ">
-      <h5 className="mb-1">{item.titulo.split(" ").slice(0, 3).join(" ").toUpperCase()}</h5>
+    <div className="metal card-metal parallax relative flex flex-col items-center justify-between text-shadow ">
+      <h5 className="mb-1">
+        {item.titulo.split(" ").slice(0, 3).join(" ").toUpperCase()}
+      </h5>
       <div className="flex gap-05 items-start w-full h-min mb-1">
-
         {urls.length > 0 ? (
           <div
             ref={cardRef}
@@ -111,9 +126,9 @@ function GaleriaCard({ item, routeBase }) {
             onTouchMove={handleTouchMove}
             onTouchEnd={resetParallax}
             alt={item.titulo}
-            ></div>
-          ) : (
-            <div className="w-full bg-gray-800 flex items-center justify-center radius mb-1">
+          ></div>
+        ) : (
+          <div className="w-full bg-gray-800 flex items-center justify-center radius mb-1">
             <span className="text-gray-400 text-sm">Sin imagen</span>
           </div>
         )}
@@ -122,13 +137,15 @@ function GaleriaCard({ item, routeBase }) {
           <div className="flex-col gap-1 mb-1 ">
             {urls.map((u, i) => (
               <img
-              key={i}
-              src={u}
-              onClick={() => setIdx(i)}
-              className={`w-sm h-sm rounded cursor-pointer transition ${
-                idx === i ? "border-red-500 ring-2 ring-red-400  shadow" : "border-gray-300  shadow"
-              }`}
-              alt={`miniatura-${i}`}
+                key={i}
+                src={u}
+                onClick={() => setIdx(i)}
+                className={`w-sm h-sm rounded cursor-pointer transition ${
+                  idx === i
+                    ? "border-red-500 ring-2 ring-red-400  shadow"
+                    : "border-gray-300  shadow"
+                }`}
+                alt={`miniatura-${i}`}
               />
             ))}
           </div>
@@ -137,27 +154,37 @@ function GaleriaCard({ item, routeBase }) {
       <div className="w-full flex justify-start">
         <LikeButton producto={item} />
       </div>
-        <div>
-          {item.stock !== undefined && (
-            <span className="text-sm text-gray-400">
-              {item?.tipo === "producto" ? 
-              (item.stock > 0 ? `Quedan: ${item.stock}` : "Sin stock") :
-              null}
-            </span>
-            
-          )}
-          
-        </div>
-      <span className="flex text-center text-white">
+      <span className="flex text-center text-white text-small2 mt-1">
         {(item.descripcion || "").split(" ").slice(0, 10).join(" ") + "..."}
-        
       </span>
-        <div className="flex gap-1">
-      <h4 className="radius mb-2 text-shadow">{formatoCPL.format(item.precio)}</h4>
-      <Link to={`${routeBase}/${item.id_producto ?? item.id}`}>
-        <button className="btn text-white p-1 rounded mb-2">Ver Más</button>
-      </Link>
-        </div>
+      <div className="w-full flex justify-center text-small2 items-center">
+        {item.stock !== undefined && (
+          <span
+            className={`mt-1`}
+            style={{
+              color: item.stock > 5 ? "white" : "red",
+              fontWeight: item.stock > 5 ? "normal" : "700",
+            }}
+          >
+            {item?.tipo === "producto"
+              ? item.stock > 0
+                ? `Quedan: ${item.stock}`
+                : "Sin stock"
+              : null}
+          </span>
+        )}
+      </div>
+      <div className="flex w-full justify-evenly items-center">
+        <strong className="radius text-shadow subtitle mt-1">
+          {formatoCPL.format(item.precio)}
+        </strong>
+        <Link
+          to={`${routeBase}/${item.id_producto ?? item.id}`}
+          className="btn btn-primary p-05"
+        >
+          Ver Más
+        </Link>
+      </div>
     </div>
   );
 }
@@ -174,7 +201,11 @@ export default function Galeria({ items = [], title, routeBase, col = 3 }) {
     <div className="p-1 fade-up visible w-full">
       <div className={`grid grid-cols-${col} gap-05`}>
         {items.map((item) => (
-          <GaleriaCard key={item.id_producto ?? item.id} item={item} routeBase={routeBase} />
+          <GaleriaCard
+            key={item.id_producto ?? item.id}
+            item={item}
+            routeBase={routeBase}
+          />
         ))}
       </div>
     </div>

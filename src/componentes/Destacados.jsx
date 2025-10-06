@@ -1,30 +1,7 @@
 import { Link } from "react-router-dom";
 import { useFadeUp } from "../customHooks/useFadeUp";
 import { useShop } from "../contexts/ShopContext";
-
-// Importar imágenes de productos y servicios
-const importImages = () => {
-  const images = {};
-  const modulesProductos = import.meta.glob(
-    "../assets/img/productos/*.{png,jpg,jpeg,svg,webp}",
-    { eager: true, import: "default" }
-  );
-  const modulesServicios = import.meta.glob(
-    "../assets/img/servicios/*.{png,jpg,jpeg,svg,webp}",
-    { eager: true, import: "default" }
-  );
-
-  for (const path in modulesProductos) {
-    const imageName = path.split("/").pop();
-    images[imageName] = modulesProductos[path];
-  }
-  for (const path in modulesServicios) {
-    const imageName = path.split("/").pop();
-    images[imageName] = modulesServicios[path];
-  }
-
-  return images;
-};
+import { importImages } from "../utils/helpers";
 
 const images = importImages();
 

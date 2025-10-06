@@ -5,32 +5,8 @@ import Resena from "../../componentes/Resena";
 import { formatoCPL } from "../../utils/helpers";
 import { useShop } from "../../contexts/ShopContext";
 import { useCart } from "../../contexts/CartContext";
-import { useState, useEffect } from "react";
-
-const importImages = () => {
-  const images = {};
-  const modulesProductos = import.meta.glob(
-    "../../assets/img/productos/*.{png,jpg,jpeg,svg,webp}",
-    { eager: true, import: "default" }
-  );
-  const modulesServicios = import.meta.glob(
-    "../../assets/img/servicios/*.{png,jpg,jpeg,svg,webp}",
-    { eager: true, import: "default" }
-  );
-
-  for (const path in modulesProductos) {
-    const imageName = path.split("/").pop();
-    images[imageName] = modulesProductos[path];
-  }
-  for (const path in modulesServicios) {
-    const imageName = path.split("/").pop();
-    images[imageName] = modulesServicios[path];
-  }
-
-  return images;
-};
-
-const images = importImages();
+import { useState } from "react";
+import { importImages } from "../../utils/helpers";
 
 export default function Servicio() {
   const { id } = useParams();
@@ -39,6 +15,7 @@ export default function Servicio() {
   const [activeImg, setActiveImg] = useState(null);
 
   useFadeUp();
+  const images = importImages();
 
   const servicio = servicios.find((s) => s.id_producto === Number(id));
 
@@ -48,13 +25,13 @@ export default function Servicio() {
   }
 
   const fallback = "servicio1_1.webp";
-  const imageNames = [
-    servicio?.url_imagen
-  ].filter(Boolean);
+  const imageNames = [servicio?.url_imagen].filter(Boolean);
 
-  const imagenes = imageNames.map(imageName => {
-    return images[imageName] || images[fallback];
-  }).filter(Boolean);
+  const imagenes = imageNames
+    .map((imageName) => {
+      return images[imageName] || images[fallback];
+    })
+    .filter(Boolean);
 
   if (imagenes.length === 0) {
     imagenes.push(images[fallback]);
@@ -68,13 +45,18 @@ export default function Servicio() {
   );
   const cantidadEnCarrito = Number(itemEnCarrito?.cantidad || 0);
 
-  const stockRestante = servicio.stock ? servicio.stock - cantidadEnCarrito : 999;
+  const stockRestante = servicio.stock
+    ? servicio.stock - cantidadEnCarrito
+    : 999;
   return (
     <>
       <div className="w-full flex-col items-center justify-center bg-charcoal fondo1">
-        <div style={{ maxWidth: "30rem" }} className="card-metal  fade-up visible m-1">
+        <div
+          style={{ maxWidth: "25rem" }}
+          className="metal card-metal fade-up visible m-1"
+        >
           <h4 className="mb-1">{servicio?.titulo}</h4>
-          
+
           <div className="mb-1">
             {mainImg && (
               <img
@@ -87,7 +69,7 @@ export default function Servicio() {
                 }}
               />
             )}
-            
+
             {imagenes.length > 1 && (
               <div className="flex gap-2 mt-1 justify-center">
                 {imagenes.map((img, i) => (
@@ -110,7 +92,7 @@ export default function Servicio() {
               </div>
             )}
           </div>
-          
+
           <div className="mb-1 flex justify-between items-center">
             <p className="text-small">Código: SRV00{servicio?.id_producto}</p>
             <h4 className="font-bold">
@@ -120,19 +102,21 @@ export default function Servicio() {
           <div className="mt-1 text-sm text-gray-400">
             <p className="mt-1 text-small2">{servicio?.descripcion}</p>
             {cantidadEnCarrito > 0 && (
-              <p className="text-blue-400">En tu carrito: {cantidadEnCarrito}</p>
+              <p className="text-blue-400">
+                En tu carrito: {cantidadEnCarrito}
+              </p>
             )}
           </div>
 
           <div className="">
-            <AddToCartButton 
-              product={servicio} 
-              disabled={servicio.stock && stockRestante <= 0} 
+            <AddToCartButton
+              product={servicio}
+              disabled={servicio.stock && stockRestante <= 0}
             />
           </div>
         </div>
       </div>
-      
+
       <div className="border-gold">
         <Resena />
       </div>

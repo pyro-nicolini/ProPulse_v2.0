@@ -3,8 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { useFadeUp } from "../../customHooks/useFadeUp";
 import { useAuth } from "../../contexts/AuthContext";
 
-import logoColor3 from "../../assets/img/logos/logo_propulse_white.png";
-import Resena from "../../componentes/Resena";
+import fondo3 from "../../assets/img/fondos/bg-spart1.webp";
+import logoColor1 from "../../assets/img/logos/logo_color_w.png";
 
 const fmtErr = (e) => e?.response?.data?.error || "Error al registrarse";
 
@@ -33,21 +33,19 @@ export default function Register() {
   };
 
   return (
-    <div className="glass p-2 flex-col fondo1">
-      <div className="grid grid-cols-4 gap-2 fade-up">
-        <div></div>
+    <div className="p-2 flex flex-col gap-2 fondo1 w-full h-min">
+      <div className="grid grid-cols-4 gap-2 fade-up visible">
+        <div></div>        
         <div
-          className="card card-bg-img text-shadow relative overflow-hidden"
-          // style={{ backgroundImage: `url(${foto4})` }}
+          className="card card-bg-img2 fade-up visible text-shadow overflow-hidden"
+          style={{ backgroundImage: `url(${fondo3})` }}
         >
-          <div className="relative z-20 flex-col justify-end">
-            <img
-              src={logoColor3}
-              alt="ProPulse"
-              className="png3 bg-gradient-primary"
-            />
-            <h3 className="m-0">Crea tu cuenta</h3>
-            <p className="m-0">Únete y comienza a impulsar tu entrenamiento.</p>
+          <img src={logoColor1} alt="ProPulse" className="png3" />
+          <div className="relative z-20 flex-col justify-end h-full">
+            <h3 className="m-0">Tu progreso, en movimiento</h3>
+            <p className="m-0">
+              Compra productos y servicios deportivos al instante.
+            </p>
           </div>
         </div>
 
@@ -56,12 +54,12 @@ export default function Register() {
           <p className="subtitle m-0 text-center">Completa tus datos</p>
 
           <form onSubmit={onSubmit} className="flex flex-col gap-2 mt-2">
-            <div className="flex flex-col gap-1 mb-1 w-full">
+            <div className="flex-col gap-1 mb-1 w-full">
               <label htmlFor="nombre">Nombre</label>
               <input
                 id="nombre"
                 type="text"
-                className="input bg-white p-2"
+                className="input border p-2 w-full bg-white"
                 placeholder="Tu nombre"
                 value={form.nombre}
                 onChange={(e) => setForm({ ...form, nombre: e.target.value })}
@@ -69,7 +67,7 @@ export default function Register() {
               />
             </div>
 
-            <div className="flex flex-col gap-1 w-full mb-1">
+            <div className="flex-col gap-1 w-full mb-1">
               <label htmlFor="email">Email</label>
               <input
                 id="email"
@@ -82,7 +80,7 @@ export default function Register() {
               />
             </div>
 
-            <div className="flex flex-col gap-1 w-full">
+            <div className="flex-col gap-1 w-full">
               <label htmlFor="password">Contraseña</label>
               <div className="flex gap-1">
                 <input
@@ -98,7 +96,7 @@ export default function Register() {
                 />
                 <button
                   type="button"
-                  className="btn btn-secondary"
+                  className="btn btn-secondary p-1"
                   onClick={() => setShowPass((v) => !v)}
                 >
                   {showPass ? "Ocultar" : "Ver"}

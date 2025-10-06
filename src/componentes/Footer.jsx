@@ -53,7 +53,7 @@ function Footer() {
             <p>• Homologado COI</p>
           </div>
         </div>
-        <div className="footer-bottom">
+        <div className="footer-bottom metal">
           <p>&copy; 2024 ProPulse. Todos los derechos reservados.</p>
         </div>
       </footer>

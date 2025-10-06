@@ -26,27 +26,27 @@ export default function ResumenOrden() {
     }
   };
 
- if (!user)
+  if (!user)
     return (
-  <Link to="/login">
-  <p className="radius text-white bg-gradient-secondary m-1 text-center p-1">
+      <Link to="/login">
+        <p className="radius text-white bg-gradient-secondary m-1 text-center p-1">
           Debes iniciar sesión para ver el carrito 🛒💪
         </p>
       </Link>
     );
   if (!carrito)
-    return <p className="card-metal m-1 text-center p-1">Cargando carrito…</p>;
+    return <p className="metal m-1 text-center p-1">Cargando carrito…</p>;
   const items = carrito.items_carrito || [];
 
   return (
     <div className="container w-full">
-      <div className="card-metal rounded shadow fade-up">
+      <div className="metal w-full p-2 rounded shadow fade-up visible" style={{minWidth: "360px", maxWidth: "800px", width: "100%"}}>
         <h2 className="text-xl font-bold mb-4">Resumen de tu orden</h2>
         <ul className="divide-y">
           {items.map((it) => (
             <li key={it.id_item} className="py-2 flex justify-between">
               <span>
-                {it.titulo || `Producto #${it.id_producto}`} x{it.cantidad}
+                {it.cantidad} x {it.titulo || `Producto #${it.id_producto}`}  {it.precio_fijo && `(${formatoCPL.format(it.precio_fijo)} c/u)`}
               </span>
               <span>
                 $
@@ -59,7 +59,7 @@ export default function ResumenOrden() {
         </ul>
         <div className="mt-4 border-t pt-4">
           <div className="flex justify-between">
-            <span>sub_total</span>
+            <span>neto</span>
             <span>{formatoCPL.format(carrito?.total.sub_total)}</span>
           </div>
           <div className="flex justify-between">
