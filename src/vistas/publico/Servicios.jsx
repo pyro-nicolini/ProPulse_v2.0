@@ -38,7 +38,6 @@ export default function Servicio() {
 
   const mainImg = activeImg || imagenes[0] || fallback;
 
-
   const items = carrito?.items_carrito || [];
   const itemEnCarrito = items.find(
     (item) => item.id_producto === servicio.id_producto
@@ -57,7 +56,7 @@ export default function Servicio() {
         >
           <h4 className="mb-1">{servicio?.titulo}</h4>
 
-          {/* Imagen principal y miniaturas */}
+          {/* Imagen principal (sin miniaturas) */}
           <div className="mb-1">
             {mainImg && (
               <img
@@ -68,27 +67,6 @@ export default function Servicio() {
                   e.target.src = fallback;
                 }}
               />
-            )}
-
-            {imagenes.length > 1 && (
-              <div className="flex gap-2 mt-1 justify-center">
-                {imagenes.map((img, i) => (
-                  <img
-                    key={i}
-                    src={img}
-                    alt={`Vista ${i + 1}`}
-                    onClick={() => setActiveImg(img)}
-                    onError={(e) => {
-                      e.target.src = fallback;
-                    }}
-                    className={`w-sm h-sm rounded cursor-pointer transition ${
-                      activeImg === img
-                        ? "border-red-500 ring-2 ring-red-400 shadow"
-                        : "border-gray-300 shadow"
-                    }`}
-                  />
-                ))}
-              </div>
             )}
           </div>
 

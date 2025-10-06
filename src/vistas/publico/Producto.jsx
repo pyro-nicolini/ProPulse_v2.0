@@ -19,6 +19,8 @@ export default function Producto() {
 
   if (!producto) return <div>Cargando...</div>;
 
+  const fallback = resolveImg("producto1_1.webp", "producto");
+
   const imageNames = [
     producto?.url_imagen,
     producto?.url_imagen2,
@@ -28,17 +30,15 @@ export default function Producto() {
 
   const imagenes = imageNames
     .map((name) => resolveImg(name, "producto"))
-    .filter(Boolean);
+    .filter((url) => url && url !== fallback);
 
-  const mainImg = activeImg || imagenes[0] || null;
+  const mainImg = activeImg || imagenes[0] || fallback;
 
-  // Contador dinámico basado en carrito real
   const items = carrito?.items_carrito || [];
   const itemEnCarrito = items.find(
     (item) => item.id_producto === producto.id_producto
   );
   const cantidadEnCarrito = Number(itemEnCarrito?.cantidad || 0);
-
   const stockRestante = producto.stock - cantidadEnCarrito;
 
   return (
@@ -57,6 +57,9 @@ export default function Producto() {
                 className="img2 w-full rounded-lg border border-gray-700"
                 src={mainImg}
                 alt={producto?.titulo}
+                onError={(e) => {
+                  e.target.src = fallback;
+                }}
               />
             )}
 
@@ -68,6 +71,9 @@ export default function Producto() {
                     src={img}
                     alt={`Vista ${i + 1}`}
                     onClick={() => setActiveImg(img)}
+                    onError={(e) => {
+                      e.target.style.display = "none";
+                    }}
                     className={`w-sm h-sm rounded cursor-pointer transition ${
                       activeImg === img
                         ? "border-red-500 ring-2 ring-red-400 shadow"
