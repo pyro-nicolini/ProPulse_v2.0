@@ -6,7 +6,7 @@ import { formatoCPL, resolveImg } from "../../utils/helpers";
 import { useShop } from "../../contexts/ShopContext";
 import { useCart } from "../../contexts/CartContext";
 import { useState } from "react";
-import NotFound from "../NotFound";
+import NotFound from "../publico/NotFound";
 
 export default function Producto() {
   const { id } = useParams();
