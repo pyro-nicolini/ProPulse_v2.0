@@ -18,5 +18,5 @@ export const resolveImg = (fileName, tipo = "producto") => {
   if (fileName.startsWith("/img/")) return fileName;
 
   // 🔹 Si solo pasas el nombre del archivo, arma la ruta completa
-  return `/img/${tipo}s/${fileName}`;
+  return `/img/${tipo}/${fileName}`;
 };
