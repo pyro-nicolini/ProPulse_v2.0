@@ -3,8 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { useFadeUp } from "../../customHooks/useFadeUp";
 import { useAuth } from "../../contexts/AuthContext";
 
-import fondo3 from "../../assets/img/fondos/bg-spart1.webp";
-import logoColor1 from "../../assets/img/logos/logo_color_w.png";
+const fondo3 = "/img/fondos/bg-spart1.webp";
+const logoColor1 = "/img/logos/logo_color_w.png";
 
 const fmtErr = (e) => e?.response?.data?.error || "Error al registrarse";
 
@@ -34,8 +34,7 @@ export default function Register() {
 
   return (
     <div className="p-2 flex flex-col gap-2 fondo1 w-full h-min">
-      <div className="grid grid-cols-4 gap-2 fade-up visible">
-        <div></div>        
+      <div className="grid grid-cols-2 gap-2 fade-up visible container-800">
         <div
           className="card card-bg-img2 fade-up visible text-shadow overflow-hidden"
           style={{ backgroundImage: `url(${fondo3})` }}
@@ -49,7 +48,7 @@ export default function Register() {
           </div>
         </div>
 
-        <div className="container fade-up">
+        <div className="container fade-up visible">
           <h1 className="text-gradient m-0">Registro</h1>
           <p className="subtitle m-0 text-center">Completa tus datos</p>
 

@@ -2,13 +2,10 @@ import { useParams } from "react-router-dom";
 import { useFadeUp } from "../../customHooks/useFadeUp";
 import AddToCartButton from "../../componentes/AgregarAlCarrito";
 import Resena from "../../componentes/Resena";
-import { formatoCPL } from "../../utils/helpers";
+import { formatoCPL, resolveImg } from "../../utils/helpers";
 import { useShop } from "../../contexts/ShopContext";
-import { useCart } from "../../contexts/CartContext"; // 👈 importa tu contexto de carrito
-import { useState, useEffect } from "react";
-import { importImages } from "../../utils/helpers";
-
-const images = importImages();
+import { useCart } from "../../contexts/CartContext";
+import { useState } from "react";
 
 export default function Producto() {
   const { id } = useParams();
@@ -30,7 +27,7 @@ export default function Producto() {
   ].filter(Boolean);
 
   const imagenes = imageNames
-    .map((imageName) => images[imageName])
+    .map((name) => resolveImg(name, "producto"))
     .filter(Boolean);
 
   const mainImg = activeImg || imagenes[0] || null;
@@ -52,6 +49,8 @@ export default function Producto() {
           className="metal card-metal fade-up visible m-1"
         >
           <h4 className="mb-1">{producto?.titulo}</h4>
+
+          {/* Imagen principal y miniaturas */}
           <div className="mb-1">
             {mainImg && (
               <img
@@ -60,6 +59,7 @@ export default function Producto() {
                 alt={producto?.titulo}
               />
             )}
+
             {imagenes.length > 1 && (
               <div className="flex gap-2 mt-1 justify-center">
                 {imagenes.map((img, i) => (
@@ -70,26 +70,29 @@ export default function Producto() {
                     onClick={() => setActiveImg(img)}
                     className={`w-sm h-sm rounded cursor-pointer transition ${
                       activeImg === img
-                        ? "border-red-500 ring-2 ring-red-400  shadow"
-                        : "border-gray-300  shadow"
+                        ? "border-red-500 ring-2 ring-red-400 shadow"
+                        : "border-gray-300 shadow"
                     }`}
                   />
                 ))}
               </div>
             )}
           </div>
+
           <div className="mb-1 flex justify-between items-center">
-            <p className="text-small">Código: SKU00{producto?.id_producto}</p>
+            <p className="text-small">Código: SKU000{producto?.id_producto}</p>
             <h4 className="font-bold">
               {formatoCPL.format(producto?.precio) + " CPL"}
             </h4>
           </div>
+
           <p>Stock: {stockRestante}</p>
+
           <div className="mt-1 text-sm text-gray-400">
             <p className="mt-1 text-small2">{producto?.descripcion}</p>
           </div>
 
-          <div className="">
+          <div>
             <AddToCartButton product={producto} disabled={stockRestante <= 0} />
             {stockRestante <= 0 && (
               <p className="text-center text-sm mt-2">
@@ -99,6 +102,7 @@ export default function Producto() {
           </div>
         </div>
       </div>
+
       <div className="border-gold">
         <Resena />
       </div>

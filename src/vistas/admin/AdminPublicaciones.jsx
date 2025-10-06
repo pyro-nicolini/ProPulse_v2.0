@@ -1,18 +1,36 @@
-import { useState } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useAuth } from "../../contexts/AuthContext";
 import { useShop } from "../../contexts/ShopContext";
+import { useResenas } from "../../contexts/ResenasContext";
 import { useFadeUp } from "../../customHooks/useFadeUp";
+import { resolveImg } from "../../utils/helpers";
 
 export default function AdminPublicaciones() {
   const { user } = useAuth();
   const { productos, fetchProductos, loading, totalLikes } = useShop();
+  const { resenas, obtenerResenas } = useResenas();
   const [q, setQ] = useState("");
+
   useFadeUp();
+
+  // 🔹 Cargar productos y reseñas al inicio
   const cargar = async () => {
     await fetchProductos({ q });
+    await obtenerResenas();
   };
 
+  useEffect(() => {
+    if (user?.rol === "admin") cargar();
+  }, [user?.id]);
 
+  // 🔹 Cruza productos con reseñas (filtrado rápido)
+  const productosConResenas = useMemo(() => {
+    if (!Array.isArray(productos) || !Array.isArray(resenas)) return [];
+    return productos.map((p) => ({
+      ...p,
+      totalResenas: resenas.filter((r) => r.id_producto === p.id_producto).length,
+    }));
+  }, [productos, resenas]);
 
   if (!user) return <p className="container m-3">No has iniciado sesión.</p>;
   if (user.rol !== "admin")
@@ -43,6 +61,9 @@ export default function AdminPublicaciones() {
         <span>
           Likes totales: <b>{totalLikes}</b>
         </span>
+        <span>
+          Reseñas totales: <b>{resenas.length}</b>
+        </span>
       </div>
 
       <div className="border rounded ap-table-wrap">
@@ -59,17 +80,32 @@ export default function AdminPublicaciones() {
             </tr>
           </thead>
           <tbody>
-            {productos.map((p) => {
+            {productosConResenas.map((p) => {
               const isServicio = p.tipo === "servicio" || p.stock === null;
+              const imgSrc =
+                resolveImg(p.url_imagen, p.tipo) ||
+                resolveImg(
+                  isServicio ? "servicio1_1.webp" : "producto1_1.webp",
+                  p.tipo
+                );
+
               return (
                 <tr key={p.id_producto} className="border-t">
                   <td className="p-2">
                     <div className="ap-product">
                       <img
-                        src={p.url_imagen}
-                        alt=""
+                        src={imgSrc}
+                        alt={p.titulo}
                         className="ap-thumb"
                         loading="lazy"
+                        onError={(e) => {
+                          e.target.src = resolveImg(
+                            isServicio
+                              ? "servicio1_1.webp"
+                              : "producto1_1.webp",
+                            p.tipo
+                          );
+                        }}
                       />
                       <div>
                         <div className="font-medium">{p.titulo}</div>
@@ -85,7 +121,13 @@ export default function AdminPublicaciones() {
                     {isServicio ? "∞" : p.stock ?? 0}
                   </td>
                   <td className="p-2 text-center ap-col-hide-sm">
-                    {Number(p.resenas_count ?? 0)}
+                    {p.totalResenas > 0 ? (
+                      <span className="text-green-400 font-semibold">
+                        {p.totalResenas}
+                      </span>
+                    ) : (
+                      <span className="opacity-60">0</span>
+                    )}
                   </td>
                   <td className="p-2 text-center">
                     {Number(p.likes_count ?? 0)}

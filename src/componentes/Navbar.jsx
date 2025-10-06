@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import logo from "../assets/img/logos/logo_color_w.png";
+const logo = "../img/logos/logo_color_w.png";
 import ContadorCarrito from "./ContadorCarrito";
 import { useAuth } from "../contexts/AuthContext";
 

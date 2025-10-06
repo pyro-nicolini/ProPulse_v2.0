@@ -38,19 +38,22 @@ export default function ShopProvider({ children }) {
     refreshProductos();
   }, []);
 
-  const createProduct = async (producto) => {
-    setLoading(true);
-    try {
-      const nuevoProducto = await crearProducto(producto);
-      // Opcional: podrías refrescar todo con refreshProductos()
+const createProduct = async (producto) => {
+  setLoading(true);
+  try {
+    const nuevoProducto = await crearProducto(producto);
+    if (nuevoProducto) {
       setProductos((prev) => [...prev, nuevoProducto]);
-    } catch (err) {
-      setError(err);
-      console.error("Error creando producto:", err);
-    } finally {
-      setLoading(false);
     }
-  };
+    return nuevoProducto;
+  } catch (err) {
+    setError(err);
+    console.error("Error creando producto:", err);
+    throw err;
+  } finally {
+    setLoading(false);
+  }
+};
 
   const updateProduct = async (id, producto) => {
     setLoading(true);
@@ -89,7 +92,7 @@ export default function ShopProvider({ children }) {
         loading,
         servicios,
         error,
-        refreshProductos,   // 👈 expuesto con el nuevo nombre
+        refreshProductos,
         createProduct,
         updateProduct,
         deleteProduct,

@@ -8,9 +8,7 @@ const API = axios.create({
 const TOKEN_KEY = "token";
 
 export function setToken(t) {
-  t
-    ? localStorage.setItem(TOKEN_KEY, t)
-    : localStorage.removeItem(TOKEN_KEY);
+  t ? localStorage.setItem(TOKEN_KEY, t) : localStorage.removeItem(TOKEN_KEY);
 }
 
 export function getToken() {
@@ -30,8 +28,6 @@ API.interceptors.response.use(
       ...(err?.response?.data || { error: "Error de red" }),
     })
 );
-
-
 
 // AUTH
 export async function getUser() {
@@ -56,8 +52,6 @@ export function authLogout() {
   setToken(null);
 }
 
-
-
 // GESTIONES DE USUARIOS (ADMIN) // FOR NEXT RELEASE
 export async function admin_getUsers() {
   const { data } = await API.get(`/usuarios`);
@@ -71,11 +65,6 @@ export async function updateUser(id, payload) {
 export async function Admin_deleteUser(id) {
   await API.delete(`/usuarios/${id}`);
 }
-
-
-
-
-
 
 // PRODUCTOS
 export async function getProductos(params = {}) {
@@ -97,10 +86,9 @@ export async function actualizarProducto(id, payload) {
   return data;
 }
 export async function borrarProducto(id) {
-  const { data } = await API.delete(`/productos/admin/${id}`);
-  return data;
+  await API.delete(`/productos/admin/${id}`);
+  // No se retorna nada porque el backend responde 204 No Content
 }
-
 
 // FAVORITOS
 export async function getLikesDelUser() {
@@ -118,15 +106,13 @@ export async function removeLike(id_producto) {
   return data;
 }
 
-
-
 // RESEÑAS
 export async function getAllResenas() {
-  const {data}  = await API.get(`/resenas`);
+  const { data } = await API.get(`/resenas`);
   return data;
 }
 export async function getResenaProduct(id) {
-  const {data} = await API.get(`/resenas/${id}`);
+  const { data } = await API.get(`/resenas/${id}`);
   return data;
 }
 export async function addResena(id, { comentario, calificacion }) {
@@ -146,9 +132,6 @@ export async function updateResena(id, { comentario, calificacion }) {
 export async function deleteResena(id) {
   await API.delete(`/resenas/${id}`);
 }
-
-
-
 
 // CARRITO
 export async function obtenerCarrito(id) {
@@ -180,7 +163,6 @@ export async function eliminarItemDelCarrito(id_carrito, id_producto) {
   return data;
 }
 
-
 // PEDIDOS
 export async function pedidosDelUser() {
   const res = await API.get(`/pedidos/me`);
@@ -198,10 +180,11 @@ export async function getPedido(id) {
   const { data } = await API.get(`/pedidos/${id}`);
   return data;
 }
-export async function adminUpdatePedido(id_pedido, body) {
-  const { data } = await API.put(`/pedidos/admin/${id_pedido}`, body);
+export async function adminUpdatePedido(id_pedido, estado) {
+  const { data } = await API.put(`/pedidos/admin`, { id_pedido, estado });
   return data;
 }
+
 export async function getPedidosAdmin() {
   const { data } = await API.get("/pedidos/admin");
   return data;

@@ -1,3 +1,6 @@
+// helpers.js
+
+// Formato de moneda chilena
 export const formatoCPL = new Intl.NumberFormat("es-CL", {
   style: "currency",
   currency: "CLP",
@@ -5,23 +8,15 @@ export const formatoCPL = new Intl.NumberFormat("es-CL", {
 });
 
 
-export const importImages = () => {
-  const images = {};
-  const modulesProductos = import.meta.glob(
-    "../assets/img/productos/*.{png,jpg,jpeg,svg,webp}",
-    { eager: true, import: "default" }
-  );
-  const modulesServicios = import.meta.glob(
-    "../assets/img/servicios/*.{png,jpg,jpeg,svg,webp}",
-    { eager: true, import: "default" }
-  );
-  for (const path in modulesProductos) {
-    const imageName = path.split("/").pop();
-    images[imageName] = modulesProductos[path];
-  }
-  for (const path in modulesServicios) {
-    const imageName = path.split("/").pop();
-    images[imageName] = modulesServicios[path];
-  }
-  return images;
+export const resolveImg = (fileName, tipo = "producto") => {
+  if (!fileName) return "";
+
+  // 🔹 Si es una URL absoluta (http o https)
+  if (/^https?:\/\//i.test(fileName)) return fileName;
+
+  // 🔹 Si ya apunta a /img/... (desde /public)
+  if (fileName.startsWith("/img/")) return fileName;
+
+  // 🔹 Si solo pasas el nombre del archivo, arma la ruta completa
+  return `/img/${tipo}s/${fileName}`;
 };

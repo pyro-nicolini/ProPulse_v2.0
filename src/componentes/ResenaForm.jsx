@@ -26,7 +26,6 @@ function ResenaForm({ resenasUser }) {
       comentario: comentario.trim(),
       calificacion: Math.max(1, Math.min(5, Number(calificacion) || 5)),
     };
-    console.log(id);
  
   try {
     if (resenasUser && resenasUser.length > 0) {

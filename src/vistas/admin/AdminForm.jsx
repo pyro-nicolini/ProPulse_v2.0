@@ -14,7 +14,7 @@ const init = {
 
 export default function AdminForm() {
   const { user } = useAuth();
-  const { createProduct } = useShop();
+  const { createProduct, refreshProductos, loading } = useShop();
   const [f, setF] = useState(init);
   const [busy, setBusy] = useState(false);
   const [msg, setMsg] = useState("");
@@ -27,31 +27,44 @@ export default function AdminForm() {
   const onSubmit = async (e) => {
     e.preventDefault();
     if (user?.rol !== "admin") return;
+
     setBusy(true);
     setMsg("");
+
     try {
       const payload = {
         ...f,
         stock: f.tipo === "producto" ? Number(f.stock) : null,
         precio: Number(f.precio),
       };
-      const p = await createProduct(payload); // 👈 usar createProduct
+
+      const nuevo = await createProduct(payload);
+
+      await refreshProductos();
+
       reset();
-      setMsg(`Creado #${p?.id_producto ?? "?"}`);
-    } catch (e2) {
-      setMsg(e2?.error || "No se pudo crear");
+      setMsg(
+        nuevo?.id_producto
+          ? `✅ Creado #${nuevo.id_producto}`
+          : "✅ Producto creado correctamente"
+      );
+    } catch (err) {
+      console.error("Error creando producto:", err);
+      setMsg(err?.error || "❌ No se pudo crear el producto");
     } finally {
       setBusy(false);
+      setTimeout(() => setMsg(""), 2500);
     }
   };
 
   if (user?.rol !== "admin") return <p>No autorizado.</p>;
 
   return (
-    <div className="container glass m-1 p-3 fade-up">
+    <div className="container glass m-1 p-3 fade-up visible">
       <h2 className="mb-2">Crear producto</h2>
+
       <form onSubmit={onSubmit} className="flex flex-col gap-2 w-full">
-        <label>
+        <label className="w-full">
           Título
           <input
             className="input w-full"
@@ -60,7 +73,8 @@ export default function AdminForm() {
             required
           />
         </label>
-        <label>
+
+        <label className="w-full">
           Descripción
           <textarea
             className="input w-full"
@@ -70,8 +84,8 @@ export default function AdminForm() {
             required
           />
         </label>
-        <div className="flex-col-responsive gap-3 w-full p-1">
-          <label>
+
+          <label className="w-full">
             Tipo
             <select
               className="input w-full"
@@ -82,7 +96,8 @@ export default function AdminForm() {
               <option value="servicio">servicio</option>
             </select>
           </label>
-          <label>
+
+          <label className="w-full">
             Stock
             <input
               type="number"
@@ -92,7 +107,8 @@ export default function AdminForm() {
               disabled={f.tipo !== "producto"}
             />
           </label>
-          <label>
+
+          <label className="w-full">
             Precio
             <input
               type="number"
@@ -102,24 +118,27 @@ export default function AdminForm() {
               required
             />
           </label>
-        </div>
-        <label>
-          URL imagen
+
+        <label className="w-full">
+          Imagen
           <input
             className="input w-full"
+            placeholder="producto1_1.webp o https://..."
             value={f.url_imagen}
             onChange={(e) => onChange("url_imagen", e.target.value)}
           />
         </label>
+
         <div className="flex gap-2">
-          <button className="btn" type="submit" disabled={busy}>
-            Crear
+          <button className="btn btn-primary" type="submit" disabled={busy || loading}>
+            {busy ? "Creando..." : "Crear"}
           </button>
-          <button className="btn" type="button" onClick={reset} disabled={busy}>
+          <button className="btn btn-secondary" type="button" onClick={reset} disabled={busy}>
             Limpiar
           </button>
         </div>
-        {msg && <p className="text-sm opacity-80">{msg}</p>}
+
+        {msg && <p className="text-sm opacity-80 mt-2">{msg}</p>}
       </form>
     </div>
   );

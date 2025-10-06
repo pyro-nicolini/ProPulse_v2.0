@@ -2,11 +2,10 @@ import { useParams } from "react-router-dom";
 import { useFadeUp } from "../../customHooks/useFadeUp";
 import AddToCartButton from "../../componentes/AgregarAlCarrito";
 import Resena from "../../componentes/Resena";
-import { formatoCPL } from "../../utils/helpers";
+import { formatoCPL, resolveImg } from "../../utils/helpers";
 import { useShop } from "../../contexts/ShopContext";
 import { useCart } from "../../contexts/CartContext";
 import { useState } from "react";
-import { importImages } from "../../utils/helpers";
 
 export default function Servicio() {
   const { id } = useParams();
@@ -15,7 +14,6 @@ export default function Servicio() {
   const [activeImg, setActiveImg] = useState(null);
 
   useFadeUp();
-  const images = importImages();
 
   const servicio = servicios.find((s) => s.id_producto === Number(id));
 
@@ -24,30 +22,32 @@ export default function Servicio() {
     return <div style={{ color: "red" }}>No es un servicio válido</div>;
   }
 
-  const fallback = "servicio1_1.webp";
-  const imageNames = [servicio?.url_imagen].filter(Boolean);
+  const fallback = resolveImg("servicio1_1.webp", "servicio");
+  const imageNames = [
+    servicio?.url_imagen,
+    servicio?.url_imagen2,
+    servicio?.url_imagen3,
+    servicio?.url_imagen4,
+  ].filter(Boolean);
 
   const imagenes = imageNames
-    .map((imageName) => {
-      return images[imageName] || images[fallback];
-    })
+    .map((name) => resolveImg(name, "servicio") || fallback)
     .filter(Boolean);
 
-  if (imagenes.length === 0) {
-    imagenes.push(images[fallback]);
-  }
+  if (imagenes.length === 0) imagenes.push(fallback);
 
-  const mainImg = activeImg || imagenes[0] || null;
+  const mainImg = activeImg || imagenes[0] || fallback;
+
 
   const items = carrito?.items_carrito || [];
   const itemEnCarrito = items.find(
     (item) => item.id_producto === servicio.id_producto
   );
   const cantidadEnCarrito = Number(itemEnCarrito?.cantidad || 0);
-
   const stockRestante = servicio.stock
     ? servicio.stock - cantidadEnCarrito
     : 999;
+
   return (
     <>
       <div className="w-full flex-col items-center justify-center bg-charcoal fondo1">
@@ -57,6 +57,7 @@ export default function Servicio() {
         >
           <h4 className="mb-1">{servicio?.titulo}</h4>
 
+          {/* Imagen principal y miniaturas */}
           <div className="mb-1">
             {mainImg && (
               <img
@@ -64,8 +65,7 @@ export default function Servicio() {
                 src={mainImg}
                 alt={servicio?.titulo}
                 onError={(e) => {
-                  // Si falla la imagen principal, usar la imagen por defecto
-                  e.target.src = images[fallback];
+                  e.target.src = fallback;
                 }}
               />
             )}
@@ -79,8 +79,7 @@ export default function Servicio() {
                     alt={`Vista ${i + 1}`}
                     onClick={() => setActiveImg(img)}
                     onError={(e) => {
-                      // Si falla una miniatura, usar la imagen por defecto
-                      e.target.src = images[fallback];
+                      e.target.src = fallback;
                     }}
                     className={`w-sm h-sm rounded cursor-pointer transition ${
                       activeImg === img
@@ -94,11 +93,12 @@ export default function Servicio() {
           </div>
 
           <div className="mb-1 flex justify-between items-center">
-            <p className="text-small">Código: SRV00{servicio?.id_producto}</p>
+            <p className="text-small">Código: SKU000{servicio?.id_producto}</p>
             <h4 className="font-bold">
               {formatoCPL.format(servicio?.precio) + " CPL"}
             </h4>
           </div>
+
           <div className="mt-1 text-sm text-gray-400">
             <p className="mt-1 text-small2">{servicio?.descripcion}</p>
             {cantidadEnCarrito > 0 && (
@@ -108,7 +108,7 @@ export default function Servicio() {
             )}
           </div>
 
-          <div className="">
+          <div>
             <AddToCartButton
               product={servicio}
               disabled={servicio.stock && stockRestante <= 0}

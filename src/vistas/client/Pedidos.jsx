@@ -1,10 +1,7 @@
 import { useState } from "react";
-import { importImages } from "../../utils/helpers";
-
-const images = importImages();
 import { useAuth } from "../../contexts/AuthContext";
 import { useCart } from "../../contexts/CartContext";
-import { formatoCPL } from "../../utils/helpers";
+import { formatoCPL, resolveImg } from "../../utils/helpers";
 import { Link } from "react-router-dom";
 
 export default function Pedidos() {
@@ -18,9 +15,7 @@ export default function Pedidos() {
     setPedidoDetalle(null);
     try {
       const pedido = pedidos.find((p) => p.id_pedido === id_pedido);
-      if (pedido) {
-        setPedidoDetalle(pedido);
-      }
+      if (pedido) setPedidoDetalle(pedido);
     } catch (err) {
       console.error("Error buscando pedido:", err);
     } finally {
@@ -35,6 +30,7 @@ export default function Pedidos() {
   return (
     <div className="w-full visible">
       <h2>Mis Pedidos</h2>
+
       <table className="w-full container bg-gradient-secondary radius">
         <thead className="card w-full radius">
           <tr className="text-center text-small3">
@@ -78,42 +74,74 @@ export default function Pedidos() {
       </table>
 
       {detalleLoading && <div className="mt-4">Cargando detalle...</div>}
+
       {pedidoDetalle && (
         <div className="mt-6 p-4 border rounded bg-gray-50">
           <h4 className="font-bold mb-2">
             Detalle del Pedido - 0000{pedidoDetalle.id_pedido}
           </h4>
+
           <div>Estado: {pedidoDetalle.estado}</div>
           <div>Fecha: {pedidoDetalle.fecha_creacion?.slice(0, 10)}</div>
           <div>Total: {formatoCPL.format(pedidoDetalle.total_pedido)}</div>
+
           <ul className="mt-2">
-            {pedidoDetalle.items_pedido?.map((item, idx) => (
-              <li className="card flex gap-1 justify-between" key={idx}>
-                {item.url_imagen && images[item.url_imagen] && (
-                  <img
-                  src={images[item.url_imagen]}
-                  alt=""
-                  className="w-sm h-sm"
-                  />
-                )}
-                {item.titulo || `Producto #${item.id_producto}`}
-                <br />
-                Precio: {formatoCPL.format(item.precio_fijo)} × {item.cantidad}{" "}
-                Un. = Total:{" "}
-                {formatoCPL.format(item.cantidad * item.precio_fijo)}
-                  <p>
-                    <Link
-                      to={
-                        item.tipo === "producto"
-                          ? `/productos/${item.id_producto}`
-                          : `/servicios/${item.id_servicio || item.id_producto}`
-                      }
-                    >
-                      Ver {item.tipo === "producto" ? "producto" : "servicio"}
-                    </Link>
-                  </p>
-              </li>
-            ))}
+            {pedidoDetalle.items_pedido?.map((item, idx) => {
+              const imageUrl =
+                resolveImg(item.url_imagen, item.tipo) ||
+                resolveImg(
+                  item.tipo === "servicio"
+                    ? "servicio1_1.webp"
+                    : "producto1_1.webp",
+                  item.tipo
+                );
+
+              return (
+                <li
+                  className="card flex gap-1 justify-between items-center p-2"
+                  key={idx}
+                >
+                  {imageUrl && (
+                    <img
+                      src={imageUrl}
+                      alt={item.titulo || "Imagen"}
+                      className="w-sm h-sm radius object-cover"
+                      onError={(e) => {
+                        e.target.src = resolveImg(
+                          item.tipo === "servicio"
+                            ? "servicio1_1.webp"
+                            : "producto1_1.webp",
+                          item.tipo
+                        );
+                      }}
+                    />
+                  )}
+
+                  <div className="flex-1 px-2">
+                    <p className="font-semibold text-sm">
+                      {item.titulo || `Producto #${item.id_producto}`}
+                    </p>
+                    <p className="text-xs text-gray-500">
+                      Precio: {formatoCPL.format(item.precio_fijo)} ×{" "}
+                      {item.cantidad} un. ={" "}
+                      <strong>
+                        {formatoCPL.format(item.cantidad * item.precio_fijo)}
+                      </strong>
+                    </p>
+                  </div>
+
+                  <Link
+                    to={
+                      item.tipo === "producto"
+                        ? `/productos/${item.id_producto}`
+                        : `/servicios/${item.id_servicio || item.id_producto}`
+                    }
+                  >
+                    Ver {item.tipo === "producto" ? "producto" : "servicio"}
+                  </Link>
+                </li>
+              );
+            })}
           </ul>
         </div>
       )}

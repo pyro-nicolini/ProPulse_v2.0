@@ -61,14 +61,14 @@
 }
 
 .fondo1 {
-  background-image: url("./assets/img/fondos/square.jpg");
+  background-image: url("../img/fondos/square.webp");
   background-attachment: fixed;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
 }
 .bg-products {
-  background-image: url("./assets/img/fondos/fondo-muscle.webp");
+  background-image: url("../img/fondos/fondo-muscle.webp");
   background-attachment: fixed;
   background-size: cover;
   background-position: left;
@@ -652,7 +652,7 @@ button {
   overflow: hidden;
 }
 .metal {
-  background: url("assets/img/fondos/metal.jpg") !important;
+  background: url("../img/fondos/metal.webp") !important;
   border: 1px solid rgba(255, 255, 255, 0.267);
   border-radius: 15px;
   transition: all 0.3s ease;
@@ -661,7 +661,6 @@ button {
 .card-metal {
   padding: 1rem !important;
   width: 100%;
-  max-width: 25rem;
 }
 
 .card-white {
@@ -788,6 +787,13 @@ button {
   padding: 1rem;
   margin: 0 auto;
 }
+
+.container-800{
+  width: 95%;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
 .container-1200 {
   width: 90%;
   max-width: 1200px;

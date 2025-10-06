@@ -1,114 +1,236 @@
-// src/paginas/admin/AdminShop.jsx
-import { useState } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { useAuth } from "../../contexts/AuthContext";
 import { useShop } from "../../contexts/ShopContext";
 import { useFadeUp } from "../../customHooks/useFadeUp";
+import { resolveImg } from "../../utils/helpers";
 
 export default function AdminShop() {
   const { user } = useAuth();
-  const { productos, updateProduct, deleteProduct, putDestacado } = useShop();
+  const {
+    productos,
+    refreshProductos,
+    deleteProduct,
+    updateProduct,
+    loading,
+    error,
+  } = useShop();
 
   const [q, setQ] = useState("");
   const [busy, setBusy] = useState(false);
   const [msg, setMsg] = useState("");
+  const [drafts, setDrafts] = useState({}); // { [id]: { titulo, descripcion, stock, tipo, url_imagen, precio, activo, destacado } }
 
   useFadeUp();
   const notify = (t) => {
     setMsg(t);
-    setTimeout(() => setMsg(""), 1400);
+    setTimeout(() => setMsg(""), 1500);
+  };
+
+  // Inicializa drafts a partir de productos
+  useEffect(() => {
+    if (!Array.isArray(productos)) return;
+    setDrafts((prev) => {
+      const next = { ...prev };
+      for (const p of productos) {
+        if (!next[p.id_producto]) {
+          next[p.id_producto] = {
+            titulo: p.titulo ?? "",
+            descripcion: p.descripcion ?? "",
+            stock: p.tipo === "producto" ? p.stock ?? 0 : null,
+            tipo: p.tipo ?? "producto",
+            url_imagen: p.url_imagen ?? "",
+            precio: p.precio ?? 0,
+            activo: !!p.activo,
+            destacado: !!p.destacado,
+            likes_count: p.likes_count ?? 0,
+          };
+        }
+      }
+      return next;
+    });
+  }, [productos]);
+
+  const onDraftChange = (id, key, val) =>
+    setDrafts((prev) => ({ ...prev, [id]: { ...prev[id], [key]: val } }));
+
+  const hayCambios = (p) => {
+    const d = drafts[p.id_producto];
+    if (!d) return false;
+    return (
+      d.titulo !== (p.titulo ?? "") ||
+      d.descripcion !== (p.descripcion ?? "") ||
+      Number(d.precio) !== Number(p.precio ?? 0) ||
+      (d.tipo === "producto"
+        ? Number(d.stock ?? 0) !== Number(p.stock ?? 0)
+        : false) ||
+      (d.tipo ?? "producto") !== (p.tipo ?? "producto") ||
+      (d.url_imagen ?? "") !== (p.url_imagen ?? "")
+    );
+  };
+
+  // Limpia el draft de un producto por id
+  const clearDraft = (id) => {
+    setDrafts((prev) => {
+      const next = { ...prev };
+      delete next[id];
+      return next;
+    });
   };
 
   const onGuardar = async (p) => {
+    const d = drafts[p.id_producto] || {};
     setBusy(true);
     try {
       const payload = {
-        titulo: p.titulo,
-        precio: Number(p.precio),
-        stock: p.tipo === "producto" ? Number(p.stock) : null,
-        activo: !!p.activo,
+        id_producto: p.id_producto,
+        titulo: d.titulo,
+        descripcion: d.descripcion ?? p.descripcion ?? "",
+        stock: p.tipo === "producto" ? Number(d.stock) : null,
+        tipo: p.tipo,
+        url_imagen: d.url_imagen || null,
+        precio: Number(d.precio),
       };
       await updateProduct(p.id_producto, payload);
-      notify("Guardado");
-    } catch {
-      notify("Error al guardar");
+      await refreshProductos();
+      clearDraft(p.id_producto);
+      notify("✅ Guardado");
+    } catch (err) {
+      console.error("Error guardando:", err);
+      notify("❌ Error al guardar");
     } finally {
       setBusy(false);
     }
+  };
+
+  const onCancelar = (p) => {
+    setDrafts((prev) => ({
+      ...prev,
+      [p.id_producto]: {
+        titulo: p.titulo ?? "",
+        descripcion: p.descripcion ?? "",
+        stock: p.tipo === "producto" ? p.stock ?? 0 : null,
+        tipo: p.tipo ?? "producto",
+        url_imagen: p.url_imagen ?? "",
+        precio: p.precio ?? 0,
+        activo: !!p.activo,
+        destacado: !!p.destacado,
+      },
+    }));
+    notify("↩️ Cambios descartados");
   };
 
   const onBorrar = async (p) => {
-    if (!confirm("¿Desactivar producto?")) return;
+    if (!confirm(`¿Eliminar "${p.titulo}"?`)) return;
     setBusy(true);
     try {
       await deleteProduct(p.id_producto);
-      notify("Desactivado");
+      notify("🗑️ Producto eliminado");
     } catch {
-      notify("Error al desactivar");
+      notify("❌ Error al eliminar");
     } finally {
       setBusy(false);
     }
   };
 
-  const toggleDestacado = async (p) => {
-    setBusy(true);
-    try {
-      await putDestacado(p.id_producto, !p.destacado);
-    } finally {
-      setBusy(false);
-    }
-  };
-
-  const onChangeItem = (id, key, val) => {
-    updateProduct(id, { [key]: val });
-  };
-
-  const filtrados = productos.filter((p) =>
-    p.titulo.toLowerCase().includes(q.toLowerCase())
+  // Eliminado: no se crean productos desde aquí
+  const filtrados = useMemo(
+    () =>
+      (productos || [])
+        .filter((p) => (p.titulo || "").toLowerCase().includes(q.toLowerCase()))
+        .sort((a, b) => Number(a.id_producto) - Number(b.id_producto)),
+    [productos, q]
   );
 
+  if (!user || user.rol !== "admin")
+    return <p className="text-red text-center mt-3">⛔ No autorizado.</p>;
+
   return (
-    <div className="container glass p-1 w-full mt-1 fade-up visible">
+    <div className="container p-1 w-full mt-1 fade-up visible">
       <h2 className="mb-2">Admin Shop</h2>
-      {user?.rol !== "admin" && <p>No autorizado.</p>}
-      {user?.rol === "admin" && (
-        <>
-          <div className="grid-col-1 grid gap-3 w-full">
-            <input
-              value={q}
-              onChange={(e) => setQ(e.target.value)}
-              placeholder="Buscar por título…"
-              className="input flex-1"
-            />
-          </div>
-          {msg && <p className="text-sm opacity-80">{msg}</p>}
-          <div className="grid-col-1 grid w-full p-1">
-            {filtrados.map((p) => (
-              <div key={p.id_producto} className="card p-2 bg-black radius">
-                <div className="grid-col-1 grid gap-3 items-start">
-                  <img
-                    src={p.url_imagen}
-                    width={72}
-                    height={48}
-                    alt=""
-                    className="rounded"
-                  />
-                  <div className="flex-1">
+
+      <div className="flex gap-2 items-center mb-2">
+        <input
+          value={q}
+          onChange={(e) => setQ(e.target.value)}
+          placeholder="Buscar producto..."
+          className="input flex-1"
+        />
+        <button
+          className="btn btn-secondary"
+          onClick={refreshProductos}
+          disabled={busy}
+        >
+          🔄 Refrescar
+        </button>
+      </div>
+
+      {msg && <p className="text-sm opacity-80">{msg}</p>}
+      {loading && <p className="text-sm">Cargando productos...</p>}
+      {error && <p className="text-red text-sm">Error: {error.message}</p>}
+
+      <div className="grid-col-1 grid w-full p-1">
+        {filtrados.map((p) => {
+          const d = drafts[p.id_producto] || {};
+          const preview =
+            resolveImg(d.url_imagen || p.url_imagen, d.tipo || p.tipo) ||
+            resolveImg(
+              (d.tipo || p.tipo) === "servicio"
+                ? "servicio1_1.webp"
+                : "producto1_1.webp",
+              d.tipo || p.tipo
+            );
+
+          return (
+            <div key={p.id_producto} className="card p-2 bg-black radius">
+              <div className="grid grid-cols-1 gap-1 items-start">
+                <img
+                  src={preview}
+                  width={90}
+                  height={60}
+                  alt={d.titulo || p.titulo}
+                  className="radius border object-cover"
+                  onError={(e) => {
+                    e.target.src = resolveImg(
+                      (d.tipo || p.tipo) === "servicio"
+                        ? "servicio1_1.webp"
+                        : "producto1_1.webp",
+                      d.tipo || p.tipo
+                    );
+                  }}
+                />
+                  <div className="flex flex-col gap-2">
                     <input
                       className="input w-full"
-                      value={p.titulo}
+                      value={d.titulo ?? ""}
                       onChange={(e) =>
-                        onChangeItem(p.id_producto, "titulo", e.target.value)
+                        onDraftChange(p.id_producto, "titulo", e.target.value)
                       }
+                      placeholder="Título"
                     />
-                    <div className="grid-col-1 grid gap-3 mt-1">
-                      <label>
-                        Precio
+
+                    <textarea
+                      className="input w-full"
+                      rows={3}
+                      value={d.descripcion ?? ""}
+                      onChange={(e) =>
+                        onDraftChange(
+                          p.id_producto,
+                          "descripcion",
+                          e.target.value
+                        )
+                      }
+                      placeholder="Descripción"
+                    />
+
+                    <div className="flex-col gap-1 items-center w-full">
+                      <label className="text-sm w-full">
+                        Precio{" "}
                         <input
                           type="number"
-                          className="input ml-1 w-28"
-                          value={p.precio}
+                          className="input  w-full"
+                          value={d.precio ?? 0}
                           onChange={(e) =>
-                            onChangeItem(
+                            onDraftChange(
                               p.id_producto,
                               "precio",
                               e.target.value
@@ -116,15 +238,20 @@ export default function AdminShop() {
                           }
                         />
                       </label>
-                      <label>
-                        Stock
+
+                      <label className="text-sm w-full">
+                        Stock{" "}
                         <input
                           type="number"
-                          className="input ml-1 w-20"
-                          disabled={p.tipo !== "producto"}
-                          value={p.tipo === "producto" ? p.stock ?? 0 : ""}
+                          className="input w-full"
+                          disabled={(d.tipo || p.tipo) !== "producto"}
+                          value={
+                            (d.tipo || p.tipo) === "producto"
+                              ? d.stock ?? 0
+                              : ""
+                          }
                           onChange={(e) =>
-                            onChangeItem(
+                            onDraftChange(
                               p.id_producto,
                               "stock",
                               e.target.value
@@ -132,55 +259,83 @@ export default function AdminShop() {
                           }
                         />
                       </label>
-                      <label>
-                        <input
-                          type="checkbox"
-                          checked={!!p.destacado}
-                          onChange={() => toggleDestacado(p)}
-                        />{" "}
-                        Destacado
+
+                      <label className="text-sm w-full">
+                        Tipo{" "}
+                        <select
+                          className="input  w-full"
+                          value={d.tipo ?? "producto"}
+                          onChange={(e) => {
+                            const newTipo = e.target.value;
+                            onDraftChange(p.id_producto, "tipo", newTipo);
+                            if (newTipo !== "producto")
+                              onDraftChange(p.id_producto, "stock", null);
+                          }}
+                        >
+                          <option value="producto">producto</option>
+                          <option value="servicio">servicio</option>
+                        </select>
                       </label>
-                      <label>
+
+                      <label className="text-sm flex items-center gap-1 w-full">
+                        Img{" "}
                         <input
-                          type="checkbox"
-                          checked={!!p.activo}
+                          className="input ml-1 w-64 w-full"
+                          placeholder="producto1_1.webp o https://…"
+                          value={d.url_imagen ?? ""}
                           onChange={(e) =>
-                            onChangeItem(
+                            onDraftChange(
                               p.id_producto,
-                              "activo",
-                              e.target.checked
+                              "url_imagen",
+                              e.target.value
                             )
                           }
-                        />{" "}
-                        Activo
+                        />
                       </label>
                     </div>
                   </div>
-                  <div className="grid-col-1 grid gap-3 w-full">
-                    <button
-                      className="btn"
-                      onClick={() => onGuardar(p)}
-                      disabled={busy}
-                    >
-                      Guardar
-                    </button>
-                    <button
-                      className="btn danger"
-                      onClick={() => onBorrar(p)}
-                      disabled={busy}
-                    >
-                      Borrar
-                    </button>
-                  </div>
+
+                  {hayCambios(p) && (
+                    <p className="text-xs text-yellow-400 mt-1">
+                      • Cambios sin guardar
+                    </p>
+                  )}
                 </div>
-                <p className="text-sm opacity-75 mt-1">
-                  #{p.id_producto} · {p.tipo} · likes: {p.likes_count ?? 0}
-                </p>
+
+                <div className="flex flex-col-responsive gap-2 justify-center p-1">
+                  <button
+                    className="btn btn-primary"
+                    onClick={() => onGuardar(p)}
+                    disabled={busy || !hayCambios(p)}
+                  >
+                    Guardar
+                  </button>
+                  <button
+                    className="btn btn-secondary"
+                    onClick={() => onCancelar(p)}
+                    disabled={busy || !hayCambios(p)}
+                  >
+                    Cancelar
+                  </button>
+                  <button
+                    className="btn btn-danger"
+                    onClick={() => onBorrar(p)}
+                    disabled={busy}
+                  >
+                    Borrar
+                  </button>
               </div>
-            ))}
-          </div>
-        </>
-      )}
+
+              <p className="text-xs opacity-70 mt-1">
+                #{p.id_producto} · {d.tipo || p.tipo} · Likes:{" "}
+                {typeof p.likes_count !== "undefined"
+                  ? p.likes_count
+                  : d.likes_count ?? 0}
+              </p>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 }

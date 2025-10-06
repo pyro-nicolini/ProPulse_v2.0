@@ -1,6 +1,6 @@
-import logoColor1 from "../../assets/img/logos/logo_propulse.svg";
-import logoColor2 from "../../assets/img/logos/logo_propulse2.svg";
-import logoColor3 from "../../assets/img/logos/logo_propulse_white.png";
+import logoColor1 from "/img/logos/logo_propulse.svg";
+import logoColor2 from "/img/logos/logo_propulse2.svg";
+import logoColor3 from "/img/logos/logo_propulse_white.png";
 
 function Plantilla() {
   // Hook que activa la animación fade-up cuando los elementos entran al viewport

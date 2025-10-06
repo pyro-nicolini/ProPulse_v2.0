@@ -3,8 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { useFadeUp } from "../../customHooks/useFadeUp";
 import { useAuth } from "../../contexts/AuthContext";
 
-import logoColor1 from "../../assets/img/logos/logo_color_w.png";
-import fondo3 from "../../assets/img/fondos/bg-spart1.webp";
+const logoColor1 = "/img/logos/logo_color_w.png";
+const fondo3 = "/img/fondos/bg-spart1.webp";
 
 const fmtErr = (e) => e?.response?.data?.error || "Credenciales inválidas";
 
@@ -33,9 +33,8 @@ export default function Login() {
   };
 
   return (
-    <div className="glass p-2 fade-up flex-col fondo1">
-      <div className="grid grid-cols-4 gap-2">
-        <div></div>
+    <div className="glass p-2 fade-up visible flex-col fondo1">
+      <div className="grid grid-cols-2 gap-2 container-800">
         <div className="visible fade-up">
           <div className="flex flex-col items-center gap-1 mb-2">
             <h1 className="text-gradient m-0">Ingresar</h1>

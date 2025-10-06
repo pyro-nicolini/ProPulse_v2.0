@@ -31,12 +31,12 @@ export default function ConfirmacionOrden() {
           <>
             <p className="mb-2">
               Gracias por tu compra. Serás notificado a <br />
+            </p>
               <h4 className="text-gradient-primary">
                 <strong>
                   {user.email}
                 </strong>
               </h4>
-            </p>
           </>
         ) : (
           <>
