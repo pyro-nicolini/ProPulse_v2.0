@@ -6,6 +6,7 @@ import { formatoCPL, resolveImg } from "../../utils/helpers";
 import { useShop } from "../../contexts/ShopContext";
 import { useCart } from "../../contexts/CartContext";
 import { useState } from "react";
+import NotFound from "../NotFound";
 
 export default function Servicio() {
   const { id } = useParams();
@@ -17,7 +18,7 @@ export default function Servicio() {
 
   const servicio = servicios.find((s) => s.id_producto === Number(id));
 
-  if (!servicio) return <div>Cargando...</div>;
+  if (!servicio) return <NotFound />;
   if (servicio.tipo !== "servicio") {
     return <div style={{ color: "red" }}>No es un servicio válido</div>;
   }

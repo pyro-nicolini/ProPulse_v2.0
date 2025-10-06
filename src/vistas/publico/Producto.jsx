@@ -6,6 +6,7 @@ import { formatoCPL, resolveImg } from "../../utils/helpers";
 import { useShop } from "../../contexts/ShopContext";
 import { useCart } from "../../contexts/CartContext";
 import { useState } from "react";
+import NotFound from "../NotFound";
 
 export default function Producto() {
   const { id } = useParams();
@@ -17,8 +18,9 @@ export default function Producto() {
 
   const producto = productos.find((s) => s.id_producto === Number(id));
 
-  if (!producto) return <div>Cargando...</div>;
-
+if (!producto) {
+  return <NotFound />;
+}
   const fallback = resolveImg("producto1_1.webp", "producto");
 
   const imageNames = [
