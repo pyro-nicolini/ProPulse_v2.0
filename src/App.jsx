@@ -44,6 +44,8 @@ function App() {
           <Route path="/servicios" element={<Servicios />} />
           <Route path="/servicios/:id" element={<Servicio />} />
           <Route path="/contacto" element={<Contacto />} />
+          <Route path="*" element={<NotFound />} />
+
           <Route
             path="/checkout/resumen"
             element={
