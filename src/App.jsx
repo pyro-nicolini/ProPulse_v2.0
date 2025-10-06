@@ -28,6 +28,7 @@ import AdminProductosForm from "./vistas/admin/AdminForm";
 import AdminProductos from "./vistas/admin/AdminPublicaciones";
 import AdminProfile from "./vistas/admin/AdminProfile";
 import ConfirmacionOrden from "./vistas/client/ConfirmacionOrden";
+import NotFound from "./vistas/publico/NotFound";
 
 function App() {
   return (
