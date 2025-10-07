@@ -52,8 +52,8 @@ export default function Contacto() {
 
   return (
     <>
-      <div className="w-full grid pl-4 gap-1 grid-cols-2 fondo1">
-        <div className="w-full flex flex-col gap-4 w-full fade-up justify-start p-4 visible">
+      <div className="w-full grid p-1 gap-1 grid-cols-2 fondo1">
+        <div className="flex flex-col gap-1 w-full fade-up justify-start p-2 visible mt-1">
           <div className="w-full flex flex-col">
             <h3 className="card-title  text-gradient-primary">
               <strong>Contacto</strong>
@@ -92,7 +92,7 @@ export default function Contacto() {
             </ul>
           </div>
         </div>
-        <div className="card-white p-4 m-1 fade-up visible bg-black">
+        <div className="card-white p-1 mb-2 fade-up visible bg-black mt-1">
           <h3 className="card-title">
             {" "}
             Escríbenos y
@@ -103,9 +103,9 @@ export default function Contacto() {
           {msg ? <p className="subtitle mt-1 text-center">{msg}</p> : null}
           <form
             onSubmit={onSubmit}
-            className="mt-3 flex flex-col gap-3 w-full h-min"
+            className="mt-1 flex flex-col gap-1 w-full h-min"
           >
-            <div className="grid gap-3 grid-cols-1 w-full">
+            <div className="grid gap-1 grid-cols-1 w-full">
               <label className="flex-col items-start">
                 <strong className="text-gradient-primary">Nombre</strong>
                 <input
@@ -169,10 +169,10 @@ export default function Contacto() {
                 />
               </label>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex flex-col-responsive items-center gap-1">
               <button
                 type="submit"
-                className="btn-primary"
+                className="btn-primary w-full"
                 disabled={
                   busy ||
                   !form.nombre.trim() ||
@@ -183,7 +183,7 @@ export default function Contacto() {
                 {busy ? "Enviando…" : "Enviar"}
               </button>
               <a
-                className="btn btn-secondary p-05"
+                className="btn btn-secondary p-05 w-full"
                 href={`mailto:${"contacto@propulse.cl"}?subject=${encodeURIComponent(
                   form.asunto || "Consulta ProPulse"
                 )}`}

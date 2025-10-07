@@ -12,7 +12,7 @@ export default function NotFound() {
           "radial-gradient(circle at 50% 30%, rgba(255,0,0,0.15), transparent 70%), linear-gradient(180deg, #0b0b0b 0%, #1a1a1a 100%)",
       }}
     >
-      <div className="metal card-metal radius shadow-lg p-4 max-w-md mx-auto border border-red-500">
+      <div className="fondo1 card-metal radius shadow-lg p-4 max-w-md mx-auto border border-red-500">
         <h1 className="text-7xl font-extrabold text-gradient-primary mb-2 tracking-widest drop-shadow-lg">
           404
         </h1>
@@ -21,16 +21,16 @@ export default function NotFound() {
           Página no encontrada
         </h2>
 
-        <p className="text-gray-300 text-small mb-3 leading-relaxed">
+        <p className="text-gray-300 text-small mb-3">
           Parece que seguiste un enlace roto o esta página ya no existe.  
           No te preocupes, puedes volver al inicio y seguir entrenando 💪
         </p>
 
-        <div className="flex justify-center gap-3 mt-3">
-          <Link to="/" className="btn btn-primary p-1">
+        <div className="flex-col-responsive flex gap-1 justify-center">
+          <Link to="/" className="btn btn-primary p-05">
             Volver al inicio
           </Link>
-          <Link to="/productos" className="btn btn-secondary p-1">
+          <Link to="/productos" className="btn btn-secondary p-05">
             🛒 Ir a la tienda
           </Link>
         </div>

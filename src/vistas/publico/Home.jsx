@@ -1,13 +1,13 @@
 import Hero from "../../componentes/Hero";
 import { useFadeUp } from "../../customHooks/useFadeUp";
-const logoColor1 = "/img/logos/logo_color_w.png";
+const logoColor1 = "/img/logos/logo_propulse3.svg";
 
 function Home() {
   useFadeUp();
 
   return (
     <div className="w-full">
-      <div className="glass w-full">
+      <div className="w-full">
         <section id="hero" className="hero">
           <div className="hero-content fade-up">
             <img
