@@ -34,11 +34,9 @@ function GaleriaCard({ item, routeBase }) {
 
     currentX += (targetX - currentX) * 0.5;
     currentY += (targetY - currentY) * 0.5;
-
     card.style.backgroundPosition = `${currentX}% ${currentY}%`;
     card.style.backgroundSize = "300%";
     card.style.transition = "transform 0.1s ease-in-out";
-
     animFrame.current = requestAnimationFrame(animate);
   };
 
@@ -46,13 +44,9 @@ function GaleriaCard({ item, routeBase }) {
     const card = cardRef.current;
     if (!card) return;
     const { left, top, width, height } = card.getBoundingClientRect();
-
     targetX = ((e.clientX - left) / width) * 100;
     targetY = ((e.clientY - top) / height) * 100;
-
-    if (!animFrame.current) {
-      animFrame.current = requestAnimationFrame(animate);
-    }
+    if (!animFrame.current) animFrame.current = requestAnimationFrame(animate);
   };
 
   const handleTouchMove = (e) => {
@@ -60,22 +54,16 @@ function GaleriaCard({ item, routeBase }) {
     if (!card) return;
     const touch = e.touches[0];
     const { left, top, width, height } = card.getBoundingClientRect();
-
     targetX = ((touch.clientX - left) / width) * 300;
     targetY = ((touch.clientY - top) / height) * 300;
-
-    if (!animFrame.current) {
-      animFrame.current = requestAnimationFrame(animate);
-    }
+    if (!animFrame.current) animFrame.current = requestAnimationFrame(animate);
   };
 
   const resetParallax = () => {
     const card = cardRef.current;
     if (!card) return;
-
     cancelAnimationFrame(animFrame.current);
     animFrame.current = null;
-
     card.style.backgroundPosition = "center";
     card.style.backgroundSize = "cover";
   };
@@ -85,6 +73,7 @@ function GaleriaCard({ item, routeBase }) {
       <h5 className="mb-1">
         {item.titulo.split(" ").slice(0, 3).join(" ").toUpperCase()}
       </h5>
+
       <div className="flex gap-05 items-start w-full h-min mb-1">
         {urls.length > 0 ? (
           <div
@@ -122,9 +111,7 @@ function GaleriaCard({ item, routeBase }) {
                       : "border-gray-300 shadow"
                   }`}
                   alt={`miniatura-${i}`}
-                  onError={(e) => {
-                    e.target.style.display = "none";
-                  }}
+                  onError={(e) => (e.target.style.display = "none")}
                 />
               ) : null
             )}
@@ -169,6 +156,7 @@ function GaleriaCard({ item, routeBase }) {
           Ver Más
         </Link>
       </div>
+
       <p className="text-small text-start w-full m-0">
         Código: SKU000{item.id_producto}
       </p>
@@ -180,10 +168,18 @@ export default function Galeria({ items = [], title, routeBase, col = 3 }) {
   const { refreshProductos } = useShop();
   const { Resena } = useResenas();
   const [filtro, setFiltro] = useState("");
+  const [ordenFijo, setOrdenFijo] = useState([]);
 
   useEffect(() => {
     refreshProductos();
   }, [Resena]);
+
+  // Guardamos el orden fijo una sola vez
+  useEffect(() => {
+    if (items?.length) {
+      setOrdenFijo(items.map((i) => i.id_producto ?? i.id));
+    }
+  }, [items]);
 
   const filtrados = useMemo(() => {
     if (!filtro.trim()) return items;
@@ -194,24 +190,34 @@ export default function Galeria({ items = [], title, routeBase, col = 3 }) {
 
   return (
     <div className="fade-up visible w-full min-h-screen p-1">
-      <div className="fondo1 text-white pt-1 radius mb-1 w-full flex-col">Encuentra tú producto:
-
-      <input
-        type="text"
-        placeholder="Buscar..."
-        value={filtro}
-        onChange={(e) => setFiltro(e.target.value)}
-        className="p-05 mb-1 radius border text-white bg-black container-800 flex items-center justify-center"
+      <div className="fondo1 text-white pt-1 radius mb-1 w-full flex-col">
+        Encuentra tú producto:
+        <input
+          type="text"
+          placeholder="Buscar..."
+          value={filtro}
+          onChange={(e) => setFiltro(e.target.value)}
+          className="p-05 mb-1 radius border text-white bg-black container-800 flex items-center justify-center"
         />
-        </div>
+      </div>
+
+      {/* Cards con orden fijo y efecto escalonado */}
       <div className={`grid grid-cols-${col} gap-05`}>
-        {filtrados.map((item) => (
-          <GaleriaCard
-            key={item.id_producto ?? item.id}
-            item={item}
-            routeBase={routeBase}
-          />
-        ))}
+        {ordenFijo.map((id, index) => {
+          const item = filtrados.find(
+            (p) => (p.id_producto ?? p.id) === id
+          );
+          if (!item) return null;
+          return (
+            <div
+              key={id}
+              className="card-appear"
+              style={{ animationDelay: `${index * 0.1}s` }}
+            >
+              <GaleriaCard item={item} routeBase={routeBase} />
+            </div>
+          );
+        })}
       </div>
     </div>
   );

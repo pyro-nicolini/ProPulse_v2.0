@@ -15,7 +15,7 @@ export default function GaleriaProductos() {
   return (
     <>
       <div className="w-full bg-products">
-        <div className=" visible fade-up" style={{overflowY: "scroll", maxHeight: "80vh" }}>
+        <div className="" style={{overflowY: "scroll", maxHeight: "80vh" }}>
         <div className="w-full p-6 container-1600">
 
         <Galeria

@@ -34,12 +34,13 @@ export default function AdminPublicaciones() {
 
   if (!user) return <p className="container m-3">No has iniciado sesión.</p>;
   if (user.rol !== "admin")
-    return <p className="container m-4">Solo para administradores.</p>;
+    return <p className="container m-4 p-1">Solo para administradores.</p>;
 
   return (
-    <div className="container glass mt-1 fade-up visible">
-      <div className="ap-toolbar mb-2">
-        <h3>Admin Publicaciones</h3>
+    <>
+        <h2 className="text-gradient-primary mt-2">Admin Publicaciones</h2>
+    <div className="glass mt-1 fade-up visible p-1">
+      <div className="ap-toolbar mb-2 p-1">
         <div className="ap-actions">
           <input
             className="input"
@@ -47,7 +48,7 @@ export default function AdminPublicaciones() {
             placeholder="Buscar por título…"
             value={q}
             onChange={(e) => setQ(e.target.value)}
-          />
+            />
           <button className="btn" onClick={cargar} disabled={loading}>
             {loading ? "Cargando…" : "Refrescar"}
           </button>
@@ -83,12 +84,12 @@ export default function AdminPublicaciones() {
             {productosConResenas.map((p) => {
               const isServicio = p.tipo === "servicio" || p.stock === null;
               const imgSrc =
-                resolveImg(p.url_imagen, p.tipo) ||
-                resolveImg(
-                  isServicio ? "servicio1_1.webp" : "producto1_1.webp",
-                  p.tipo
-                );
-
+              resolveImg(p.url_imagen, p.tipo) ||
+              resolveImg(
+                isServicio ? "servicio1_1.webp" : "producto1_1.webp",
+                p.tipo
+              );
+              
               return (
                 <tr key={p.id_producto} className="border-t">
                   <td className="p-2">
@@ -101,12 +102,12 @@ export default function AdminPublicaciones() {
                         onError={(e) => {
                           e.target.src = resolveImg(
                             isServicio
-                              ? "servicio1_1.webp"
-                              : "producto1_1.webp",
+                            ? "servicio1_1.webp"
+                            : "producto1_1.webp",
                             p.tipo
                           );
                         }}
-                      />
+                        />
                       <div>
                         <div className="font-medium">{p.titulo}</div>
                         <div className="opacity-60">#{p.id_producto}</div>
@@ -150,5 +151,6 @@ export default function AdminPublicaciones() {
         </table>
       </div>
     </div>
+              </>
   );
 }

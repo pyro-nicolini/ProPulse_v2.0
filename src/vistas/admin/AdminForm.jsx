@@ -60,8 +60,9 @@ export default function AdminForm() {
   if (user?.rol !== "admin") return <p>No autorizado.</p>;
 
   return (
-    <div className="container glass m-1 p-3 fade-up visible">
-      <h2 className="mb-2">Crear producto</h2>
+    <>
+      <h2 className="text-gradient-primary mt-2">Crear producto</h2>
+    <div className="glass fade-up visible p-1">
 
       <form onSubmit={onSubmit} className="flex flex-col gap-2 w-full">
         <label className="w-full">
@@ -71,7 +72,7 @@ export default function AdminForm() {
             value={f.titulo}
             onChange={(e) => onChange("titulo", e.target.value)}
             required
-          />
+            />
         </label>
 
         <label className="w-full">
@@ -82,7 +83,7 @@ export default function AdminForm() {
             value={f.descripcion}
             onChange={(e) => onChange("descripcion", e.target.value)}
             required
-          />
+            />
         </label>
 
           <label className="w-full">
@@ -91,7 +92,7 @@ export default function AdminForm() {
               className="input w-full"
               value={f.tipo}
               onChange={(e) => onChange("tipo", e.target.value)}
-            >
+              >
               <option value="producto">producto</option>
               <option value="servicio">servicio</option>
             </select>
@@ -105,7 +106,7 @@ export default function AdminForm() {
               value={f.tipo === "producto" ? f.stock : ""}
               onChange={(e) => onChange("stock", e.target.value)}
               disabled={f.tipo !== "producto"}
-            />
+              />
           </label>
 
           <label className="w-full">
@@ -126,7 +127,7 @@ export default function AdminForm() {
             placeholder="producto1_1.webp o https://..."
             value={f.url_imagen}
             onChange={(e) => onChange("url_imagen", e.target.value)}
-          />
+            />
         </label>
 
         <div className="flex gap-2">
@@ -141,5 +142,6 @@ export default function AdminForm() {
         {msg && <p className="text-sm opacity-80 mt-2">{msg}</p>}
       </form>
     </div>
+            </>
   );
 }

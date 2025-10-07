@@ -145,15 +145,15 @@ export default function AdminShop() {
     return <p className="text-red text-center mt-3">⛔ No autorizado.</p>;
 
   return (
-    <div className="container p-1 w-full mt-1 fade-up visible">
-      <h2 className="mb-2">Admin Shop</h2>
+    <div className="w-full mt-1 fade-up visible">
+      <h2 className="mt-2 text-gradient-primary">Admin Shop</h2>
 
       <div className="flex gap-2 items-center mb-2">
         <input
           value={q}
           onChange={(e) => setQ(e.target.value)}
           placeholder="Buscar producto..."
-          className="input flex-1"
+          className="input flex-1 h-sm p-1 w-full"
         />
         <button
           className="btn btn-secondary"
@@ -168,7 +168,7 @@ export default function AdminShop() {
       {loading && <p className="text-sm">Cargando productos...</p>}
       {error && <p className="text-red text-sm">Error: {error.message}</p>}
 
-      <div className="grid-col-1 grid w-full p-1">
+      <div className="glass grid-col-1 grid w-full p-1">
         {filtrados.map((p) => {
           const d = drafts[p.id_producto] || {};
           const preview =
@@ -181,7 +181,7 @@ export default function AdminShop() {
             );
 
           return (
-            <div key={p.id_producto} className="card p-2 bg-black radius">
+            <div key={p.id_producto} className="card-metal bg-black radius">
               <div className="grid grid-cols-1 gap-1 items-start">
                 <img
                   src={preview}

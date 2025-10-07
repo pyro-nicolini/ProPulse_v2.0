@@ -18,15 +18,15 @@ export default function AdminProfile() {
 
   return (
     <div className="w-full min-h-screen bg-charcoal border-gold">
-    <div className="container-1200 fade-up">
-      <h3 className="p-1 text-gradient-primary">Admin Dashboard</h3>
-      <div className="p-1">
+    <div className="container-800 fade-up visible mb-1">
+      <h1 className="p-1 text-gradient-primary">Admin Dashboard</h1>
+      <div className="">
         <div className="w-full">
             <p className="">
               ID: {user.id} · {user.nombre} ·
             </p>
           </div>
-          <div className="flex-col-responsive gap-2">
+          <div className="flex-col-responsive gap-1">
             <button
               className={`btn ${tab === "ventas" ? "btn-primary" : "btn-secondary2"}`}
               onClick={() => setTab("ventas")}

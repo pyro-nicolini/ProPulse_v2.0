@@ -169,10 +169,10 @@ export default function Contacto() {
                 />
               </label>
             </div>
-            <div className="flex flex-col-responsive items-center gap-1">
+            <div className="flex flex-col-responsive items-center gap-1 w-full">
               <button
                 type="submit"
-                className="btn-primary w-full"
+                className="btn btn-primary w-full"
                 disabled={
                   busy ||
                   !form.nombre.trim() ||
@@ -195,7 +195,7 @@ export default function Contacto() {
         </div>
       </div>
       {/* Mapa */}
-      <div className="w-full aspect-video overflow-hidden rounded h-mid fade-up border-gold">
+      <div className="w-full aspect-video overflow-hidden h-mid fade-up border-gold">
         <iframe
           title="Mapa ProPulse"
           src={mapaSrc}

@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { useEffect, useState } from "react";
 const logo = "../img/logos/logo_color_w.png";
 import ContadorCarrito from "./ContadorCarrito";
@@ -20,9 +20,9 @@ const Navbar = () => {
     <nav className="navbar">
       <div className="navbar metal p-1">
         {/* Logo */}
-        <Link to="/" className="nav-link" onClick={closeMenu}>
+        <NavLink to="/" className="nav-link" onClick={closeMenu}>
           <img className="navbar-brand" src={logo} alt="ProPulse" />
-        </Link>
+        </NavLink>
 
         {/* Botón hamburguesa */}
         <button
@@ -38,22 +38,22 @@ const Navbar = () => {
         {/* Links principales */}
         <div className="nav-links flex">
           {isAdmin && (
-            <Link to="/admin-profile" className="nav-link" onClick={closeMenu}>
+            <NavLink to="/admin-profile" className="nav-link" onClick={closeMenu}>
               Admin
-            </Link>
+            </NavLink>
           )}
-          <Link to="/profile-user" className="nav-link" onClick={closeMenu}>
+          <NavLink to="/profile-user" className="nav-link" onClick={closeMenu}>
             Perfil
-          </Link>
-          <Link to="/productos" className="nav-link" onClick={closeMenu}>
+          </NavLink>
+          <NavLink to="/productos" className="nav-link" onClick={closeMenu}>
             Productos
-          </Link>
-          <Link to="/servicios" className="nav-link" onClick={closeMenu}>
+          </NavLink>
+          <NavLink to="/servicios" className="nav-link" onClick={closeMenu}>
             Servicios
-          </Link>
-          <Link to="/contacto" className="nav-link" onClick={closeMenu}>
+          </NavLink>
+          <NavLink to="/contacto" className="nav-link" onClick={closeMenu}>
             Contacto
-          </Link>
+          </NavLink>
         </div>
 
         {/* Área de usuario / carrito */}
@@ -64,21 +64,18 @@ const Navbar = () => {
               <p className="pt-1 text-silver-light mobile-hidden">
                 Hola {user?.nombre}
               </p>
-              <button
-                onClick={logout}
-                className="btn btn-secondary2 mobile-hidden"
-              >
+            <button onClick={logout} className="btn btn-secondary2 text-small3">
                 Salir
               </button>
             </div>
           ) : (
             <>
-              <Link to="/login" className="nav-link" onClick={closeMenu}>
+              <NavLink to="/login" className="nav-link" onClick={closeMenu}>
                 Ingresar
-              </Link>
-              <Link to="/register" className="nav-link" onClick={closeMenu}>
+              </NavLink>
+              <NavLink to="/register" className="nav-link" onClick={closeMenu}>
                 Registrarse
-              </Link>
+              </NavLink>
             </>
           )}
         </div>
@@ -88,35 +85,35 @@ const Navbar = () => {
       {open && (
         <div id="mobile-menu" className="mobile-menu">
           {isAdmin && (
-            <Link to="/admin-profile" className="nav-link" onClick={closeMenu}>
+            <NavLink to="/admin-profile" className="nav-link" onClick={closeMenu}>
               Admin
-            </Link>
+            </NavLink>
           )}
-          <Link to="/profile-user" onClick={closeMenu}>
+          <NavLink to="/profile-user" onClick={closeMenu}>
             Perfil
-          </Link>
-          <Link to="/productos" onClick={closeMenu}>
+          </NavLink>
+          <NavLink to="/productos" onClick={closeMenu}>
             Productos
-          </Link>
-          <Link to="/servicios" onClick={closeMenu}>
+          </NavLink>
+          <NavLink to="/servicios" onClick={closeMenu}>
             Servicios
-          </Link>
-          <Link to="/contacto" onClick={closeMenu}>
+          </NavLink>
+          <NavLink to="/contacto" onClick={closeMenu}>
             Contacto
-          </Link>
+          </NavLink>
 
           {user ? (
-            <button onClick={logout} className="btn btn-secondary2">
+            <button onClick={logout} className="btn btn-secondary2 text-small3">
               Salir
             </button>
           ) : (
             <>
-              <Link to="/login" onClick={closeMenu}>
+              <NavLink to="/login" onClick={closeMenu}>
                 Ingresar
-              </Link>
-              <Link to="/register" onClick={closeMenu}>
+              </NavLink>
+              <NavLink to="/register" onClick={closeMenu}>
                 Registrarse
-              </Link>
+              </NavLink>
             </>
           )}
         </div>

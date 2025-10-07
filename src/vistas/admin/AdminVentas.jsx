@@ -55,8 +55,9 @@ export default function AdminVentas() {
   };
 
   return (
-    <div className="glass mt-1 fade-up visible">
-      <h2 className="mb-2">Ventas (historial)</h2>
+    <>
+      <h2 className="mt-2 text-gradient-primary">Ventas (historial)</h2>
+    <div className="glass mt-1 fade-up visible p-1">
 
       {loading && <p>Cargando…</p>}
       {error && <p className="text-red-400">{error}</p>}
@@ -65,7 +66,7 @@ export default function AdminVentas() {
 
       <div className="flex flex-col gap-2">
         {pedidos.map((p) => (
-          <div key={p.id_pedido} className="border rounded p-2 w-full">
+          <div key={p.id_pedido} className="border rounded pl-1 w-full">
             <div className="flex justify-between w-full items-center">
               <div>
                 <p>
@@ -82,7 +83,7 @@ export default function AdminVentas() {
                   value={p.estado}
                   onChange={(e) => cambiarEstado(p.id_pedido, e.target.value)}
                   className="border rounded px-2 py-1"
-                >
+                  >
                   <option value="pendiente">pendiente</option>
                   <option value="pagado">pagado</option>
                   <option value="enviado">enviado</option>
@@ -122,5 +123,6 @@ export default function AdminVentas() {
         ))}
       </div>
     </div>
+            </>
   );
 }
