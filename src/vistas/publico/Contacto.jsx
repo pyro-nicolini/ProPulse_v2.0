@@ -1,5 +1,5 @@
 import { useState } from "react";
-const logoColor1 = "/img/logos/logo_color_bg2.svg";
+const logoColor1 = "/img/logos/logo_color_w.png";
 
 import { useFadeUp } from "../../customHooks/useFadeUp";
 
@@ -58,7 +58,7 @@ export default function Contacto() {
             <h3 className="card-title text-gradient-primary">
               <strong>Contacto</strong>
             </h3>
-            <img src={logoColor1} alt="ProPulse" className="img" />
+            <img src={logoColor1} alt="ProPulse" className="w-full" />
             <p className="subtitle p-1">
               ¿Tienes dudas o necesitas ayuda? Escríbenos.
             </p>

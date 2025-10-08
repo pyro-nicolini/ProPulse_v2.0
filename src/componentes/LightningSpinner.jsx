@@ -1,12 +1,19 @@
 import React from "react";
 
-export default function LightningSpinner() {
-
+export default function LightningSpinner({ fondo = true }) {
   return (
-    <div className="spinner-container fade-in w-full">
-      <div className="spinner-border">
-        <div className="spinner-lightning">⚡</div>
-      </div>
-    </div>
+    <>
+      {fondo ? (
+        <div className="spinner-container fade-in w-full">
+          <div className="spinner-border">
+            <div className="spinner-lightning">⚡</div>
+          </div>
+        </div>
+      ) : (
+        <div className="spinner-border">
+          <div className="spinner-lightning">⚡</div>
+        </div>
+      )}
+    </>
   );
 }

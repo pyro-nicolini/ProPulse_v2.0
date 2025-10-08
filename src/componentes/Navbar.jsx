@@ -1,6 +1,6 @@
 import { NavLink } from "react-router-dom";
 import { useEffect, useState } from "react";
-const logo = "../img/logos/logo_color_w.png";
+const logo = "../img/logos/logo_propulse_white.png";
 import ContadorCarrito from "./ContadorCarrito";
 import { useAuth } from "../contexts/AuthContext";
 
@@ -83,7 +83,7 @@ const Navbar = () => {
 
       {/* Menú móvil */}
       {open && (
-        <div id="mobile-menu" className="mobile-menu">
+        <div id="mobile-menu nav-links" className="mobile-menu">
           {isAdmin && (
             <NavLink to="/admin-profile" className="nav-link" onClick={closeMenu}>
               Admin

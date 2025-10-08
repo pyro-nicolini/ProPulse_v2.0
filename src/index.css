@@ -423,6 +423,14 @@ a:hover {
   color: var(--white);
 }
 
+
+.hero-bg {
+  transition: opacity 0.7s ease-in-out;
+}
+.hero-overlay {
+  backdrop-filter: blur(2px);
+}
+
 .nav-link::after {
   content: "";
   position: absolute;
@@ -1434,12 +1442,12 @@ form select {
   opacity: 0;
   transform: translateX(100%);
   transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-  background-size: cover;
+  background-size: contain !important;
   background-position: center;
-  background-repeat: no-repeat;
+  background-repeat: repeat;
 }
 
-.carousel-slide.active {
+.carousel-slide.activa {
   opacity: 1;
   transform: translateX(0);
   z-index: 2;
@@ -1540,7 +1548,7 @@ form select {
   transition: all 0.3s ease;
 }
 
-.indicator.active {
+.indicator.activa {
   background: white;
   transform: scale(1.2);
 }

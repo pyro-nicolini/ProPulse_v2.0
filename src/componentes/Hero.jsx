@@ -1,13 +1,15 @@
 import { useState, useEffect, useCallback } from "react";
 import { useShop } from "../contexts/ShopContext";
 import { resolveImg } from "../utils/helpers";
+import { useFadeUp } from "../customHooks/useFadeUp";
 
 const Hero = () => {
   const [index, setIndex] = useState(0);
   const [autoPlay, setAutoPlay] = useState(true);
   const { productos } = useShop();
   const destacados = productos.filter((p) => p.destacado);
-
+  
+  useFadeUp();
   const goNext = useCallback(() => {
     setIndex((i) => (i + 1) % destacados.length);
   }, [destacados.length]);
@@ -39,7 +41,7 @@ const Hero = () => {
   return (
     <div className="w-full max-w-6xl mx-auto">
       <div
-        className="carousel-container"
+        className="carousel-container visible"
         onMouseEnter={() => setAutoPlay(false)}
         onMouseLeave={() => setAutoPlay(true)}
       >
@@ -51,7 +53,7 @@ const Hero = () => {
               <div
                 key={p.id_producto}
                 className={`carousel-slide ${
-                  i === index ? "active" : i < index ? "prev" : "next"
+                  i === index ? "activa" : i < index ? "prev" : "next"
                 }`}
                 style={{
                   backgroundImage: `url(${imgUrl})`,
