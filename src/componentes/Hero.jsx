@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import { useShop } from "../contexts/ShopContext";
 import { resolveImg } from "../utils/helpers";
 import { useFadeUp } from "../customHooks/useFadeUp";
+import { Link } from "react-router-dom";
 
 const Hero = () => {
   const [index, setIndex] = useState(0);
@@ -50,28 +51,41 @@ const Hero = () => {
             const imgUrl = resolveImg(p.url_imagen, p.tipo || "producto");
 
             return (
-              <div
-                key={p.id_producto}
-                className={`carousel-slide ${
-                  i === index ? "activa" : i < index ? "prev" : "next"
-                }`}
-                style={{
-                  backgroundImage: `url(${imgUrl})`,
-                  backgroundSize: "cover",
-                  backgroundPosition: "center",
-                }}
-              >
-                <div className="slide-content">
-                  <h3 className="slide-title">{p.titulo}</h3>
-                  <p className="slide-description">{p.descripcion}</p>
-                  <div className="slide-price">{formatPrice(p.precio)}</div>
-                  <div className="slide-buttons">
-                    <button className="btn btn-primary">Ver más detalles</button>
-                    <button className="btn btn-secondary">Comprar ahora</button>
-                  </div>
-                </div>
-              </div>
-            );
+  <div
+    key={p.id_producto}
+    className={`carousel-slide h-full ${
+      i === index ? "activa" : i < index ? "prev" : "next"
+    }`}
+    style={{
+      backgroundImage: `url(${imgUrl})`,
+      backgroundSize: "contain",
+      backgroundPosition: "top",
+      top: 0
+    }}
+  >
+    <div className="slide-overlay flex-col justify-center items-center text-center w-full">
+      <div className="slide-content fade-up visible flex-col w-full justify-center items-center text-center">
+        <h3 className="slide-title text-start text-shadow">{p.titulo}</h3>
+        <p className="slide-description text-shadow text-white radius p-1 bg-gradient-primary shadow">{p.descripcion}</p>
+        <div className="slide-price text-shadow">{formatPrice(p.precio)}</div>
+
+        <div className="slide-buttons p-1">
+          <Link
+            to={
+              p.tipo === "producto"
+                ? `/productos/${p.id_producto}`
+                : `/servicios/${p.id_producto}`
+            }
+            className="btn btn-primary p-05"
+          >
+            Ver {p.tipo}
+          </Link>
+        </div>
+      </div>
+    </div>
+    </div>
+);
+
           })}
         </div>
 

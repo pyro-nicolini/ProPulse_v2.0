@@ -318,7 +318,8 @@ h4 {
 h5 {
   font-size: clamp(1rem, 1.5vw, 1rem) !important;
   line-height: 1.5rem;
-  margin: 0.8rem auto !important;
+  border-top-left-radius: .9rem;
+  border-top-right-radius: .9rem;
 }
 h6 {
   font-size: clamp(0.9rem, 1.5vw, 1rem) !important;
@@ -510,7 +511,7 @@ nav > i {
   justify-content: center;
   height: 60vh;
   width: 100%;
- background: radial-gradient(circle at center, #000000 20%, #8d3f00 50%, #c76a00 100%);
+ background: radial-gradient(circle at center, #000000 20%, #c76a00 80%);
 }
 
 .spinner-border {
@@ -733,6 +734,73 @@ button {
   background: url("../img/fondos/metal.webp") !important;
   transition: all 0.3s ease;
 }
+
+.promo-banner {
+  background: linear-gradient(90deg, #a60000, #ff4d00);
+  color: #fff;
+  text-align: center;
+  padding: 2rem 1rem;
+  border-radius: 10px;
+  margin-bottom: 2rem;
+  box-shadow: 0 0 15px rgba(0,0,0,0.4);
+}
+
+.promo-header h2 {
+  font-size: 2rem;
+  font-weight: 800;
+  margin: 0.5rem 0;
+}
+
+.promo-header .cyber {
+  background: #ffd000;
+  color: #a60000;
+  padding: 0.3rem 0.7rem;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+.promo-header .off {
+  color: #ffd000;
+}
+
+.timer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: bold;
+  margin-top: 1rem;
+}
+
+.timer div {
+  background: #111;
+  padding: 0.5rem 1rem;
+  border-radius: 10px;
+}
+
+.promo-options {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.option {
+  background: rgba(0, 0, 0, 0.3);
+  padding: 0.8rem 1rem;
+  border-radius: 10px;
+  min-width: 140px;
+}
+
+.option i {
+  font-size: 1.5rem;
+  margin-bottom: 0.3rem;
+  display: block;
+  color: #ffd000;
+}
+
+
 
 .border-orange {
   border-radius: 15px;
@@ -983,6 +1051,11 @@ button {
 .text-right {
   text-align: right;
 }
+
+.w-fit {
+  width: fit-content;
+}
+
 .w-full {
   width: 100%;
 }
@@ -1160,6 +1233,16 @@ button {
 .grid-cols-3 {
   grid-template-columns: repeat(1, 1fr);
 }
+.grid-cols-3b {
+  grid-template-columns: repeat(2, 1fr);
+  height: 36rem;
+  padding: .5rem;
+}
+.grid-cols-3b {
+    font-size: 0.6rem !important;
+}
+
+
 .grid-cols-4 {
   grid-template-columns: repeat(1, 1fr);
 }
@@ -1169,15 +1252,25 @@ button {
 .grid-cols-6 {
   grid-template-columns: repeat(1, 1fr);
 }
+.grid-cols-2b {
+  grid-template-columns: repeat(2, 1fr);
+  transition: all .5s ease-in-out;
+}
 
 /* Tablet */
 @media (min-width: 768px) {
+  .grid-cols-2b {
+    grid-template-columns: repeat(4, 1fr);
+  }
   .grid-cols-2 {
     grid-template-columns: repeat(2, 1fr);
   }
   .grid-cols-3 {
     grid-template-columns: repeat(2, 1fr);
   }
+  .grid-cols-3b {
+  grid-template-columns: repeat(3, 1fr);
+}
   .grid-cols-4 {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -1768,6 +1861,10 @@ form select {
 }
 .card:hover {
   transform: translateY(-8px);
+}
+
+.w-card {
+  max-width: 30rem;
 }
 
 /* HERO SECTION - RESPONSIVE */

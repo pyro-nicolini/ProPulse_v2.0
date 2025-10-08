@@ -1,5 +1,7 @@
+import { Link } from "react-router-dom";
 import Hero from "../../componentes/Hero";
 import LightningSpinner from "../../componentes/LightningSpinner";
+import PromoBanner from "../../componentes/PromoBanner";
 import { useFadeUp } from "../../customHooks/useFadeUp";
 
 // ✅ Usa ruta pública (Vite expone /public directamente)
@@ -7,9 +9,12 @@ const logoColor1 = `${import.meta.env.BASE_URL}img/logos/logo_propulse3.svg`;
 
 function Home() {
   useFadeUp();
-  
+
   return (
     <div className="w-full">
+      <section className="w-full">
+       <PromoBanner />
+      </section>
       <section id="hero" className="hero">
         <div className="hero-content fade-up">
           <div className="flex justify-center mb-2">
@@ -23,9 +28,8 @@ function Home() {
             asesoría profesional en un solo lugar. Combinamos nutrición,
             medicina y deporte para que logres tus metas con el mejor impulso.
           </p>
-          <a href="#servicios" className="btn btn-danger btn-lg mt-3">
-            Descubre Más
-          </a>
+          <Link className="btn btn-primary" to={"/servicios"}>Ver Más
+          </Link>
         </div>
       </section>
 

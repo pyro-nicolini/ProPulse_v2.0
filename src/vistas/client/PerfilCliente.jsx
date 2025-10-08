@@ -11,7 +11,7 @@ export default function PerfilCliente() {
 
   return (
     <div className="w-full flex flex-col bg-charcoal p-1">
-      <div className="container-1200 metal card-metal  w-full mb-2 fade-up visible">
+      <div className="container-1200 metal card-metal  w-full mb-2 fade-up visible border-orange">
         <h3>{user?.nombre}</h3>
         <p>ID: {user?.id}</p>
         <p>Email: {user?.email}</p>

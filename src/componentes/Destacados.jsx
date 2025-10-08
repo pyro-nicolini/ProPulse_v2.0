@@ -6,7 +6,7 @@ import { resolveImg } from "../utils/helpers";
 const colsMap = {
   1: "grid-cols-1",
   2: "grid-cols-2",
-  3: "grid-cols-3",
+  3: "grid-cols-3b",
   4: "grid-cols-4",
   5: "grid-cols-5",
   6: "grid-cols-6",
@@ -29,10 +29,10 @@ export default function Destacados({
   if (!destacados.length) return <div>No hay destacados para mostrar.</div>;
 
   return (
-    <div className="p-1 fade-up visible bg-darkcharcoal">
-      <h3 className="mb-6">{title}</h3>
+    <div className="fade-up visible mt-2 flex-col">
+      <h4 className="mb-6 bg-gradient-primary radius text-shadow w-fit pl-1 ">{title}</h4>
 
-      <div className={`grid ${colsMap[col] || colsMap[3]} gap-3`}>
+      <div className={`grid ${colsMap[col] || colsMap[3]} gap-2 h-full`}>
         {destacados.map((item) => {
           const id = item.id_producto ?? item.id;
           const fallback =
@@ -44,6 +44,10 @@ export default function Destacados({
             resolveImg(item?.url_imagen, tipoProducto) || fallback;
 
           return (
+            <Link
+              to={`${routeBase}/${id}`}
+              className="text-center text-white w-full h-full radius"
+              >
             <div
               key={id}
               style={{
@@ -51,25 +55,17 @@ export default function Destacados({
                 backgroundSize: "cover",
                 backgroundPosition: "center",
               }}
-              className="card-bg-img parallax radius shadow overflow-hidden"
+              className=" shadow border-orange flex flex-col justify-between h-full"
             >
-              <Link
-                to={`${routeBase}/${id}`}
-                className="flex flex-col justify-end items-center h-full text-center p-3 bg-gradient-to-t from-black/60 to-transparent"
-              >
-                <h4 className="text-white text-shadow font-bold mb-1">
-                  {item.titulo.split(" ").slice(0, 5).join(" ")}
-                </h4>
-
-                <div className="z-10 flex-col justify-end">
-                  <p>⭐⭐⭐⭐⭐</p>
-                  <p className="subtitle text-center text-shadow mb-2 line-clamp-2">
-                    {item.descripcion}
-                  </p>
-                  <button className="btn btn-primary">Ver más</button>
-                </div>
-              </Link>
+                <h5 className="m-0 bg-black text-white text-shadow font-bold w-full">
+                {item.titulo.split(" ").slice(0, 5).join(" ")}
+                </h5>
+                  <div className="flex-col flex-wrap bg-gradient-secondary w-full m-0" style={{borderBottomLeftRadius: ".9rem", borderBottomRightRadius: ".9rem"}}>
+                  <p className="text-shadow m-0">⭐⭐⭐⭐⭐</p>
+                  <p className="m-0 text-white text-center text-shadow text-small2 pl-2">{item.descripcion.split(".")[0]}</p>
+                  </div>
             </div>
+              </Link>
           );
         })}
       </div>
