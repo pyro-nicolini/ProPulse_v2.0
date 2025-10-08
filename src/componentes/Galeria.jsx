@@ -6,7 +6,6 @@ import { formatoCPL, resolveImg } from "../utils/helpers";
 import { useResenas } from "../contexts/ResenasContext";
 import LightningSpinner from "./LightningSpinner";
 
-/* --- GaleriaCard --- */
 function GaleriaCard({ item, routeBase }) {
   const tipo =
     item.tipo || (routeBase?.includes("servicio") && "servicio") || "producto";
@@ -62,7 +61,7 @@ function GaleriaCard({ item, routeBase }) {
   };
 
   return (
-    <div className="metal card-metal parallax relative flex flex-col items-center justify-between text-shadow">
+    <div className="metal card-metal flex flex-col items-center justify-between text-shadow border-orange h-full">
       <h5 className="mb-1">
         ⚡ {item.titulo.split(" ").slice(0, 3).join(" ").toUpperCase()}
       </h5>
@@ -199,19 +198,20 @@ export default function Galeria({ items = [], title, routeBase, col = 3 }) {
   }
 
   return (
-    <div className="fade-up visible w-full min-h-screen p-1 container-1600">
-      <div className="fondo1 text-white pt-1 radius mb-1 w-full flex-col">
+    <div className="fade-up visible w-full min-h-screen p-05 container-1600">
+      <div className="bg-gradient-secondary text-white p-05 radius mb-1 flex-col shadow container-800">
+      <div className="bg-charcoal text-white pl-1 pt-1 radius flex-col shadow w-full">
         Encuentra tu producto:
         <input
           type="text"
           placeholder="Buscar..."
           value={filtro}
           onChange={(e) => setFiltro(e.target.value)}
-          className="p-05 mb-1 radius border text-white bg-black container-800 flex items-center justify-center"
+          className="p-05 mb-1 radius border flex items-center justify-center  w-full"
         />
       </div>
-
-      <div className={`grid grid-cols-${col} gap-05 min-h-screen`}>
+      </div>
+      <div className={`grid grid-cols-${col} gap-05 min-h-screen `}>
         {ordenFijo.map((id, index) => {
           const item = filtrados.find(
             (p) => (p.id_producto ?? p.id) === id

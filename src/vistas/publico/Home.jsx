@@ -7,13 +7,13 @@ const logoColor1 = `${import.meta.env.BASE_URL}img/logos/logo_propulse3.svg`;
 
 function Home() {
   useFadeUp();
-
+  
   return (
     <div className="w-full">
       <section id="hero" className="hero">
         <div className="hero-content fade-up">
           <div className="flex justify-center mb-2">
-          <LightningSpinner fondo={false}/>
+          <LightningSpinner fondo={false} border={false}/>
           </div>
           <h1 className="text-shadow">
             De la nutrición al entrenamiento, todo en un solo impulso

@@ -284,10 +284,27 @@ h6 {
   text-align: center;
 }
 
+.xl {
+  font-size: clamp(7rem, 10vw, 12rem) !important;
+}
+
+.xl.animando {
+  animation: inclinar 1s alternate forwards ease-in-out;
+}
+
+@keyframes inclinar {
+  from {
+    transform: rotate(0deg) rotate(-360deg);
+  }
+  to {
+    transform: rotate(35deg);
+  }
+}
+
 h1 {
   text-transform: uppercase;
   font-size: clamp(1.6rem, 3vw, 4rem) !important;
-  width: 100% !important; /* mobile → desktop */
+  width: 100% !important;
 }
 h2 {
   font-size: clamp(1.5rem, 4vw, 2.5rem) !important;
@@ -493,7 +510,7 @@ nav > i {
   justify-content: center;
   height: 60vh;
   width: 100%;
-  background: radial-gradient(circle at center, #000000 50%, #6d000f 100%);
+ background: radial-gradient(circle at center, #000000 20%, #8d3f00 50%, #c76a00 100%);
 }
 
 .spinner-border {
@@ -504,7 +521,7 @@ nav > i {
   border: 4px solid transparent;
   border-top: 4px solid gold;
   border-right: 4px solid orange;
-  animation: spin 1.2s linear infinite, glow 1.2s ease-in-out infinite alternate;
+  animation: spin 1s linear infinite, glow 1.2s ease-in-out infinite alternate;
   box-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
 }
 
@@ -513,9 +530,10 @@ nav > i {
   font-size: 2.5rem;
   color: gold;
   top: 50%;
+  border-radius: 50%;
   left: 50%;
   transform: translate(-50%, -50%) rotate(0deg);
-  animation: rotateLightning 1.2s linear infinite;
+  animation: rotateLightning 1s linear infinite;
   filter: drop-shadow(0 0 6px gold);
 }
 
@@ -531,13 +549,13 @@ nav > i {
 }
 
 @keyframes glow {
-  0% { box-shadow: 0 0 8px rgba(255, 215, 0, 0.2), 0 0 16px rgba(255, 165, 0, 0.1); }
-  100% { box-shadow: 0 0 18px rgba(255, 215, 0, 0.7), 0 0 28px rgba(255, 165, 0, 0.5); }
+  0% { box-shadow: 0 0 10px rgba(255, 115, 0, 0.4), 0 0 20px rgba(255, 0, 0, 0.3); }
+  100% { box-shadow: 0 0 25px rgba(255, 215, 0, 0.8), 0 0 35px rgba(255, 165, 0, 0.7); }
 }
 
 .fade-in {
   opacity: 0;
-  animation: fadeIn .5s ease forwards;
+  animation: fadeIn 1s ease forwards;
 }
 
 @keyframes fadeIn {
@@ -713,9 +731,12 @@ button {
 }
 .metal {
   background: url("../img/fondos/metal.webp") !important;
-  border: 1px solid rgba(255, 255, 255, 0.267);
-  border-radius: 15px;
   transition: all 0.3s ease;
+}
+
+.border-orange {
+  border-radius: 15px;
+  border: 1px solid rgb(255, 81, 0);
 }
 
 .card-metal {
@@ -1462,6 +1483,7 @@ form select {
   transform: translateX(100%);
   opacity: 0;
 }
+
 
 .slide-content {
   position: absolute;

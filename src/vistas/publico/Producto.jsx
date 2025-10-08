@@ -25,7 +25,7 @@ export default function Producto() {
     setLoading(true);
     const timer = setTimeout(() => {
       setLoading(false);
-    }, 600); 
+    }, 700); 
     return () => clearTimeout(timer);
   }, [id, productos]);
 
@@ -64,7 +64,7 @@ export default function Producto() {
       <div className="w-full flex-col items-center justify-start bg-charcoal fondo1">
         <div
           style={{ maxWidth: "25rem" }}
-          className="metal card-metal fade-up visible m-1"
+          className="metal card-metal fade-up visible m-1 border-orange"
         >
           <h4 className="mb-1">⚡ {producto?.titulo}</h4>
 

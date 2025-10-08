@@ -67,7 +67,7 @@ export default function Servicio() {
       <div className="w-full flex-col items-center justify-center bg-charcoal fondo1">
         <div
           style={{ maxWidth: "25rem" }}
-          className="metal card-metal fade-up visible m-1"
+          className="metal card-metal fade-up visible m-1 border-orange"
         >
           <h4 className="mb-1">⚡ {servicio?.titulo}</h4>
           <div className="mb-1">
