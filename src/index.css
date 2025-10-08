@@ -479,9 +479,69 @@ nav > i {
   position: relative;
   overflow: hidden;
 }
+.spinner-container {
+  display: flex;
+  align-items: center; 
+  justify-content: center;
+  height: 60vh;
+  width: 100%;
+  background: radial-gradient(circle at center, #000000 50%, #6d000f 100%);
+}
 
+.spinner-border {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: 4px solid transparent;
+  border-top: 4px solid gold;
+  border-right: 4px solid orange;
+  animation: spin 1.2s linear infinite, glow 1.2s ease-in-out infinite alternate;
+  box-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
+}
 
+.spinner-lightning {
+  position: absolute;
+  font-size: 2.5rem;
+  color: gold;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(0deg);
+  animation: rotateLightning 1.2s linear infinite;
+  filter: drop-shadow(0 0 6px gold);
+}
 
+/* Animaciones */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes rotateLightning {
+  0% { transform: translate(-50%, -50%) rotate(0deg); }
+  100% { transform: translate(-50%, -50%) rotate(-360deg); }
+}
+
+@keyframes glow {
+  0% { box-shadow: 0 0 8px rgba(255, 215, 0, 0.2), 0 0 16px rgba(255, 165, 0, 0.1); }
+  100% { box-shadow: 0 0 18px rgba(255, 215, 0, 0.7), 0 0 28px rgba(255, 165, 0, 0.5); }
+}
+
+.fade-in {
+  opacity: 0;
+  animation: fadeIn .5s ease forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(1);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+}
 
 /*BUTTONS */
 .btn {

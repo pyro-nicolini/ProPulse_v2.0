@@ -33,8 +33,8 @@ export default function Login() {
   };
 
   return (
-    <div className="glass p-2 fade-up visible flex-col fondo1">
-      <div className="grid grid-cols-2 gap-2 container-800">
+    <div className="p-2 flex flex-col gap-2 fondo1 w-full h-min">
+      <div className="grid grid-cols-2 gap-2 fade-up visible container-800">
         <div className="visible fade-up">
           <div className="flex flex-col items-center gap-1 mb-2">
             <h1 className="text-gradient m-0">Ingresar</h1>
@@ -42,7 +42,7 @@ export default function Login() {
             <div></div>
           </div>
 
-          <form onSubmit={onSubmit} className="flex flex-col gap-1 w-full">
+          <form onSubmit={onSubmit} className="flex flex-col gap-1 w-full h-mid">
             <div className="flex flex-col gap-1 mb-1 w-full">
               <label htmlFor="email">Email</label>
               <input
@@ -96,7 +96,6 @@ export default function Login() {
           </form>
         </div>
 
-        {/* Columna derecha: imagen/branding */}
         <div
           className="card card-bg-img2 fade-up text-shadow overflow-hidden"
           style={{ backgroundImage: `url(${fondo3})` }}

@@ -55,7 +55,7 @@ export default function Contacto() {
       <div className="w-full grid p-1 gap-1 grid-cols-2 fondo1">
         <div className="flex flex-col gap-1 w-full fade-up justify-start p-2 visible mt-1">
           <div className="w-full flex flex-col">
-            <h3 className="card-title  text-gradient-primary">
+            <h3 className="card-title text-gradient-primary">
               <strong>Contacto</strong>
             </h3>
             <img src={logoColor1} alt="ProPulse" className="img" />
@@ -104,7 +104,7 @@ export default function Contacto() {
           <form
             onSubmit={onSubmit}
             className="mt-1 flex flex-col gap-1 w-full h-min"
-          >
+            >
             <div className="grid gap-1 grid-cols-1 w-full">
               <label className="flex-col items-start">
                 <strong className="text-gradient-primary">Nombre</strong>
@@ -116,7 +116,7 @@ export default function Contacto() {
                   placeholder="Tu nombre"
                   disabled={busy}
                   autoComplete="nombre"
-                />
+                  />
               </label>
               <label className="flex-col items-start">
                 <strong className="text-gradient-primary">Email</strong>
@@ -129,7 +129,7 @@ export default function Contacto() {
                   placeholder="correo@ejemplo.com"
                   disabled={busy}
                   autoComplete="email"
-                />
+                  />
               </label>
               <label className="flex-col items-start">
                 <strong className="text-gradient-primary">
@@ -143,7 +143,7 @@ export default function Contacto() {
                   placeholder="+56 9 ... ..."
                   disabled={busy}
                   autoComplete="tel"
-                />
+                  />
               </label>
               <label className="flex-col items-start">
                 <strong className="text-gradient-primary">Asunto</strong>
@@ -154,7 +154,7 @@ export default function Contacto() {
                   onChange={onChange}
                   placeholder="Consulta, soporte, cotización…"
                   disabled={busy}
-                />
+                  />
               </label>
               <label className="flex-col items-start">
                 <strong className="text-gradient-primary">Mensaje</strong>
@@ -166,7 +166,7 @@ export default function Contacto() {
                   onChange={onChange}
                   placeholder="Cuéntanos brevemente cómo podemos ayudarte."
                   disabled={busy}
-                />
+                  />
               </label>
             </div>
             <div className="flex flex-col-responsive items-center gap-1 w-full">
@@ -179,7 +179,7 @@ export default function Contacto() {
                   !form.email.trim() ||
                   !form.mensaje.trim()
                 }
-              >
+                >
                 {busy ? "Enviando…" : "Enviar"}
               </button>
               <a
@@ -187,7 +187,7 @@ export default function Contacto() {
                 href={`mailto:${"contacto@propulse.cl"}?subject=${encodeURIComponent(
                   form.asunto || "Consulta ProPulse"
                 )}`}
-              >
+                >
                 Enviar por correo
               </a>
             </div>
@@ -204,7 +204,7 @@ export default function Contacto() {
           style={{ border: 0 }}
           loading="lazy"
           referrerPolicy="no-referrer-when-downgrade"
-        />
+          />
       </div>
     </>
   );

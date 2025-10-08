@@ -5,18 +5,32 @@ import Resena from "../../componentes/Resena";
 import { formatoCPL, resolveImg } from "../../utils/helpers";
 import { useShop } from "../../contexts/ShopContext";
 import { useCart } from "../../contexts/CartContext";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import NotFound from "../publico/NotFound";
+import LightningSpinner from "../../componentes/LightningSpinner";
 
 export default function Servicio() {
   const { id } = useParams();
   const { servicios } = useShop();
   const { carrito } = useCart();
   const [activeImg, setActiveImg] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useFadeUp();
 
   const servicio = servicios.find((s) => s.id_producto === Number(id));
+
+  useEffect(() => {
+    setLoading(true);
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 600); 
+    return () => clearTimeout(timer);
+  }, [id, servicios]);
+
+  if (loading) {
+    return <LightningSpinner />;
+  }
 
   if (!servicio) return <NotFound />;
   if (servicio.tipo !== "servicio") {
@@ -55,9 +69,7 @@ export default function Servicio() {
           style={{ maxWidth: "25rem" }}
           className="metal card-metal fade-up visible m-1"
         >
-          <h4 className="mb-1">{servicio?.titulo}</h4>
-
-          {/* Imagen principal (sin miniaturas) */}
+          <h4 className="mb-1">⚡ {servicio?.titulo}</h4>
           <div className="mb-1">
             {mainImg && (
               <img

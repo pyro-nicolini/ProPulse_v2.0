@@ -43,11 +43,11 @@ export default function ConfirmacionOrden() {
             <p className="mb-4">Tu pedido ha sido registrado correctamente.</p>
           </>
         )}
-        <div className="flex gap-2">
+        <div className="flex flex-col-responsive gap-2">
           <Link to="/profile-user">
-            <button className="btn btn-primary p-1">Ver MIS PEDIDOS</button>
+            <button className="btn btn-primary p-05">Ver MIS PEDIDOS</button>
           </Link>
-          <Link to="/" className="btn btn-secondary p-1">
+          <Link to="/" className="btn btn-secondary p-05">
             Volver al HOME
           </Link>
         </div>

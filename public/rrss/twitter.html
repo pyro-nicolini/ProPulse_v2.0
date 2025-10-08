@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProPulse - Twitter/X</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background: #000;
+            color: #e7e9ea;
+        }
+
+        .container {
+            max-width: 1265px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 275px 600px 350px;
+        }
+
+        .sidebar {
+            padding: 0 12px;
+            position: fixed;
+            width: 275px;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .sidebar-top {
+            flex: 1;
+        }
+
+        .logo {
+            font-size: 32px;
+            padding: 12px;
+            cursor: pointer;
+            width: fit-content;
+            border-radius: 50%;
+        }
+
+        .logo:hover {
+            background: #181818;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 12px 16px;
+            cursor: pointer;
+            border-radius: 24px;
+            font-size: 20px;
+            margin-bottom: 4px;
+        }
+
+        .nav-item:hover {
+            background: #181818;
+        }
+
+        .nav-icon {
+            font-size: 26px;
+            width: 26px;
+            text-align: center;
+        }
+
+        .tweet-btn {
+            background: #1d9bf0;
+            color: white;
+            border: none;
+            border-radius: 24px;
+            padding: 16px;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 90%;
+            margin: 16px 0;
+        }
+
+        .tweet-btn:hover {
+            background: #1a8cd8;
+        }
+
+        .profile-button {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            border-radius: 24px;
+            cursor: pointer;
+            margin-bottom: 16px;
+        }
+
+        .profile-button:hover {
+            background: #181818;
+        }
+
+        .profile-pic-small {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .profile-info {
+            flex: 1;
+        }
+
+        .profile-name-small {
+            font-weight: bold;
+            font-size: 15px;
+        }
+
+        .profile-handle-small {
+            font-size: 15px;
+            color: #71767b;
+        }
+
+        .main-content {
+            border-left: 1px solid #2f3336;
+            border-right: 1px solid #2f3336;
+            margin-left: 275px;
+            min-height: 100vh;
+        }
+
+        .profile-header {
+            position: relative;
+        }
+
+        .header-back {
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            gap: 32px;
+            backdrop-filter: blur(12px);
+            background: rgba(0,0,0,0.65);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .back-btn {
+            font-size: 20px;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+        }
+
+        .back-btn:hover {
+            background: #181818;
+        }
+
+        .header-info h2 {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .header-info span {
+            font-size: 13px;
+            color: #71767b;
+        }
+
+        .cover-photo {
+            height: 200px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .profile-info-section {
+            padding: 16px;
+            position: relative;
+        }
+
+        .profile-pic-large {
+            width: 134px;
+            height: 134px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+            border: 4px solid black;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 56px;
+            color: white;
+            font-weight: bold;
+            margin-top: -67px;
+            margin-bottom: 12px;
+        }
+
+        .profile-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .action-btn-circle {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 1px solid #536471;
+            background: transparent;
+            color: #e7e9ea;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .action-btn-circle:hover {
+            background: rgba(231, 233, 234, 0.1);
+        }
+
+        .follow-btn {
+            background: #eff3f4;
+            color: #0f1419;
+            border: none;
+            border-radius: 24px;
+            padding: 8px 24px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .follow-btn:hover {
+            background: #d7dbdc;
+        }
+
+        .profile-name-large {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 0;
+        }
+
+        .profile-handle {
+            font-size: 15px;
+            color: #71767b;
+            margin-bottom: 12px;
+        }
+
+        .profile-bio {
+            font-size: 15px;
+            line-height: 1.5;
+            margin-bottom: 12px;
+        }
+
+        .profile-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            color: #71767b;
+            font-size: 15px;
+            margin-bottom: 12px;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .profile-stats {
+            display: flex;
+            gap: 20px;
+            font-size: 15px;
+            margin-bottom: 16px;
+        }
+
+        .stat {
+            cursor: pointer;
+        }
+
+        .stat:hover {
+            text-decoration: underline;
+        }
+
+        .stat-number {
+            font-weight: bold;
+            color: #e7e9ea;
+        }
+
+        .stat-label {
+            color: #71767b;
+        }
+
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #2f3336;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 16px;
+            text-align: center;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: bold;
+            color: #71767b;
+            border-bottom: 4px solid transparent;
+            margin-bottom: -1px;
+        }
+
+        .tab:hover {
+            background: rgba(231, 233, 234, 0.1);
+        }
+
+        .tab.active {
+            color: #e7e9ea;
+            border-bottom: 4px solid #1d9bf0;
+        }
+
+        .tweet {
+            padding: 12px 16px;
+            border-bottom: 1px solid #2f3336;
+            cursor: pointer;
+        }
+
+        .tweet:hover {
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .tweet-header {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .tweet-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+
+        .tweet-content-wrapper {
+            flex: 1;
+        }
+
+        .tweet-author {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            margin-bottom: 4px;
+        }
+
+        .tweet-name {
+            font-weight: bold;
+            font-size: 15px;
+        }
+
+        .tweet-handle {
+            color: #71767b;
+            font-size: 15px;
+        }
+
+        .tweet-time {
+            color: #71767b;
+            font-size: 15px;
+        }
+
+        .tweet-text {
+            font-size: 15px;
+            line-height: 1.5;
+            margin-bottom: 12px;
+        }
+
+        .tweet-image {
+            width: 100%;
+            height: 300px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 16px;
+            margin-bottom: 12px;
+        }
+
+        .tweet:nth-child(2) .tweet-image {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .tweet:nth-child(3) .tweet-image {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+
+        .tweet:nth-child(4) .tweet-image {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+        }
+
+        .tweet-actions {
+            display: flex;
+            justify-content: space-between;
+            max-width: 425px;
+            color: #71767b;
+            font-size: 13px;
+        }
+
+        .tweet-action {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+        }
+
+        .tweet-action:hover {
+            color: #1d9bf0;
+            background: rgba(29, 155, 240, 0.1);
+        }
+
+        .right-sidebar {
+            padding: 16px;
+            margin-left: 875px;
+            position: fixed;
+            width: 350px;
+        }
+
+        .search-box {
+            background: #202327;
+            border-radius: 24px;
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .search-box input {
+            background: none;
+            border: none;
+            outline: none;
+            color: #e7e9ea;
+            font-size: 15px;
+            width: 100%;
+        }
+
+        .widget {
+            background: #16181c;
+            border-radius: 16px;
+            overflow: hidden;
+            margin-bottom: 16px;
+        }
+
+        .widget-header {
+            padding: 16px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .trend-item {
+            padding: 12px 16px;
+            cursor: pointer;
+        }
+
+        .trend-item:hover {
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .trend-category {
+            font-size: 13px;
+            color: #71767b;
+        }
+
+        .trend-title {
+            font-size: 15px;
+            font-weight: bold;
+            margin: 2px 0;
+        }
+
+        .trend-tweets {
+            font-size: 13px;
+            color: #71767b;
+        }
+
+        .who-follow-item {
+            padding: 12px 16px;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .who-follow-item:hover {
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .who-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .who-info {
+            flex: 1;
+        }
+
+        .who-name {
+            font-size: 15px;
+            font-weight: bold;
+        }
+
+        .who-handle {
+            font-size: 15px;
+            color: #71767b;
+        }
+
+        .follow-btn-small {
+            background: #eff3f4;
+            color: #0f1419;
+            border: none;
+            border-radius: 24px;
+            padding: 6px 16px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .follow-btn-small:hover {
+            background: #d7dbdc;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <div class="sidebar-top">
+                <div class="logo">𝕏</div>
+
+                <div class="nav-item">
+                    <div class="nav-icon">🏠</div>
+                    <div>Inicio</div>
+                </div>
+                <div class="nav-item">
+                    <div class="nav-icon">🔍</div>
+                    <div>Explorar</div>
+                </div>
+                <div class="nav-item">
+                    <div class="nav-icon">🔔</div>
+                    <div>Notificaciones</div>
+                </div>
+                <div class="nav-item">
+                    <div class="nav-icon">✉️</div>
+                    <div>Mensajes</div>
+                </div>
+                <div class="nav-item">
+                    <div class="nav-icon">📋</div>
+                    <div>Listas</div>
+                </div>
+                <div class="nav-item">
+                    <div class="nav-icon">🔖</div>
+                    <div>Guardados</div>
+                </div>
+                <div class="nav-item">
+                    <div class="nav-icon">👥</div>
+                    <div>Comunidades</div>
+                </div>
+                <div class="nav-item">
+                    <div class="nav-icon">👤</div>
+                    <div>Perfil</div>
+                </div>
+                <div class="nav-item">
+                    <div class="nav-icon">⋯</div>
+                    <div>Más</div>
+                </div>
+
+                <button class="tweet-btn">Postear</button>
+            </div>
+
+            <div class="profile-button">
+                <div class="profile-pic-small">PP</div>
+                <div class="profile-info">
+                    <div class="profile-name-small">ProPulse</div>
+                    <div class="profile-handle-small">@propulse</div>
+                </div>
+                <div style="font-size: 20px;">⋯</div>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="profile-header">
+                <div class="header-back">
+                    <div class="back-btn">←</div>
+                    <div class="header-info">
+                        <h2>ProPulse</h2>
+                        <span>1,247 posts</span>
+                    </div>
+                </div>
+
+                <div class="cover-photo"></div>
+
+                <div class="profile-info-section">
+                    <div class="profile-pic-large">PP</div>
+
+                    <div class="profile-actions">
+                        <div class="action-btn-circle">⋯</div>
+                        <div class="action-btn-circle">🔔</div>
+                        <button class="follow-btn">Seguir</button>
+                    </div>
+
+                    <div class="profile-name-large">ProPulse</div>
+                    <div class="profile-handle">@propulse</div>
+
+                    <div class="profile-bio">
+                        ⚡ Impulsando tu potencial al máximo<br>
+                        💪 Fitness • Motivación • Lifestyle<br>
+                        🌟 Transforma tu vida hoy
+                    </div>
+
+                    <div class="profile-meta">
+                        <div class="meta-item">
+                            📍 Viña del Mar, Chile
+                        </div>
+                        <div class="meta-item">
+                            🔗 propulse.com
+                        </div>
+                        <div class="meta-item">
+                            📅 Se unió en marzo de 2020
+                        </div>
+                    </div>
+
+                    <div class="profile-stats">
+                        <div class="stat">
+                            <span class="stat-number">389</span>
+                            <span class="stat-label"> Siguiendo</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number">247K</span>
+                            <span class="stat-label"> Seguidores</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tabs">
+                    <div class="tab active">Posts</div>
+                    <div class="tab">Respuestas</div>
+                    <div class="tab">Media</div>
+                    <div class="tab">Me gusta</div>
+                </div>
+            </div>
+
+            <div class="tweet">
+                <div class="tweet-header">
+                    <div class="tweet-avatar">PP</div>
+                    <div class="tweet-content-wrapper">
+                        <div class="tweet-author">
+                            <span class="tweet-name">ProPulse</span>
+                            <span class="tweet-handle">@propulse</span>
+                            <span class="tweet-time">· 2h</span>
+                        </div>
+                        <div class="tweet-text">
+                            ⚡ Nueva semana, nuevas metas! 💪<br><br>
+                            
+                            El éxito no se trata de ser el mejor, se trata de ser mejor que ayer. Cada día es una oportunidad para superarte.<br><br>
+                            
+                            ¿Cuál es tu meta para esta semana? 🎯<br><br>
+                            
+                            #Motivación #Fitness #Transformación
+                        </div>
+                        <div class="tweet-image"></div>
+                        <div class="tweet-actions">
+                            <div class="tweet-action">💬 234</div>
+                            <div class="tweet-action">🔄 89</div>
+                            <div class="tweet-action">❤️ 1.2K</div>
+                            <div class="tweet-action">📊 3.4K</div>
+                            <div class="tweet-action">↗️</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tweet">
+                <div class="tweet-header">
+                    <div class="tweet-avatar">PP</div>
+                    <div class="tweet-content-wrapper">
+                        <div class="tweet-author">
+                            <span class="tweet-name">ProPulse</span>
+                            <span class="tweet-handle">@propulse</span>
+                            <span class="tweet-time">· 5h</span>
+                        </div>
+                        <div class="tweet-text">
+                            🔥 Tip del día: La constancia vence al talento cuando el talento no es constante.<br><br>
+                            
+                            No se trata de hacer todo perfecto, se trata de no rendirse. 💯<br><br>
+                            
+                            #Disciplina #Constancia #FitnessMotivation
+                        </div>
+                        <div class="tweet-image"></div>
+                        <div class="tweet-actions">
+                            <div class="tweet-action">💬 156</div>
+                            <div class="tweet-action">🔄 67</div>
+                            <div class="tweet-action">❤️ 856</div>
+                            <div class="tweet-action">📊 2.1K</div>
+                            <div class="tweet-action">↗️</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tweet">
+                <div class="tweet-header">
+                    <div class="tweet-avatar">PP</div>
+                    <div class="tweet-content-wrapper">
+                        <div class="tweet-author">
+                            <span class="tweet-name">ProPulse</span>
+                            <span class="tweet-handle">@propulse</span>
+                            <span class="tweet-time">· 1d</span>
+                        </div>
+                        <div class="tweet-text">
+                            💪 5 ejercicios que DEBES incluir en tu rutina:<br><br>
+                            
+                            1️⃣ Sentadillas<br>
+                            2️⃣ Flexiones<br>
+                            3️⃣ Dominadas<br>
+                            4️⃣ Plancha<br>
+                            5️⃣ Burpees<br><br>
+                            
+                            ¿Cuál es tu favorito? 👇<br><br>
+                            
+                            #Workout #Fitness #Training
+                        </div>
+                        <div class="tweet-image"></div>
+                        <div class="tweet-actions">
+                            <div class="tweet-action">💬 432</div>
+                            <div class="tweet-action">🔄 124</div>
+                            <div class="tweet-action">❤️ 2.3K</div>
+                            <div class="tweet-action">📊 5.6K</div>
+                            <div class="tweet-action">↗️</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tweet">
+                <div class="tweet-header">
+                    <div class="tweet-avatar">PP</div>
+                    <div class="tweet-content-wrapper">
+                        <div class="tweet-author">
+                            <span class="tweet-name">ProPulse</span>
+                            <span class="tweet-handle">@propulse</span>
+                            <span class="tweet-time">· 2d</span>
+                        </div>
+                        <div class="tweet-text">
+                            🥗 Nutrición 101:<br><br>
+                            
+                            Tu cuerpo es el reflejo de lo que comes. Come bien, entrena mejor, vive mejor. ✨<br><br>
+                            
+                            Recuerda: Los abdominales se hacen en la cocina. 🔥<br><br>
+                            
+                            #Nutrición #HealthyLifestyle #FitnessFood
+                        </div>
+                        <div class="tweet-image"></div>
+                        <div class="tweet-actions">
+                            <div class="tweet-action">💬 189</div>
+                            <div class="tweet-action">🔄 78</div>
+                            <div class="tweet-action">❤️ 1.5K</div>
+                            <div class="tweet-action">📊 3.8K</div>
+                            <div class="tweet-action">↗️</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="right-sidebar">
+            <div class="search-box">
+                <span style="color: #71767b;">🔍</span>
+                <input type="text" placeholder="Buscar">
+            </div>
+
+            <div class="widget">
+                <div class="widget-header">Tendencias para ti</div>
+                <div class="trend-item">
+                    <div class="trend-category">Deportes · Tendencia</div>
+                    <div class="trend-title">#FitnessMotivation</div>
+                    <div class="trend-tweets">45.2K posts</div>
+                </div>
+                <div class="trend-item">
+                    <div class="trend-category">Salud · Tendencia</div>
+                    <div class="trend-title">#HealthyLifestyle</div>
+                    <div class="trend-tweets">32.8K posts</div>
+                </div>
+                <div class="trend-item">
+                    <div class="trend-category">Deportes · Tendencia</div>
+                    <div class="trend-title">#WorkoutMotivation</div>
+                    <div class="trend-tweets">28.5K posts</div>
+                </div>
+            </div>
+
+            <div class="widget">
+                <div class="widget-header">A quién seguir</div>
+                <div class="who-follow-item">
+                    <div class="who-avatar">FM</div>
+                    <div class="who-info">
+                        <div class="who-name">FitMotivation</div>
+                        <div class="who-handle">@fitmotivation</div>
+                    </div>
+                    <button class="follow-btn-small">Seguir</button>
+                </div>
+                <div class="who-follow-item">
+                    <div class="who-avatar">GC</div>
+                    <div class="who-info">
+                        <div class="who-name">GymCoach</div>
+                        <div class="who-handle">@gymcoach</div>
+                    </div>
+                    <button class="follow-btn-small">Seguir</button>
+                </div>
+                <div class="who-follow-item">
+                    <div class="who-avatar">NF</div>
+                    <div class="who-info">
+                        <div class="who-name">NutriLife</div>
+                        <div class="who-handle">@nutrilife</div>
+                    </div>
+                    <button class="follow-btn-small">Seguir</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

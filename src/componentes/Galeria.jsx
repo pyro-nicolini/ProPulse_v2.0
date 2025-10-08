@@ -4,7 +4,9 @@ import { useEffect, useMemo, useState, useRef } from "react";
 import LikeButton from "./LikeButton";
 import { formatoCPL, resolveImg } from "../utils/helpers";
 import { useResenas } from "../contexts/ResenasContext";
+import LightningSpinner from "./LightningSpinner";
 
+/* --- GaleriaCard --- */
 function GaleriaCard({ item, routeBase }) {
   const tipo =
     item.tipo || (routeBase?.includes("servicio") && "servicio") || "producto";
@@ -22,56 +24,47 @@ function GaleriaCard({ item, routeBase }) {
   }, [item, tipo]);
 
   const [idx, setIdx] = useState(0);
-
-  let targetX = 50;
-  let targetY = 50;
-  let currentX = 50;
-  let currentY = 50;
+  let targetX = 50, targetY = 50, currentX = 50, currentY = 50;
 
   const animate = () => {
     const card = cardRef.current;
     if (!card) return;
-
     currentX += (targetX - currentX) * 0.5;
     currentY += (targetY - currentY) * 0.5;
     card.style.backgroundPosition = `${currentX}% ${currentY}%`;
     card.style.backgroundSize = "300%";
-    card.style.transition = "transform 0.1s ease-in-out";
     animFrame.current = requestAnimationFrame(animate);
   };
 
-  const handleMouseMove = (e) => {
-    const card = cardRef.current;
-    if (!card) return;
-    const { left, top, width, height } = card.getBoundingClientRect();
-    targetX = ((e.clientX - left) / width) * 100;
-    targetY = ((e.clientY - top) / height) * 100;
+  const handleMove = (x, y, rect) => {
+    targetX = ((x - rect.left) / rect.width) * 100;
+    targetY = ((y - rect.top) / rect.height) * 100;
     if (!animFrame.current) animFrame.current = requestAnimationFrame(animate);
+  };
+
+  const handleMouseMove = (e) => {
+    const rect = cardRef.current.getBoundingClientRect();
+    handleMove(e.clientX, e.clientY, rect);
   };
 
   const handleTouchMove = (e) => {
-    const card = cardRef.current;
-    if (!card) return;
+    const rect = cardRef.current.getBoundingClientRect();
     const touch = e.touches[0];
-    const { left, top, width, height } = card.getBoundingClientRect();
-    targetX = ((touch.clientX - left) / width) * 300;
-    targetY = ((touch.clientY - top) / height) * 300;
-    if (!animFrame.current) animFrame.current = requestAnimationFrame(animate);
+    handleMove(touch.clientX, touch.clientY, rect);
   };
 
   const resetParallax = () => {
-    const card = cardRef.current;
-    if (!card) return;
+    if (!cardRef.current) return;
     cancelAnimationFrame(animFrame.current);
     animFrame.current = null;
-    card.style.backgroundPosition = "center";
-    card.style.backgroundSize = "cover";
+    cardRef.current.style.backgroundPosition = "center";
+    cardRef.current.style.backgroundSize = "cover";
   };
 
   return (
     <div className="metal card-metal parallax relative flex flex-col items-center justify-between text-shadow">
       <h5 className="mb-1">
-        {item.titulo.split(" ").slice(0, 3).join(" ").toUpperCase()}
+        ⚡ {item.titulo.split(" ").slice(0, 3).join(" ").toUpperCase()}
       </h5>
 
       <div className="flex gap-05 items-start w-full h-min mb-1">
@@ -99,22 +92,20 @@ function GaleriaCard({ item, routeBase }) {
 
         {item.tipo !== "servicio" && urls.length > 1 && (
           <div className="flex-col gap-1 mb-1">
-            {urls.map((u, i) =>
-              u ? (
-                <img
-                  key={i}
-                  src={u}
-                  onClick={() => setIdx(i)}
-                  className={`w-sm h-sm rounded cursor-pointer transition ${
-                    idx === i
-                      ? "border-red-500 ring-2 ring-red-400 shadow"
-                      : "border-gray-300 shadow"
-                  }`}
-                  alt={`miniatura-${i}`}
-                  onError={(e) => (e.target.style.display = "none")}
-                />
-              ) : null
-            )}
+            {urls.map((u, i) => (
+              <img
+                key={i}
+                src={u}
+                onClick={() => setIdx(i)}
+                className={`w-sm h-sm rounded cursor-pointer transition ${
+                  idx === i
+                    ? "border-red-500 ring-2 ring-red-400 shadow"
+                    : "border-gray-300 shadow"
+                }`}
+                alt={`miniatura-${i}`}
+                onError={(e) => (e.target.style.display = "none")}
+              />
+            ))}
           </div>
         )}
       </div>
@@ -164,20 +155,35 @@ function GaleriaCard({ item, routeBase }) {
   );
 }
 
+/* --- Galeria Principal --- */
 export default function Galeria({ items = [], title, routeBase, col = 3 }) {
   const { refreshProductos } = useShop();
   const { Resena } = useResenas();
   const [filtro, setFiltro] = useState("");
   const [ordenFijo, setOrdenFijo] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     refreshProductos();
-  }, [Resena]);
+  }, []);
 
-  // Guardamos el orden fijo una sola vez
+  useEffect(() => {
+    if (items.length) {
+      const timer = setTimeout(() => setLoading(false), 600);
+      return () => clearTimeout(timer);
+    }
+  }, [items]);
+
+  // Evita setear el mismo orden si no cambió
   useEffect(() => {
     if (items?.length) {
-      setOrdenFijo(items.map((i) => i.id_producto ?? i.id));
+      const nuevoOrden = items.map((i) => i.id_producto ?? i.id);
+      setOrdenFijo((prev) => {
+        const iguales =
+          prev.length === nuevoOrden.length &&
+          prev.every((v, i) => v === nuevoOrden[i]);
+        return iguales ? prev : nuevoOrden;
+      });
     }
   }, [items]);
 
@@ -188,10 +194,14 @@ export default function Galeria({ items = [], title, routeBase, col = 3 }) {
     );
   }, [items, filtro]);
 
+  if (loading) {
+    return <LightningSpinner />;
+  }
+
   return (
-    <div className="fade-up visible w-full min-h-screen p-1">
+    <div className="fade-up visible w-full min-h-screen p-1 container-1600">
       <div className="fondo1 text-white pt-1 radius mb-1 w-full flex-col">
-        Encuentra tú producto:
+        Encuentra tu producto:
         <input
           type="text"
           placeholder="Buscar..."
@@ -201,8 +211,7 @@ export default function Galeria({ items = [], title, routeBase, col = 3 }) {
         />
       </div>
 
-      {/* Cards con orden fijo y efecto escalonado */}
-      <div className={`grid grid-cols-${col} gap-05`}>
+      <div className={`grid grid-cols-${col} gap-05 min-h-screen`}>
         {ordenFijo.map((id, index) => {
           const item = filtrados.find(
             (p) => (p.id_producto ?? p.id) === id

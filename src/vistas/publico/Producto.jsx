@@ -5,22 +5,38 @@ import Resena from "../../componentes/Resena";
 import { formatoCPL, resolveImg } from "../../utils/helpers";
 import { useShop } from "../../contexts/ShopContext";
 import { useCart } from "../../contexts/CartContext";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import NotFound from "../publico/NotFound";
+import LightningSpinner from "../../componentes/LightningSpinner";
 
 export default function Producto() {
   const { id } = useParams();
   const { productos } = useShop();
   const { carrito } = useCart();
   const [activeImg, setActiveImg] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useFadeUp();
 
   const producto = productos.find((s) => s.id_producto === Number(id));
 
-if (!producto) {
-  return <NotFound />;
-}
+
+  useEffect(() => {
+    setLoading(true);
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 600); 
+    return () => clearTimeout(timer);
+  }, [id, productos]);
+
+  if (loading) {
+    return <LightningSpinner />;
+  }
+
+  if (!producto) {
+    return <NotFound />;
+  }
+
   const fallback = resolveImg("producto1_1.webp", "producto");
 
   const imageNames = [
@@ -50,9 +66,8 @@ if (!producto) {
           style={{ maxWidth: "25rem" }}
           className="metal card-metal fade-up visible m-1"
         >
-          <h4 className="mb-1">{producto?.titulo}</h4>
+          <h4 className="mb-1">⚡ {producto?.titulo}</h4>
 
-          {/* Imagen principal y miniaturas */}
           <div className="mb-1">
             {mainImg && (
               <img

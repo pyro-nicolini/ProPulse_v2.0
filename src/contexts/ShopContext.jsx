@@ -16,7 +16,6 @@ export default function ShopProvider({ children }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // Refresca lista de productos
   const refreshProductos = async (filters = {}) => {
     setLoading(true);
     try {

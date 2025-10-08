@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProPulse - LinkedIn</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background: #f3f2ef;
+        }
+
+        .header {
+            background: white;
+            border-bottom: 1px solid #e0dfdc;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            height: 52px;
+        }
+
+        .header-container {
+            max-width: 1128px;
+            margin: 0 auto;
+            padding: 0 24px;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo {
+            font-size: 34px;
+            color: #0a66c2;
+            font-weight: bold;
+            margin-right: 8px;
+        }
+
+        .search-box {
+            background: #eef3f8;
+            border-radius: 4px;
+            padding: 0 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            width: 280px;
+            height: 34px;
+        }
+
+        .search-box input {
+            border: none;
+            background: none;
+            outline: none;
+            font-size: 14px;
+            width: 100%;
+        }
+
+        .header-nav {
+            display: flex;
+            gap: 8px;
+            margin-left: auto;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 0 12px;
+            cursor: pointer;
+            color: #666;
+            font-size: 12px;
+            height: 52px;
+            justify-content: center;
+            border-bottom: 2px solid transparent;
+        }
+
+        .nav-item:hover {
+            color: #000;
+        }
+
+        .nav-item.active {
+            color: #000;
+            border-bottom: 2px solid #000;
+        }
+
+        .nav-icon {
+            font-size: 20px;
+            margin-bottom: 2px;
+        }
+
+        .main-container {
+            max-width: 1128px;
+            margin: 76px auto 0;
+            padding: 0 24px;
+            display: grid;
+            grid-template-columns: minmax(0, 5fr) minmax(0, 9fr);
+            gap: 24px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #e0dfdc;
+            overflow: hidden;
+            margin-bottom: 8px;
+        }
+
+        .profile-card {
+            position: relative;
+        }
+
+        .profile-bg {
+            height: 54px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .profile-pic-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: -38px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #e0dfdc;
+        }
+
+        .profile-pic {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+            border: 2px solid white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            color: white;
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+
+        .profile-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: #000;
+            margin-bottom: 4px;
+            text-align: center;
+        }
+
+        .profile-headline {
+            font-size: 12px;
+            color: #666;
+            text-align: center;
+            padding: 0 12px;
+            line-height: 1.4;
+        }
+
+        .profile-stats {
+            padding: 12px;
+        }
+
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            font-size: 12px;
+            color: #666;
+            cursor: pointer;
+        }
+
+        .stat-row:hover {
+            background: #f3f2ef;
+        }
+
+        .stat-number {
+            color: #0a66c2;
+            font-weight: 600;
+        }
+
+        .about-card {
+            padding: 24px;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #000;
+            margin-bottom: 16px;
+        }
+
+        .about-text {
+            font-size: 14px;
+            line-height: 1.6;
+            color: #000;
+        }
+
+        .experience-card {
+            padding: 24px;
+        }
+
+        .experience-item {
+            display: flex;
+            gap: 12px;
+            padding: 16px 0;
+            border-bottom: 1px solid #e0dfdc;
+        }
+
+        .experience-item:last-child {
+            border-bottom: none;
+        }
+
+        .company-logo {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .experience-details {
+            flex: 1;
+        }
+
+        .job-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #000;
+            margin-bottom: 4px;
+        }
+
+        .company-name {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 4px;
+        }
+
+        .job-duration {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .activity-card {
+            padding: 24px;
+        }
+
+        .activity-item {
+            display: flex;
+            gap: 12px;
+            padding: 16px 0;
+            border-bottom: 1px solid #e0dfdc;
+        }
+
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+
+        .activity-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .activity-content {
+            flex: 1;
+        }
+
+        .activity-author {
+            font-size: 14px;
+            font-weight: 600;
+            color: #000;
+            margin-bottom: 2px;
+        }
+
+        .activity-subtitle {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 8px;
+        }
+
+        .activity-text {
+            font-size: 14px;
+            color: #000;
+            line-height: 1.5;
+            margin-bottom: 12px;
+        }
+
+        .activity-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            border-radius: 4px;
+            margin-bottom: 12px;
+        }
+
+        .activity-stats {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+            color: #666;
+            padding-top: 8px;
+            border-top: 1px solid #e0dfdc;
+        }
+
+        .activity-actions {
+            display: flex;
+            gap: 8px;
+            padding-top: 8px;
+        }
+
+        .action-btn {
+            flex: 1;
+            padding: 10px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            color: #666;
+            font-weight: 600;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .action-btn:hover {
+            background: #f3f2ef;
+        }
+
+        .skills-card {
+            padding: 24px;
+        }
+
+        .skill-item {
+            padding: 12px 0;
+            border-bottom: 1px solid #e0dfdc;
+        }
+
+        .skill-item:last-child {
+            border-bottom: none;
+        }
+
+        .skill-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: #000;
+            margin-bottom: 4px;
+        }
+
+        .skill-endorsements {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .btn-primary {
+            background: #0a66c2;
+            color: white;
+            padding: 10px 16px;
+            border: none;
+            border-radius: 24px;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 12px;
+        }
+
+        .btn-primary:hover {
+            background: #004182;
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #0a66c2;
+            padding: 10px 16px;
+            border: 1px solid #0a66c2;
+            border-radius: 24px;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 8px;
+        }
+
+        .btn-secondary:hover {
+            background: #e6f2ff;
+            border-width: 2px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-container">
+            <div class="logo">in</div>
+            <div class="search-box">
+                <span style="color: #666;">🔍</span>
+                <input type="text" placeholder="Buscar">
+            </div>
+            <div class="header-nav">
+                <div class="nav-item active">
+                    <div class="nav-icon">🏠</div>
+                    <div>Inicio</div>
+                </div>
+                <div class="nav-item">
+                    <div class="nav-icon">👥</div>
+                    <div>Mi red</div>
+                </div>
+                <div class="nav-item">
+                    <div class="nav-icon">💼</div>
+                    <div>Empleos</div>
+                </div>
+                <div class="nav-item">
+                    <div class="nav-icon">💬</div>
+                    <div>Mensajes</div>
+                </div>
+                <div class="nav-item">
+                    <div class="nav-icon">🔔</div>
+                    <div>Notificaciones</div>
+                </div>
+                <div class="nav-item">
+                    <div class="nav-icon">👤</div>
+                    <div>Yo</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-container">
+        <div class="sidebar">
+            <div class="card profile-card">
+                <div class="profile-bg"></div>
+                <div class="profile-pic-section">
+                    <div class="profile-pic">PP</div>
+                    <div class="profile-name">ProPulse</div>
+                    <div class="profile-headline">Fitness & Motivación | Transformando vidas a través del entrenamiento</div>
+                </div>
+                <div class="profile-stats">
+                    <div class="stat-row">
+                        <span>Conexiones</span>
+                        <span class="stat-number">1,247</span>
+                    </div>
+                    <div class="stat-row">
+                        <span>Impresiones del perfil</span>
+                        <span class="stat-number">3,456</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card about-card">
+                <div class="section-title">Acerca de</div>
+                <div class="about-text">
+                    ⚡ Impulsando tu potencial al máximo<br><br>
+                    
+                    Somos una comunidad dedicada al fitness, la motivación y el desarrollo personal. Ayudamos a las personas a alcanzar sus metas de salud y bienestar a través de entrenamientos personalizados, planes nutricionales y contenido motivacional.<br><br>
+                    
+                    💪 Especialidades:<br>
+                    • Entrenamiento personalizado<br>
+                    • Nutrición deportiva<br>
+                    • Coaching motivacional<br>
+                    • Transformación física y mental<br><br>
+                    
+                    📍 Ubicados en Viña del Mar, Chile<br>
+                    🌐 www.propulse.com
+                </div>
+            </div>
+
+            <div class="card skills-card">
+                <div class="section-title">Aptitudes</div>
+                <div class="skill-item">
+                    <div class="skill-name">Entrenamiento Personal</div>
+                    <div class="skill-endorsements">89 recomendaciones</div>
+                </div>
+                <div class="skill-item">
+                    <div class="skill-name">Nutrición Deportiva</div>
+                    <div class="skill-endorsements">67 recomendaciones</div>
+                </div>
+                <div class="skill-item">
+                    <div class="skill-name">Coaching Motivacional</div>
+                    <div class="skill-endorsements">54 recomendaciones</div>
+                </div>
+                <div class="skill-item">
+                    <div class="skill-name">Marketing Digital</div>
+                    <div class="skill-endorsements">42 recomendaciones</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="card experience-card">
+                <div class="section-title">Experiencia</div>
+                <div class="experience-item">
+                    <div class="company-logo">PP</div>
+                    <div class="experience-details">
+                        <div class="job-title">Fundador & Coach Principal</div>
+                        <div class="company-name">ProPulse</div>
+                        <div class="job-duration">2020 - Actualidad · 5 años</div>
+                        <div class="job-duration">Viña del Mar, Valparaíso, Chile</div>
+                    </div>
+                </div>
+                <div class="experience-item">
+                    <div class="company-logo">🏋️</div>
+                    <div class="experience-details">
+                        <div class="job-title">Entrenador Personal Senior</div>
+                        <div class="company-name">FitLife Gym</div>
+                        <div class="job-duration">2018 - 2020 · 2 años</div>
+                        <div class="job-duration">Viña del Mar, Valparaíso, Chile</div>
+                    </div>
+                </div>
+                <div class="experience-item">
+                    <div class="company-logo">💪</div>
+                    <div class="experience-details">
+                        <div class="job-title">Nutricionista Deportivo</div>
+                        <div class="company-name">Health & Wellness Center</div>
+                        <div class="job-duration">2016 - 2018 · 2 años</div>
+                        <div class="job-duration">Santiago, Chile</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card activity-card">
+                <div class="section-title">Actividad</div>
+                <div class="activity-item">
+                    <div class="activity-avatar">PP</div>
+                    <div class="activity-content">
+                        <div class="activity-author">ProPulse</div>
+                        <div class="activity-subtitle">Hace 3 horas</div>
+                        <div class="activity-text">
+                            ⚡ Nueva semana, nuevas metas! 💪<br><br>
+                            
+                            El éxito no se trata de ser el mejor, se trata de ser mejor que ayer. Cada día es una oportunidad para superarte y acercarte un paso más a tus objetivos.<br><br>
+                            
+                            ¿Cuál es tu meta para esta semana? 🎯<br><br>
+                            
+                            #Motivación #Fitness #Transformación #ProPulse
+                        </div>
+                        <div class="activity-image"></div>
+                        <div class="activity-stats">
+                            <span>👍❤️💪 234</span>
+                            <span>45 comentarios · 12 veces compartido</span>
+                        </div>
+                        <div class="activity-actions">
+                            <button class="action-btn">👍 Recomendar</button>
+                            <button class="action-btn">💬 Comentar</button>
+                            <button class="action-btn">↗️ Compartir</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="activity-item">
+                    <div class="activity-avatar">PP</div>
+                    <div class="activity-content">
+                        <div class="activity-author">ProPulse</div>
+                        <div class="activity-subtitle">Hace 2 días</div>
+                        <div class="activity-text">
+                            🔥 Tip del día: La constancia vence al talento cuando el talento no es constante.<br><br>
+                            
+                            No se trata de hacer todo perfecto, se trata de no rendirse. Cada repetición, cada día de entrenamiento, cada elección saludable cuenta. 💯<br><br>
+                            
+                            #Disciplina #Constancia #FitnessMotivation
+                        </div>
+                        <div class="activity-stats">
+                            <span>👍❤️🔥 189</span>
+                            <span>32 comentarios · 8 veces compartido</span>
+                        </div>
+                        <div class="activity-actions">
+                            <button class="action-btn">👍 Recomendar</button>
+                            <button class="action-btn">💬 Comentar</button>
+                            <button class="action-btn">↗️ Compartir</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card" style="padding: 24px;">
+                <div class="section-title">¿Te interesa trabajar con nosotros?</div>
+                <button class="btn-primary">Conectar</button>
+                <button class="btn-secondary">Enviar mensaje</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -57,7 +57,6 @@ export default function AuthProvider({ children }) {
     rehidratar();
   }, [rehidratar]);
 
-  // --- Registro ---
   const register = async ({ nombre, email, password }) => {
     try {
       setError("");
@@ -72,7 +71,6 @@ export default function AuthProvider({ children }) {
     }
   };
 
-  // --- Login ---
   const login = async ({ email, password }) => {
     try {
       setError("");
@@ -88,7 +86,6 @@ export default function AuthProvider({ children }) {
     }
   };
 
-  // --- Logout ---
   const logout = () => {
     authLogout();
     setUser(null);

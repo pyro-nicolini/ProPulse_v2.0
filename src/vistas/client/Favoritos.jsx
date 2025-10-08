@@ -19,10 +19,8 @@ const Favoritos = () => {
 
       <div className="container-card grid grid-cols-3 gap-3">
         {favoritos.map((fav) => {
-          // ✅ Usa el tipo correcto (producto o servicio)
           const imageUrl = resolveImg(fav?.url_imagen, fav?.tipo);
 
-          // ✅ Navegación dinámica según tipo
           const goToItem = () => {
             if (fav.tipo === "producto")
               nav(`/productos/${fav.id_producto ?? fav.id}`);
@@ -48,7 +46,7 @@ const Favoritos = () => {
                     backgroundPosition: "center",
                   }}
                 >
-                  <button
+                    <button
                     className="btn-danger text-shadow text-small2"
                     onClick={() => eliminarFavorito(fav.id_producto ?? fav.id)}
                     disabled={busy}

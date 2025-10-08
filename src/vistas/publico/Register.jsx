@@ -36,7 +36,7 @@ export default function Register() {
     <div className="p-2 flex flex-col gap-2 fondo1 w-full h-min">
       <div className="grid grid-cols-2 gap-2 fade-up visible container-800">
         <div
-          className="card card-bg-img2 fade-up visible text-shadow overflow-hidden"
+          className="card card-bg-img2 fade-up visible text-shadow"
           style={{ backgroundImage: `url(${fondo3})` }}
         >
           <img src={logoColor1} alt="ProPulse" className="png3" />
