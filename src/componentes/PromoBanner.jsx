@@ -28,7 +28,7 @@ export default function PromoBanner() {
   }, []);
 
   return (
-    <div className="promo-banner fade-up visible p-1">
+    <div className="promo-banner fade-up visible">
       <div className="promo-header">
         <span className="cyber shadow">CYBERMONDAY</span>
         <h2 className="text-shadow">

@@ -63,13 +63,13 @@ const Hero = () => {
       top: 0
     }}
   >
-    <div className="slide-overlay flex-col justify-center items-center text-center w-full">
+    <div className="flex-col justify-center items-center text-center w-full h-full">
       <div className="slide-content fade-up visible flex-col w-full justify-center items-center text-center">
         <h3 className="slide-title text-start text-shadow">{p.titulo}</h3>
         <p className="slide-description text-shadow text-white radius p-1 bg-gradient-primary shadow">{p.descripcion}</p>
         <div className="slide-price text-shadow">{formatPrice(p.precio)}</div>
 
-        <div className="slide-buttons p-1">
+        <div className="slide-buttons">
           <Link
             to={
               p.tipo === "producto"
@@ -108,7 +108,7 @@ const Hero = () => {
           {destacados.map((_, i) => (
             <button
               key={i}
-              className={`indicator ${i === index ? "active" : ""}`}
+              className={`indicator ${i === index ? "activa" : ""}`}
               onClick={() => goTo(i)}
               aria-label={`Ir al slide ${i + 1}`}
             />

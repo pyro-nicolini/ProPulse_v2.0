@@ -13,12 +13,12 @@ function Home() {
   return (
     <div className="w-full">
       <section className="w-full">
-       <PromoBanner />
+        <PromoBanner />
       </section>
       <section id="hero" className="hero">
         <div className="hero-content fade-up">
           <div className="flex justify-center mb-2">
-          <LightningSpinner fondo={false} border={false}/>
+            <LightningSpinner fondo={false} border={false} />
           </div>
           <h1 className="text-shadow">
             De la nutrición al entrenamiento, todo en un solo impulso
@@ -28,7 +28,8 @@ function Home() {
             asesoría profesional en un solo lugar. Combinamos nutrición,
             medicina y deporte para que logres tus metas con el mejor impulso.
           </p>
-          <Link className="btn btn-primary" to={"/servicios"}>Ver Más
+          <Link className="btn btn-primary" to={"/servicios"}>
+            Ver Más
           </Link>
         </div>
       </section>
@@ -47,9 +48,9 @@ function Home() {
               Pruebas de VO2 máximo, análisis de lactato y planes personalizados
               basados en datos científicos.
             </p>
-            <a href="#" className="service-link">
+            <Link className="service-link" to={"/productos"}>
               Ver más <i className="fas fa-arrow-right"></i>
-            </a>
+                          </Link>
           </div>
 
           <div className="service-card fade-up">
@@ -61,9 +62,9 @@ function Home() {
               Asesoría en suplementación pre, intra y post entrenamiento según
               tus objetivos.
             </p>
-            <a href="#" className="service-link">
+            <Link className="service-link" to={"/productos"}>
               Ver más <i className="fas fa-arrow-right"></i>
-            </a>
+                          </Link>
           </div>
 
           <div className="service-card fade-up">
@@ -75,43 +76,47 @@ function Home() {
               Planes nutricionales específicos, suplementación y estrategias de
               hidratación para competencia.
             </p>
-            <a href="#" className="service-link">
+
+            <Link className="service-link" to={"/productos"}>
               Ver más <i className="fas fa-arrow-right"></i>
-            </a>
+                          </Link>
           </div>
         </div>
       </section>
 
       <Hero />
 
-      <section id="precios" className="pricing fade-up">
+      <section
+        id="precios"
+        className="pricing fade-up bg-charcoal-dark visible border-gold"
+      >
         <div className="section-header">
           <h2 className="section-title">Planes de Membresía</h2>
         </div>
         <div className="container-cards">
-          <div className="card text-center">
+          <div className="card metal text-center">
             <h4>Mensual</h4>
             <h2>$29.990</h2>
             <p>Acceso a máquinas + clases básicas</p>
-            <a href="#" className="btn btn-danger">
+            <Link className="btn btn-danger" to={"/servicios"}>
               Unirme
-            </a>
+            </Link>
           </div>
-          <div className="card text-center">
+          <div className="card metal text-center">
             <h4>Trimestral</h4>
             <h2>$79.990</h2>
             <p>Incluye asesoría nutricional + descuento en suplementos</p>
-            <a href="#" className="btn btn-danger">
+            <Link className="btn btn-danger" to={"/servicios"}>
               Unirme
-            </a>
+            </Link>
           </div>
-          <div className="card text-center">
+          <div className="card metal text-center">
             <h4>Anual</h4>
             <h2>$250.000</h2>
             <p>Acceso ilimitado + servicio médico virtual</p>
-            <a href="#" className="btn btn-danger">
+            <Link className="btn btn-danger" to={"/servicios"}>
               Unirme
-            </a>
+            </Link>
           </div>
         </div>
       </section>

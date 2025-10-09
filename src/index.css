@@ -491,7 +491,7 @@ nav > i {
 
 /* Hero Section */
 .hero {
-  height: 100vh;
+  height: 80vh;
   background: linear-gradient(
       135deg,
       rgba(0, 0, 0, 0.8),
@@ -741,7 +741,6 @@ button {
   text-align: center;
   padding: 2rem 1rem;
   border-radius: 10px;
-  margin-bottom: 2rem;
   box-shadow: 0 0 15px rgba(0,0,0,0.4);
 }
 
@@ -1583,7 +1582,8 @@ form select {
   bottom: 0;
   left: 0;
   right: 0;
-  background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+  top: 0;
+  background: linear-gradient(transparent, rgba(23, 0, 75, 0.952));
   padding: 3rem 2rem 2rem;
   color: white;
 }
@@ -2100,7 +2100,6 @@ form select {
 .pricing {
   padding: 2rem 1rem;
   border-radius: 12px;
-  margin: 2rem 0;
 }
 
 @media (min-width: 768px) {

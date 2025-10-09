@@ -56,7 +56,7 @@ export default function Footer() {
         </div>
       </div>
 
-      <div className="footer-bottom metal">
+      <div className="metal radius flex justify-center items-center pt-1">
         <p>&copy; 2024 ProPulse. Todos los derechos reservados.</p>
       </div>
     </footer>
