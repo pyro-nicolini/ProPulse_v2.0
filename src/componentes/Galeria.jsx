@@ -61,6 +61,7 @@ function GaleriaCard({ item, routeBase }) {
   };
 
   return (
+    <div className="bg-gradient-secondary p-05 radius shadow">
     <div className="metal card-metal flex flex-col items-center justify-between text-shadow border-orange h-full">
       <h5 className="mb-1">
         ⚡ {item.titulo.split(" ").slice(0, 3).join(" ").toUpperCase()}
@@ -151,6 +152,7 @@ function GaleriaCard({ item, routeBase }) {
         Código: SKU000{item.id_producto}
       </p>
     </div>
+        </div>
   );
 }
 

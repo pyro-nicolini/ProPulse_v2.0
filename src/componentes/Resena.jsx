@@ -38,7 +38,7 @@ function Resena() {
               className="flex justify-start mt-1 mb-1"
               value={r.calificacion}
             />
-            <h4 className="flex justify-start p-0 m-0">{r.id_usuario}</h4>
+            <h4 className="flex justify-start p-0 m-0"> {r.nombre_usuario}</h4>
             <p className="text-sm text-gray-500">
               {r.fecha_creacion.slice(0, 19).split("T")[1]} /{" "}
               {r.fecha_creacion.slice(0, 19).split("T")[0]}

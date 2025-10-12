@@ -92,7 +92,9 @@ export default function Contacto() {
             </ul>
           </div>
         </div>
-        <div className="card-white p-1 mb-2 fade-up visible bg-black mt-1">
+        <div className="p-05 bg-gradient-secondary radius">
+
+        <div className="card-white p-1 fade-up visible">
           <h3 className="card-title">
             {" "}
             Escríbenos y
@@ -183,7 +185,7 @@ export default function Contacto() {
                 {busy ? "Enviando…" : "Enviar"}
               </button>
               <a
-                className="btn btn-secondary p-05 w-full"
+                className="btn btn-secondary p-05 w-full text-center"
                 href={`mailto:${"contacto@propulse.cl"}?subject=${encodeURIComponent(
                   form.asunto || "Consulta ProPulse"
                 )}`}
@@ -193,6 +195,9 @@ export default function Contacto() {
             </div>
           </form>
         </div>
+
+                </div>
+
       </div>
       {/* Mapa */}
       <div className="w-full aspect-video overflow-hidden h-mid fade-up border-gold">
