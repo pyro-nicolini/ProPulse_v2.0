@@ -47,13 +47,31 @@ export default function Carrito() {
             key={it.id_item}
             className="p-05 radius w-full fade-up visible w-full flex-col"
           >
+            <div className="bg-gradient-primary p-05 radius w-full container-600 text-shadow">
+
             <div
-              style={{ minWidth: "360px", maxWidth: "800px", width: "100%" }}
-              className="metal pl-2 h-min"
+              className="glass pl-2 h-min radius w-full"
             >
-              <h5 className="font-bold text-start flex justify-start">
+              <div className=" text-start flex justify-start gap-05">
+
+              <h5 className="font-bold p-05 flex m-0 flex-wrap">
                 {it?.titulo.split(" ").slice(0, 3).join(" ")}
-              </h5>
+                </h5>
+                                      <Link
+                      className=" bg-silver text-white radius p-05 text-small2"
+                      to={
+                        it.tipo === "producto"
+                        ? `/productos/${it.id_producto}`
+                            : `/servicios/${it.id_producto}`
+                          }
+                          >
+                        Ver {it.tipo}
+                      </Link>
+                                            <p className="text-small bg-black radius p-05 m-0">
+                        ID: SKU000{it?.id_producto}
+                      </p>
+
+                        </div>
 
               <div className="flex justify-between">
                 <div>
@@ -70,18 +88,6 @@ export default function Carrito() {
                     )}
 
                     <div className="flex-col">
-                      <p className="text-small m-0">
-                        ID: SKU000{it?.id_producto}
-                      </p>
-                      <Link
-                        to={
-                          it.tipo === "producto"
-                            ? `/productos/${it.id_producto}`
-                            : `/servicios/${it.id_producto}`
-                        }
-                      >
-                        Ver {it.tipo}
-                      </Link>
 
                       {loadingProducto && <p>(cargando…)</p>}
 
@@ -107,7 +113,7 @@ export default function Carrito() {
                     ) : (
                       <div className="flex items-center justify-center gap-1">
                         <button
-                          className="btn-danger"
+                          className="btn-danger shadow"
                           onClick={() =>
                             it?.cantidad > 1
                               ? removeItem(carrito?.id_carrito, it.id_producto)
@@ -118,7 +124,7 @@ export default function Carrito() {
                         </button>
                         <strong>{it?.cantidad}</strong>
                         <button
-                          className="btn-danger"
+                          className="btn-danger shadow"
                           onClick={() =>
                             it?.cantidad < it?.stock
                               ? addItem(carrito?.id_carrito, it.id_producto)
@@ -134,7 +140,7 @@ export default function Carrito() {
 
                 <div className="flex items-center gap-1 justify-center">
                   <button
-                    className="btn btn-secondary text-small"
+                    className="btn btn-secondary text-small text-shadow"
                     onClick={() =>
                       deleteItem(carrito?.id_carrito, it.id_producto)
                     }
@@ -144,6 +150,8 @@ export default function Carrito() {
                 </div>
               </div>
             </div>
+                      </div>
+
           </div>
         );
       })}

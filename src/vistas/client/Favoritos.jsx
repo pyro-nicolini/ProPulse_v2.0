@@ -29,13 +29,14 @@ const Favoritos = () => {
           };
 
           return (
+            <div className="p-05 glass2 border-orange">
             <div
               key={fav.id_producto ?? fav.id}
-              className="metal radius text-center flex flex-col p-3"
+              className="glass radius text-center flex flex-col p-1 h-full"
             >
-              <h4 className="font-bold text-white subtitle text-gradient-secondary">
+              <h5 className="font-bold text-white subtitle text-gradient-secondary">
                 ❤️ {fav?.titulo}
-              </h4>
+              </h5>
 
               {imageUrl ? (
                 <div
@@ -67,6 +68,7 @@ const Favoritos = () => {
                   <span className="text-gray-400 text-sm">Sin imagen</span>
                 </div>
               )}
+            </div>
             </div>
           );
         })}

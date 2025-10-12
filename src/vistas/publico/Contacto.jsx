@@ -51,8 +51,8 @@ export default function Contacto() {
     "https://maps.google.com/maps?q=Plaza%20de%20Armas%20Santiago&t=&z=14&ie=UTF8&iwloc=B&output=embed";
 
   return (
-    <>
-      <div className="w-full grid p-1 gap-1 grid-cols-2 fondo1">
+    <div className="fondo1">
+      <div className="w-full grid p-1 gap-1 grid-cols-2 container-800">
         <div className="flex flex-col gap-1 w-full fade-up justify-start p-2 visible mt-1">
           <div className="w-full flex flex-col">
             <h3 className="card-title text-gradient-primary">
@@ -92,9 +92,9 @@ export default function Contacto() {
             </ul>
           </div>
         </div>
-        <div className="p-05 bg-gradient-secondary radius">
+        <div className="p-05 bg-gradient-primary radius fade-up visible">
 
-        <div className="card-white p-1 fade-up visible">
+        <div className="card-white p-1">
           <h3 className="card-title">
             {" "}
             Escríbenos y
@@ -197,10 +197,9 @@ export default function Contacto() {
         </div>
 
                 </div>
-
       </div>
       {/* Mapa */}
-      <div className="w-full aspect-video overflow-hidden h-mid fade-up border-gold">
+      <div className="w-full aspect-video overflow-hidden h-mid fade-up visible border-gold">
         <iframe
           title="Mapa ProPulse"
           src={mapaSrc}
@@ -211,6 +210,6 @@ export default function Contacto() {
           referrerPolicy="no-referrer-when-downgrade"
           />
       </div>
-    </>
+    </div>
   );
 }

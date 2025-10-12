@@ -39,12 +39,13 @@ export default function ResumenOrden() {
   const items = carrito.items_carrito || [];
 
   return (
-    <div className="container w-full">
-      <div className="metal w-full p-2 rounded shadow fade-up visible" style={{minWidth: "360px", maxWidth: "800px", width: "100%"}}>
-        <h2 className="text-xl font-bold mb-4">Resumen de tu orden</h2>
+    <div className="container-800 w-full p-1">
+      <div className="p-1 bg-gradient-primary radius">
+      <div className="glass text-shadow shadow w-full p-2 rounded shadow fade-up visible">
+        <h3 className="text-xl font-bold mb-4">Resumen de tu orden</h3>
         <ul className="divide-y">
           {items.map((it) => (
-            <li key={it.id_item} className="py-2 flex justify-between">
+            <li key={it.id_item} className="pt-1 flex justify-between">
               <span>
                 {it.cantidad} x {it.titulo || `Producto #${it.id_producto}`}  {it.precio_fijo && `(${formatoCPL.format(it.precio_fijo)} c/u)`}
               </span>
@@ -57,7 +58,7 @@ export default function ResumenOrden() {
             </li>
           ))}
         </ul>
-        <div className="mt-4 border-t pt-4">
+        <div className="mt-1 border-t pt-2">
           <div className="flex justify-between">
             <span>neto</span>
             <span>{formatoCPL.format(carrito?.total.sub_total)}</span>
@@ -72,13 +73,14 @@ export default function ResumenOrden() {
           </div>
         </div>
         <button
-          className="btn btn-primary w-full mt-6"
+          className="btn btn-primary w-full mt-2 shadow"
           onClick={handleCheckout}
           disabled={busy || loading}
         >
           {busy ? "Procesando..." : "Confirmar pedido"}
         </button>
         {msg && <div className="mt-2 text-center text-red-600">{msg}</div>}
+      </div>
       </div>
     </div>
   );

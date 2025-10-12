@@ -38,8 +38,10 @@ export default function AdminPublicaciones() {
 
   return (
     <>
+    <div>
         <h2 className="text-gradient-primary mt-2">Admin Publicaciones</h2>
-    <div className="glass mt-1 fade-up visible p-1">
+    <div className="bg-gradient-primary p-05 radius text-shadow shadow fade-up visible">
+    <div className="glass p-1">
       <div className="ap-toolbar mb-2 p-1">
         <div className="ap-actions">
           <input
@@ -150,6 +152,8 @@ export default function AdminPublicaciones() {
           </tbody>
         </table>
       </div>
+    </div>
+    </div>
     </div>
               </>
   );

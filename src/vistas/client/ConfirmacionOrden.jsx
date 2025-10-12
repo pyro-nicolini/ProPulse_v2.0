@@ -18,7 +18,8 @@ export default function ConfirmacionOrden() {
 
   return (
     <div className="container flex flex-col items-center justify-center h-mid fade-up">
-      <div className="card rounded shadow p-8 max-w-lg w-full text-center">
+      <div className="bg-gradient-primary p-1 radius">
+      <div className="rounded glass text-shadow shadow p-3 w-full text-center">
         <h3 className="text-2xl font-bold mb-4 text-green-700">
           Felicidades {user?.nombre || ""},<br />
           {pedido
@@ -32,7 +33,7 @@ export default function ConfirmacionOrden() {
             <p className="mb-2">
               Gracias por tu compra. Serás notificado a <br />
             </p>
-              <h4 className="text-gradient-primary">
+              <h4 className="shadow-none text-gradient-primary">
                 <strong>
                   {user.email}
                 </strong>
@@ -45,12 +46,13 @@ export default function ConfirmacionOrden() {
         )}
         <div className="flex flex-col-responsive gap-2">
           <Link to="/profile-user">
-            <button className="btn btn-primary p-05">Ver MIS PEDIDOS</button>
+            <button className="btn btn-primary p-05 shadow">Ver MIS PEDIDOS</button>
           </Link>
-          <Link to="/" className="btn btn-secondary p-05">
+          <Link to="/" className="btn btn-secondary p-05 shadow">
             Volver al HOME
           </Link>
         </div>
+      </div>
       </div>
     </div>
   );

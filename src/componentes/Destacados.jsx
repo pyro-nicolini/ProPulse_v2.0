@@ -32,7 +32,7 @@ export default function Destacados({
     <div className="fade-up visible mt-2 flex-col mb-3">
       <h4 className="mb-6 radius text-shadow w-fit pl-1 ">{title}</h4>
 
-      <div className={`grid ${colsMap[col] || colsMap[3]} gap-2 h-full`}>
+      <div className={`grid ${colsMap[col] || colsMap[3]} gap-05 h-full`}>
         {destacados.map((item) => {
           const id = item.id_producto ?? item.id;
           const fallback =
@@ -48,6 +48,8 @@ export default function Destacados({
               to={`${routeBase}/${id}`}
               className="text-center text-white w-full h-full radius"
               >
+                <div className="p-05 bg-gradient-primary radius">
+
             <div
               key={id}
               style={{
@@ -55,16 +57,19 @@ export default function Destacados({
                 backgroundSize: "contain",
                 backgroundPosition: "center",
               }}
-              className=" shadow border-orange flex flex-col justify-between h-full"
+              className="shadow border-orange flex flex-col justify-between h-card radius"
             >
                 <h5 className="m-0 bg-black text-white text-shadow font-bold w-full text-small p-05">
                 {item.titulo.split(" ").slice(0, 5).join(" ")}
                 </h5>
-                  <div className="flex-col flex-wrap bg-gradient-secondary w-full m-0" style={{borderBottomLeftRadius: ".9rem", borderBottomRightRadius: ".9rem"}}>
+                  <div className="flex-col flex-wrap bg-gradient-primary w-full m-0" style={{borderBottomLeftRadius: ".8rem", borderBottomRightRadius: ".8rem"}}>
                   <p className="text-shadow m-0 text-small">⭐⭐⭐⭐⭐</p>
-                  <p className="m-0 text-white text-center text-shadow text-small pl-2">{item.descripcion.split(".")[0]}</p>
+                  <p className="m-0 text-white text-center text-shadow text-small pl-1">{item.descripcion.split(".")[0]}</p>
                   </div>
+                  
             </div>
+            </div>
+            
               </Link>
           );
         })}

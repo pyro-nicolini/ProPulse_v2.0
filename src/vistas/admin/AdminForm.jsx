@@ -60,9 +60,10 @@ export default function AdminForm() {
   if (user?.rol !== "admin") return <p>No autorizado.</p>;
 
   return (
-    <>
+    <div>
       <h2 className="text-gradient-primary mt-2">Crear producto</h2>
-    <div className="glass fade-up visible p-1">
+    <div className="bg-gradient-primary p-05 radius text-shadow shadow fade-up visible">
+    <div className="glass p-1">
 
       <form onSubmit={onSubmit} className="flex flex-col gap-2 w-full">
         <label className="w-full">
@@ -131,10 +132,10 @@ export default function AdminForm() {
         </label>
 
         <div className="flex gap-2">
-          <button className="btn btn-primary" type="submit" disabled={busy || loading}>
+          <button className="btn btn-primary shadow" type="submit" disabled={busy || loading}>
             {busy ? "Creando..." : "Crear"}
           </button>
-          <button className="btn btn-secondary" type="button" onClick={reset} disabled={busy}>
+          <button className="btn btn-secondary shadow" type="button" onClick={reset} disabled={busy}>
             Limpiar
           </button>
         </div>
@@ -142,6 +143,7 @@ export default function AdminForm() {
         {msg && <p className="text-sm opacity-80 mt-2">{msg}</p>}
       </form>
     </div>
-            </>
+    </div>
+            </div>
   );
 }

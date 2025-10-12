@@ -61,8 +61,11 @@ function GaleriaCard({ item, routeBase }) {
   };
 
   return (
-    <div className="bg-gradient-secondary p-05 radius shadow">
+    <div className="bg-gradient-primary p-05 radius shadow">
     <div className="metal card-metal flex flex-col items-center justify-between text-shadow border-orange h-full">
+            <p className="text-small w-full text-black shadow-none bg-white radius text-center">
+              Código: SKU000{item.id_producto}
+            </p>
       <h5 className="mb-1">
         ⚡ {item.titulo.split(" ").slice(0, 3).join(" ").toUpperCase()}
       </h5>
@@ -114,7 +117,7 @@ function GaleriaCard({ item, routeBase }) {
         <LikeButton producto={item} />
       </div>
 
-      <span className="flex text-center text-white text-small2 mt-1">
+      <span className="flex text-start p-05 shadow-none text-white text-small2 mt-1 radius w-full">
         {(item.descripcion || "").split(" ").slice(0, 10).join(" ") + "..."}
       </span>
 
@@ -137,9 +140,9 @@ function GaleriaCard({ item, routeBase }) {
       </div>
 
       <div className="flex w-full justify-evenly items-center">
-        <strong className="radius text-shadow subtitle mt-1">
+        <h3 className="radius text-shadow subtitle mt-1">
           {formatoCPL.format(item.precio)}
-        </strong>
+        </h3>
         <Link
           to={`${routeBase}/${item.id_producto ?? item.id}`}
           className="btn btn-primary p-05"
@@ -148,9 +151,6 @@ function GaleriaCard({ item, routeBase }) {
         </Link>
       </div>
 
-      <p className="text-small text-start w-full m-0">
-        Código: SKU000{item.id_producto}
-      </p>
     </div>
         </div>
   );
@@ -201,7 +201,7 @@ export default function Galeria({ items = [], title, routeBase, col = 3 }) {
 
   return (
     <div className="fade-up visible w-full min-h-screen p-05 container-1600">
-      <div className="bg-gradient-secondary text-white p-05 radius mb-1 flex-col shadow container-800">
+      <div className="bg-gradient-primary text-white p-05 radius mb-1 flex-col shadow container-800">
       <div className="bg-charcoal text-white pl-1 pt-1 radius flex-col shadow w-full">
         Encuentra tu producto:
         <input

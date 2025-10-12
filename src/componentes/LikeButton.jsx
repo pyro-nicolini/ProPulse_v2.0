@@ -50,7 +50,7 @@ export default function LikeButton({ producto }) {
   return (
     <>
     <button
-      className="like p-0 glass "
+      className="like pl-1 glass2 radius"
       onClick={handleLike}
       disabled={busy}
       title={esFavorito ? "Quitar de favoritos" : "Agregar a favoritos"}

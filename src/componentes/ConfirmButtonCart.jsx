@@ -19,8 +19,8 @@ function ConfirmButtonCart() {
   };
 
   return (
-    <div className="p-1 radius w-full flex-col ">
-      <div className="metal card-metal w-full" style={{minWidth: "360px", maxWidth: "800px", width: "100%"}}>
+    <div className="p-1 radius w-full flex-col bg-gradient-primary container-600">
+      <div className="glass text-shadow shadow p-1 w-full radius" style={{minWidth: "360px", width: "100%"}}>
         <div>
           <p>neto: {formatoCPL.format(carrito?.total.sub_total)}</p>
           <p>I.V.A 19%: {formatoCPL.format(carrito?.total.impuestos)}</p>
@@ -37,7 +37,7 @@ function ConfirmButtonCart() {
         </label>
 
         <button
-          className="btn btn-primary w-full"
+          className="btn btn-primary w-full shadow"
           onClick={onConfirm}
           disabled={!acepto || !carrito?.items_carrito.length}
         >

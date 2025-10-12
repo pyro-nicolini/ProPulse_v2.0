@@ -145,10 +145,13 @@ export default function AdminShop() {
     return <p className="text-red text-center mt-3">⛔ No autorizado.</p>;
 
   return (
-    <div className="w-full mt-1 fade-up visible">
+    <>
       <h2 className="mt-2 text-gradient-primary">Admin Shop</h2>
+                        <div className="glass p-05 bg-gradient-primary fade-up visible">
 
-      <div className="flex gap-2 items-center mb-2">
+    <div className="w-full glass p-1">
+
+      <div className="flex gap-1 items-center">
         <input
           value={q}
           onChange={(e) => setQ(e.target.value)}
@@ -168,7 +171,7 @@ export default function AdminShop() {
       {loading && <p className="text-sm">Cargando productos...</p>}
       {error && <p className="text-red text-sm">Error: {error.message}</p>}
 
-      <div className="glass grid-col-1 grid w-full p-1">
+      <div className="grid-col-1 grid w-full mt-1 mb-1">
         {filtrados.map((p) => {
           const d = drafts[p.id_producto] || {};
           const preview =
@@ -181,8 +184,8 @@ export default function AdminShop() {
             );
 
           return (
-            <div key={p.id_producto} className="card-metal bg-black radius">
-              <div className="grid grid-cols-1 gap-1 items-start">
+            <div key={p.id_producto} className="card-metal bg-silver shadow text-shadow radius">
+              <div className="grid grid-cols-1 gap-1 items-start p-1">
                 <img
                   src={preview}
                   width={90}
@@ -304,21 +307,21 @@ export default function AdminShop() {
 
                 <div className="flex flex-col-responsive gap-2 justify-center p-1">
                   <button
-                    className="btn btn-primary"
+                    className="btn btn-primary shadow"
                     onClick={() => onGuardar(p)}
                     disabled={busy || !hayCambios(p)}
                   >
                     Guardar
                   </button>
                   <button
-                    className="btn btn-secondary"
+                    className="btn btn-secondary shadow"
                     onClick={() => onCancelar(p)}
                     disabled={busy || !hayCambios(p)}
                   >
                     Cancelar
                   </button>
                   <button
-                    className="btn btn-danger"
+                    className="btn btn-danger shadow"
                     onClick={() => onBorrar(p)}
                     disabled={busy}
                   >
@@ -337,5 +340,8 @@ export default function AdminShop() {
         })}
       </div>
     </div>
+    </div>
+        </>
+
   );
 }

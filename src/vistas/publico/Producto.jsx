@@ -61,10 +61,11 @@ export default function Producto() {
 
   return (
     <>
-      <div className="w-full flex-col items-center justify-start bg-charcoal fondo1">
+      <div className="w-full flex-col items-center justify-start fondo1 p-1">
+      <div className="p-05 bg-gradient-primary radius">
         <div
           style={{ maxWidth: "25rem" }}
-          className="metal card-metal fade-up visible m-1 border-orange"
+          className="glass text-shadow card-metal fade-up visible border-orange"
         >
           <h4 className="mb-1">⚡ {producto?.titulo}</h4>
 
@@ -103,18 +104,16 @@ export default function Producto() {
           </div>
 
           <div className="mb-1 flex justify-between items-center">
-            <p className="text-small">Código: SKU000{producto?.id_producto}</p>
+            <p className="text-small text-black shadow-none bg-white radius pl-1 shadow">Código: SKU000{producto?.id_producto}</p>
             <h4 className="font-bold">
               {formatoCPL.format(producto?.precio) + " CPL"}
             </h4>
           </div>
-
-          <p>Stock: {stockRestante}</p>
-
           <div className="mt-1 text-sm text-gray-400">
-            <p className="mt-1 text-small2">{producto?.descripcion}</p>
+            <p className="mt-1 text-small2 text-black shadow-none">{producto?.descripcion}</p>
           </div>
 
+          <p className="text-small2 text-black shadow-none bg-white radius p-05 text-center">Stock: {stockRestante}</p>
           <div>
             <AddToCartButton product={producto} disabled={stockRestante <= 0} />
             {stockRestante <= 0 && (
@@ -124,6 +123,7 @@ export default function Producto() {
             )}
           </div>
         </div>
+      </div>
       </div>
 
       <div className="border-gold">

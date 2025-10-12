@@ -67,7 +67,7 @@ export default function Pedidos() {
         </button>
       </div>
 
-      <table className="w-full container bg-gradient-secondary radius">
+      <table className="w-full p-05 bg-gradient-primary radius">
         <thead className="card w-full radius">
           <tr className="text-center text-small3">
             <th>ID Pedido</th>
@@ -112,7 +112,8 @@ export default function Pedidos() {
       {detalleLoading && <div className="mt-4">Cargando detalle...</div>}
 
       {pedidoDetalle && (
-        <div className="mt-6 p-4 border rounded bg-gray-50">
+        <div className="p-05 bg-gradient-primary mt-2 radius shadow">
+        <div className="p-2 border rounded glass text-shadow radius">
           <h4 className="font-bold mb-2">
             Detalle del Pedido - 0000{pedidoDetalle.id_pedido}
           </h4>
@@ -134,7 +135,7 @@ export default function Pedidos() {
 
               return (
                 <li
-                  className="card flex gap-1 justify-between items-center p-2"
+                  className="bg-silver shadow radius text-shadow flex gap-1 justify-between items-center p-2"
                   key={idx}
                 >
                   {imageUrl && (
@@ -167,19 +168,24 @@ export default function Pedidos() {
                   </div>
 
                   <Link
+                  className="btn-danger radius shadow p-05"
                     to={
                       item.tipo === "producto"
                         ? `/productos/${item.id_producto}`
                         : `/servicios/${item.id_servicio || item.id_producto}`
                     }
                   >
+                    <strong className="shadow-none">
                     Ver {item.tipo === "producto" ? "producto" : "servicio"}
+                    </strong>
                   </Link>
                 </li>
               );
             })}
           </ul>
         </div>
+                </div>
+
       )}
     </div>
   );

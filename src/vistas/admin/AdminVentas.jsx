@@ -56,8 +56,10 @@ export default function AdminVentas() {
 
   return (
     <>
-      <h2 className="mt-2 text-gradient-primary">Ventas (historial)</h2>
-    <div className="glass mt-1 fade-up visible p-1">
+      <h2 className="text-gradient-primary mt-2">Ventas (historial)</h2>
+                    <div className="glass p-05 bg-gradient-primary fade-up visible">
+
+    <div className="glass2 radius text-shadow p-1">
 
       {loading && <p>Cargando…</p>}
       {error && <p className="text-red-400">{error}</p>}
@@ -82,7 +84,7 @@ export default function AdminVentas() {
                 <select
                   value={p.estado}
                   onChange={(e) => cambiarEstado(p.id_pedido, e.target.value)}
-                  className="border rounded px-2 py-1"
+                  className="border rounded p-05 radius"
                   >
                   <option value="pendiente">pendiente</option>
                   <option value="pagado">pagado</option>
@@ -94,7 +96,8 @@ export default function AdminVentas() {
             </div>
 
             {Array.isArray(p.items_pedido) && p.items_pedido.length > 0 && (
-              <div className="card mt-2">
+              <div className="p-05 bg-silver radius">
+              <div className="glass p-1 text-black shadow-none">
                 <table className="w-full text-start">
                   <thead className=" text-start">
                     <tr>
@@ -118,10 +121,12 @@ export default function AdminVentas() {
                   </tbody>
                 </table>
               </div>
+              </div>
             )}
           </div>
         ))}
       </div>
+    </div>
     </div>
             </>
   );

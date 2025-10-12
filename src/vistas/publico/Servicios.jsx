@@ -64,16 +64,18 @@ export default function Servicio() {
 
   return (
     <>
-      <div className="w-full flex-col items-center justify-center bg-charcoal fondo1">
+      <div className="w-full flex-col items-center justify-center bg-charcoal fondo1 p-1">
+              <div className="p-05 bg-gradient-primary radius">
+
         <div
           style={{ maxWidth: "25rem" }}
-          className="metal card-metal fade-up visible m-1 border-orange"
+          className="glass shadow text-shadow card-metal fade-up visible border-orange"
         >
           <h4 className="mb-1">⚡ {servicio?.titulo}</h4>
           <div className="mb-1">
             {mainImg && (
               <img
-                className="img2 w-full rounded-lg border border-gray-700"
+                className="img2 w-full"
                 src={mainImg}
                 alt={servicio?.titulo}
                 onError={(e) => {
@@ -84,14 +86,14 @@ export default function Servicio() {
           </div>
 
           <div className="mb-1 flex justify-between items-center">
-            <p className="text-small">Código: SKU000{servicio?.id_producto}</p>
+            <p className="text-small text-black shadow-none bg-white radius pl-1 shadow">Código: SKU000{servicio?.id_producto}</p>
             <h4 className="font-bold">
               {formatoCPL.format(servicio?.precio) + " CPL"}
             </h4>
           </div>
 
           <div className="mt-1 text-sm text-gray-400">
-            <p className="mt-1 text-small2">{servicio?.descripcion}</p>
+            <p className="mt-1 text-small2 text-black shadow-none">{servicio?.descripcion}</p>
             {cantidadEnCarrito > 0 && (
               <p className="text-blue-400">
                 En tu carrito: {cantidadEnCarrito}
@@ -106,6 +108,7 @@ export default function Servicio() {
             />
           </div>
         </div>
+      </div>
       </div>
 
       <div className="border-gold">
