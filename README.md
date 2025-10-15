@@ -1,6 +1,6 @@
 # ProPulse Frontend v2.0 🏋️‍♂️
 
-[ProPulseApp - v1.1](https://propulseapi.netlify.app)
+[ProPulseApp - v2](https://propulseapi.netlify.app)
 
 Marketplace fitness
 desarrollado en **React**,
